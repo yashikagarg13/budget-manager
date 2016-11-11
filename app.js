@@ -5,7 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var passport = require('passport');
+var expressSession = require('express-session');
 
+var dbConfig = require('./db');
 var index = require('./routes/index');
 var expenseEntries = require('./routes/expenseEntries');
 var expenseCategories= require('./routes/expenseCategories');
@@ -46,11 +49,17 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// Configuring Passport
+app.use(expressSession({secret: 'mySecretKey'}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 // Use native Node promises
 mongoose.Promise = global.Promise;
 
 // connect to MongoDB
-mongoose.connect('mongodb://localhost/budget-manager-api')
+mongoose.connect(dbConfig.url)
   .then(() =>  console.log('connection succesful'))
   .catch((err) => console.error(err));
 
