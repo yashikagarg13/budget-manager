@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
 var ExpenseCategorySchema = new mongoose.Schema({
-  id: ObjectId,
   title: String,
 });
 

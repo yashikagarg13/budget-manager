@@ -2,42 +2,33 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose');
-var ExpenseEntry = require('../models/ExpenseEntry');
+var ExpenseCategory = require('../models/ExpenseCategory');
 
 router.get('/', function(req, res, next) {
-  ExpenseEntry.find(function(err, expenseEntries) {
+  ExpenseCategory.find(function(err, expenseCategories) {
     if (err)
       return next(err);
 
-    res.json(expenseEntries);
-  });
-});
-
-router.get('/:id', function(req, res, next) {
-  ExpenseEntry.findById(req.params.id, function(err, expenseEntry) {
-    if (err)
-      return next(err);
-
-    res.json(expenseEntry);
+    res.json(expenseCategories);
   });
 });
 
 router.post('/', function(req, res, next) {
-  ExpenseEntry.create(req.body, function (err, post) {
+  ExpenseCategory.create(req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
 });
 
 router.put('/:id', function(req, res, next) {
-  ExpenseEntry.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+  ExpenseCategory.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
 });
 
 router.delete('/:id', function(req, res, next) {
-  ExpenseEntry.findByIdAndRemove(req.params.id, function (err, post) {
+  ExpenseCategory.findByIdAndRemove(req.params.id, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
