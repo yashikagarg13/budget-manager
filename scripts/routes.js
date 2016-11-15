@@ -2,12 +2,12 @@ import React, {Component} from "react";
 import {Router, hashHistory, Route, IndexRoute} from "react-router";
 
 import Layout from "./layout";
-import Login from "./login";
+import LoginContainer from "./containers/login";
 
 
 const getRoutes = () => (
   <Route path="/" component={Layout}>
-    <IndexRoute component={Login} />
+    <IndexRoute component={LoginContainer} />
   </Route>
 );
 
