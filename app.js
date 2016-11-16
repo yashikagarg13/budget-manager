@@ -9,7 +9,8 @@ var passport = require('passport');
 var expressSession = require('express-session');
 
 var dbConfig = require('./db');
-var index = require('./routes/index');
+var routes = require('./routes/index');
+var initPassport = require('./routes/passport/init');
 var expenseEntries = require('./routes/expenseEntries');
 var expenseCategories= require('./routes/expenseCategories');
 
@@ -27,7 +28,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+initPassport(passport);
+
+app.use('/', routes(passport));
 app.use('/expenseEntries', expenseEntries);
 app.use('/expenseCategories', expenseCategories);
 

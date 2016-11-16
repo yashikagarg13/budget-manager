@@ -1,19 +1,21 @@
 import React, {Component} from "react";
 
-import Login from "../components/login";
+import SignUp from "../components/signUp";
 import Helpers from "../helpers/index";
 
-export default class LoginContainer extends Component {
+export default class SignUpContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
       passwordHash: "",
+      currency: "",
     };
 
-    this.onLoginClick = this.onLoginClick.bind(this);
+    this.onSignUpClick = this.onSignUpClick.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.onChangeCurrency = this.onChangeCurrency.bind(this);
   }
 
   onChangeEmail(event) {
@@ -26,17 +28,31 @@ export default class LoginContainer extends Component {
       passwordHash: Helpers.Utils.createHash(event.target.value),
     });
   }
-  onLoginClick(event) {
+  onChangeCurrency(event) {
+    this.setState({
+      currency: event.target.value,
+    });
+  }
+  onSignUpClick(event) {
     event.preventDefault();
+    Helpers.API.signUp(...this.state)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 
   render() {
     return (
-      <Login
+      <SignUp
         email={this.state.email}
         updateEmailHandler={this.onChangeEmail}
         updatePasswordHandler={this.onChangePassword}
-        loginHandler={this.onLoginClick} />
+        currency={this.state.currency}
+        updateCurrency={this.onChangeCurrency}
+        signUpHandler={this.onSignUpClick} />
     );
   }
 }

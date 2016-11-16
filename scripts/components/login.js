@@ -1,4 +1,5 @@
-import React from "react";
+import React, {PropTypes} from "react";
+import {Link} from "react-router";
 
 const Login = (props) => (
   <div className="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 margin-top">
@@ -23,9 +24,20 @@ const Login = (props) => (
         </div>
         <button type="submit" className="btn btn-primary btn-md center-block"
           onClick={props.loginHandler}>Log In</button>
+        <br />
+        <p className="text-center">Do not have an account? <Link to="/signup">Sign up!</Link></p>
       </form>
     </div>
   </div>
 );
+
+Login.propTypes = {
+  email: PropTypes.string,
+  updateEmailHandler: PropTypes.func.isRequired,
+
+  updatePasswordHandler: PropTypes.func.isRequired,
+
+  loginHandler: PropTypes.func.isRequired,
+};
 
 export default Login;
