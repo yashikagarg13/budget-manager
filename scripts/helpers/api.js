@@ -1,10 +1,10 @@
 import Axios from "axios";
 
-const baseUrl = "http://127.0.0.1:3000";
+const baseUrl = "http://127.0.0.1:8080";
 
 export default {
   login: (email, passwordHash) => {
-    return Axios.post(`${baseUrl}/login`, {
+    return Axios.post(`${baseUrl}/authenticate`, {
       email: email,
       password: passwordHash,
     });
