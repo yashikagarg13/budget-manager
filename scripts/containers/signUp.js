@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {hashHistory} from "react-router";
 
 import SignUp from "../components/signUp";
 import Helpers from "../helpers/index";
@@ -8,7 +9,7 @@ export default class SignUpContainer extends Component {
     super(props);
     this.state = {
       email: "",
-      passwordHash: "",
+      password: "",
       currency: "",
     };
 
@@ -25,7 +26,7 @@ export default class SignUpContainer extends Component {
   }
   onChangePassword(event) {
     this.setState({
-      passwordHash: Helpers.Utils.createHash(event.target.value),
+      password: event.target.value,
     });
   }
   onChangeCurrency(event) {
@@ -35,13 +36,22 @@ export default class SignUpContainer extends Component {
   }
   onSignUpClick(event) {
     event.preventDefault();
-    Helpers.API.signUp(...this.state)
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+
+    this.timeoutInstance = setTimeout(() => {
+      const {email, password, currency} = this.state;
+      Helpers.API.signUp(email, password, currency)
+      .then((response) => {
+        if (response.success) {
+          Helpers.LocalStorage.set("sessionId", response.token);
+          hashHistory.push("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+      clearTimeout(this.timeoutInstance);
+    }, 0);
   }
 
   render() {

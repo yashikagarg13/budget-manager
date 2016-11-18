@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {hashHistory} from "react-router";
 
 import Login from "../components/login";
 import Helpers from "../helpers/index";
@@ -8,7 +9,8 @@ export default class LoginContainer extends Component {
     super(props);
     this.state = {
       email: "",
-      passwordHash: "",
+      password: "",
+      loginError: "",
     };
 
     this.onLoginClick = this.onLoginClick.bind(this);
@@ -23,11 +25,31 @@ export default class LoginContainer extends Component {
   }
   onChangePassword(event) {
     this.setState({
-      passwordHash: Helpers.Utils.createHash(event.target.value),
+      password: event.target.value,
     });
   }
   onLoginClick(event) {
     event.preventDefault();
+
+    this.timeoutInstance = setTimeout(() => {
+      const {email, password} = this.state;
+      Helpers.API.login(email, password)
+      .then((response) => {
+        if (response.success) {
+          Helpers.LocalStorage.set("sessionId", response.token);
+          hashHistory.push("/");
+        } else {
+          this.setState({
+            loginError: response.message
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+      clearTimeout(this.timeoutInstance);
+    }, 0);
   }
 
   render() {
@@ -36,6 +58,7 @@ export default class LoginContainer extends Component {
         email={this.state.email}
         updateEmailHandler={this.onChangeEmail}
         updatePasswordHandler={this.onChangePassword}
+        loginError={this.state.loginError}
         loginHandler={this.onLoginClick} />
     );
   }

@@ -8,6 +8,7 @@ const Login = (props) => (
     </h4>
     <div className="well">
       <form>
+        {props.loginError ? <p className="error">{props.loginError}</p> : null}
         <div className="form-group">
           <label className="control-label">Email</label>
           <div className="controls">
@@ -37,6 +38,7 @@ Login.propTypes = {
 
   updatePasswordHandler: PropTypes.func.isRequired,
 
+  loginError: PropTypes.string,
   loginHandler: PropTypes.func.isRequired,
 };
 

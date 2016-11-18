@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+var bCrypt = require("bcrypt-nodejs");
 var jwt = require("jsonwebtoken");
 
 var config = require("../config");
@@ -17,7 +17,7 @@ router.post('/', function(req, res) {
     } else {
       var newUser = new User({
         email: req.body.email,
-        password: req.body.password,
+        password: bCrypt.hashSync(req.body.password, bCrypt.genSaltSync(10), null),
         currency: req.body.currency,
       });
 
