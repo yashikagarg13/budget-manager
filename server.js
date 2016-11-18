@@ -9,10 +9,11 @@ var jwt = require("jsonwebtoken");
 var config = require('./config');
 
 var setup = require('./routes/setup');
+var authenticate = require('./routes/authenticate');
 var expenseEntries = require('./routes/expenseEntries');
 var expenseCategories= require('./routes/expenseCategories');
 var users = require('./routes/users');
-var authenticate = require('./routes/authenticate');
+var signup = require('./routes/signup');
 
 var port = process.env.PORT || 8080;
 mongoose.Promise = global.Promise;
@@ -33,6 +34,7 @@ app.use('/', setup);
 app.use('/authenticate', authenticate);
 app.use('/expenseEntries', expenseEntries);
 app.use('/expenseCategories', expenseCategories);
+app.use('/signup', signup);
 app.use('/users', users);
 
 app.get('/', function(req, res) {
