@@ -2,7 +2,7 @@ import R from "ramda";
 import React, {PropTypes} from "react";
 import {Link} from "react-router";
 
-import Helpers from "../helpers/index";
+import Helpers from "../../helpers/index";
 
 const SignUp = (props) => (
   <div className="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 margin-top">

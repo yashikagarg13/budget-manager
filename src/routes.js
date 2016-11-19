@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import {Router, hashHistory, Route, IndexRoute} from "react-router";
 
-import Layout from "./layout";
-import LandingContainer from "./containers/landing";
-import LoginContainer from "./containers/login";
-import SignUpContainer from "./containers/signUp";
+import Layout from "./components/layout";
+import LandingContainer from "./components/landing/container";
+import LoginContainer from "./components/login/container";
+import SignUpContainer from "./components/signUp/container";
 
 
 const getRoutes = () => (

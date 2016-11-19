@@ -1,21 +1,22 @@
 import React, {Component} from "react";
 import {hashHistory} from "react-router";
 
-import Login from "../components/login";
-import Helpers from "../helpers/index";
+import SignUp from "./view";
+import Helpers from "../../helpers/index";
 
-export default class LoginContainer extends Component {
+export default class SignUpContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
       password: "",
-      loginError: "",
+      currency: "",
     };
 
-    this.onLoginClick = this.onLoginClick.bind(this);
+    this.onSignUpClick = this.onSignUpClick.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.onChangeCurrency = this.onChangeCurrency.bind(this);
   }
 
   onChangeEmail(event) {
@@ -28,20 +29,21 @@ export default class LoginContainer extends Component {
       password: event.target.value,
     });
   }
-  onLoginClick(event) {
+  onChangeCurrency(event) {
+    this.setState({
+      currency: event.target.value,
+    });
+  }
+  onSignUpClick(event) {
     event.preventDefault();
 
     this.timeoutInstance = setTimeout(() => {
-      const {email, password} = this.state;
-      Helpers.API.login(email, password)
+      const {email, password, currency} = this.state;
+      Helpers.API.signUp(email, password, currency)
       .then((response) => {
         if (response.success) {
           Helpers.LocalStorage.set("sessionId", response.token);
           hashHistory.push("/");
-        } else {
-          this.setState({
-            loginError: response.message
-          });
         }
       })
       .catch((error) => {
@@ -54,12 +56,13 @@ export default class LoginContainer extends Component {
 
   render() {
     return (
-      <Login
+      <SignUp
         email={this.state.email}
         updateEmailHandler={this.onChangeEmail}
         updatePasswordHandler={this.onChangePassword}
-        loginError={this.state.loginError}
-        loginHandler={this.onLoginClick} />
+        currency={this.state.currency}
+        updateCurrency={this.onChangeCurrency}
+        signUpHandler={this.onSignUpClick} />
     );
   }
 }

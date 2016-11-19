@@ -3,7 +3,7 @@ const Path = require("path");
 
 const config = {
   context: __dirname,
-  entry: "./scripts/app.js",
+  entry: "./src/app.js",
   output: {
     path: Path.join(__dirname, "public"),
     filename: "bundle.js"

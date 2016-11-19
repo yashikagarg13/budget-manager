@@ -2,8 +2,8 @@ import R from "ramda";
 import React, {Component} from "react";
 import {hashHistory} from "react-router";
 
-import Helpers from "../helpers/index";
-import Landing from "../components/landing";
+import Helpers from "../../helpers/index";
+import Landing from "./view";
 
 export default class LandingContainer extends Component {
   componentWillMount() {
