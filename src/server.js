@@ -1,41 +1,59 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var morgan = require('morgan');
-var cors = require("cors");
+require('babel-register');
 
-var jwt = require("jsonwebtoken");
-var config = require('./config');
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const morgan = require('morgan');
+const cors = require("cors");
+const jwt = require("jsonwebtoken");
 
-var setup = require('./api/setup');
-var authenticate = require('./api/authenticate');
-var expenseEntries = require('./api/expenseEntries');
-var expenseCategories= require('./api/expenseCategories');
-var users = require('./api/users');
-var signup = require('./api/signup');
+const React = require('react');
+const ReactDOMServer = require('react-dom/server');
+const ReactRouter = require('react-router');
+const match = ReactRouter.match;
+const RouterContext = ReactRouter.RouterContext;
+const _ = require('lodash');
+const fs = require('fs');
 
-var port = process.env.PORT || 8080;
+const app = express();
+app.use(cors());
+
+
+/***************************************************************************************************************
+    API
+***************************************************************************************************************/
+const config = require('./config');
+const setup = require('./api/setup');
+const authenticate = require('./api/authenticate');
+const expenseEntries = require('./api/expenseEntries');
+const expenseCategories= require('./api/expenseCategories');
+const users = require('./api/users');
+const signup = require('./api/signup');
+
+///////////////////////////////////////////////
+// DB SETUP
+//////////////////////////////////////////////
+const port = process.env.PORT || 8080;
 mongoose.Promise = global.Promise;
 mongoose.connect(config.dbURL)
-  .then(() =>  console.log('connection succesful'))
+  .then(() => console.log('connection succesful'))
   .catch((err) => console.error(err));
 
+///////////////////////////////////////////////
+// SETUP API ROUTES
+//////////////////////////////////////////////
 app.set('superSecret', config.secret);
-
-app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use(morgan('dev'));
 
-app.use('/', setup);
-app.use('/authenticate', authenticate);
-app.use('/signup', signup);
+app.use('/api/', setup);
+app.use('/api/authenticate', authenticate);
+app.use('/api/signup', signup);
 
-app.use(function(req, res, next) {
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+app.use('/api', function(req, res, next) {
+  const token = req.body.token || req.query.token || req.headers['x-access-token'];
 
   if (token) {
     jwt.verify(token, app.get('superSecret'), function(err, decoded) {
@@ -56,9 +74,36 @@ app.use(function(req, res, next) {
   }
 });
 
-app.use('/expenseEntries', expenseEntries);
-app.use('/expenseCategories', expenseCategories);
-app.use('/users', users);
+app.use('/api/expenseEntries', expenseEntries);
+app.use('/api/expenseCategories', expenseCategories);
+app.use('/api/users', users);
+
+/***************************************************************************************************************
+    UNIVERSAL RENDERING
+***************************************************************************************************************/
+const baseTemplate = fs.readFileSync('public/index.html');
+const template = _.template(baseTemplate);
+const Routes = require('./routes');
+const routes = Routes.getRoutes();
+
+app.use('/public', express.static('public'))
+
+app.use('/', (req, res) => {
+  match({routes: routes, location: req.url }, (error, redirectLocation, renderProps) => {
+    if (error) {
+      res.status(500).send(error.message)
+    } else if (redirectLocation) {
+      res.redirect(302, redirectLocation.pathname + redirectLocation.search)
+    } else if (renderProps) {
+      const body = ReactDOMServer.renderToString(
+        React.createElement(RouterContext, renderProps)
+      )
+      res.status(200).send(template({body}))
+    } else {
+      res.status(404).send('Not found')
+    }
+  })
+})
 
 app.get('/', function(req, res) {
     res.send('Hello! The API is at http://localhost:' + port + '/api');

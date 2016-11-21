@@ -1,6 +1,4 @@
 import React, {Component} from "react";
-import {hashHistory} from "react-router";
-
 import Login from "./view";
 import Helpers from "../../helpers/index";
 
@@ -37,7 +35,7 @@ export default class LoginContainer extends Component {
       .then((response) => {
         if (response.success) {
           Helpers.LocalStorage.set("sessionId", response.token);
-          hashHistory.push("/");
+          this.props.router.push("/");
         } else {
           this.setState({
             loginError: response.message

@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {hashHistory} from "react-router";
 
 import SignUp from "./view";
 import Helpers from "../../helpers/index";
@@ -43,7 +42,7 @@ export default class SignUpContainer extends Component {
       .then((response) => {
         if (response.success) {
           Helpers.LocalStorage.set("sessionId", response.token);
-          hashHistory.push("/");
+          this.props.router.push("/");
         }
       })
       .catch((error) => {
