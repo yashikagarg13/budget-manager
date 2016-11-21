@@ -8,7 +8,7 @@ var ExpenseEntrySchema = new mongoose.Schema({
   amount: Number,
   description: String,
   currency: String,
-  userId: ObjectId,
+  email: String,
 });
 
 module.exports = mongoose.model('ExpenseEntry', ExpenseEntrySchema);

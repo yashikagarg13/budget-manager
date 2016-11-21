@@ -5,11 +5,12 @@ var mongoose = require('mongoose');
 var ExpenseEntry = require('../models/ExpenseEntry');
 
 router.get('/', function(req, res, next) {
-  ExpenseEntry.find(function(err, expenseEntries) {
+  var email = req.decoded._doc.email;
+  ExpenseEntry.find({email}, function(err, expenseEntries) {
     if (err)
       return next(err);
 
-    res.json(expenseEntries);
+    res.json({success: true, data: expenseEntries});
   });
 });
 
@@ -18,28 +19,28 @@ router.get('/:id', function(req, res, next) {
     if (err)
       return next(err);
 
-    res.json(expenseEntry);
+    res.json({success: true, data: expenseEntry});
   });
 });
 
 router.post('/', function(req, res, next) {
   ExpenseEntry.create(req.body, function (err, post) {
     if (err) return next(err);
-    res.json(post);
+    res.json({success: true, data: post});
   });
 });
 
 router.put('/:id', function(req, res, next) {
   ExpenseEntry.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
-    res.json(post);
+    res.json({success: true, data: post});
   });
 });
 
 router.delete('/:id', function(req, res, next) {
   ExpenseEntry.findByIdAndRemove(req.params.id, function (err, post) {
     if (err) return next(err);
-    res.json(post);
+    res.json({success: true, data: post});
   });
 });
 
