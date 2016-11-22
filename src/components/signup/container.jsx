@@ -18,12 +18,6 @@ export default class SignUpContainer extends Component {
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onChangeCurrency = this.onChangeCurrency.bind(this);
   }
-  componentWillMount () {
-    const sessionId = Helpers.LocalStorage.get("sessionId");
-    if (!R.isEmpty(sessionId) && R.type(sessionId) == "String") {
-      this.props.router.push("/landing");
-    }
-  }
 
   onChangeEmail(event) {
     this.setState({

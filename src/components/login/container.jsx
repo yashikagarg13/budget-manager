@@ -16,12 +16,6 @@ export default class LoginContainer extends Component {
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
   }
-  componentWillMount () {
-    const sessionId = Helpers.LocalStorage.get("sessionId");
-    if (!R.isEmpty(sessionId) && R.type(sessionId) == "String") {
-      this.props.router.push("/landing");
-    }
-  }
 
   onChangeEmail(event) {
     this.setState({
@@ -38,10 +32,19 @@ export default class LoginContainer extends Component {
 
     this.timeoutInstance = setTimeout(() => {
       const {email, password} = this.state;
-      Helpers.API.login(email, password)
+      return Helpers.API.login(email, password)
       .then((response) => {
         if (response.success) {
           Helpers.LocalStorage.set("sessionId", response.token);
+        } else {
+          this.setState({
+            loginError: response.message
+          });
+        }
+      })
+      .then(() => Helpers.API.setupForUser())
+      .then((response) => {
+        if (response.success) {
           this.props.router.push("/landing");
         } else {
           this.setState({

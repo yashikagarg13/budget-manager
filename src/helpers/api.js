@@ -1,9 +1,7 @@
-  import Axios from "axios";
-  import LocalStorage from "./local-storage";
+import Axios from "axios";
+import Utils from "./utils";
 
 const baseUrl = "http://127.0.0.1:8080/api";
-const token = LocalStorage.get("sessionId");
-const tokenQuery = `token=${token}`;
 
 export default {
   login: (email, passwordHash) => {
@@ -21,8 +19,16 @@ export default {
     })
     .then(response => response.data);
   },
-  getExpenseEnteriesByUser: (userId) => {
-    return Axios.get(`${baseUrl}/expenseEntries?${tokenQuery}`)
+  setupForUser: () => {
+    return Axios.get(`${baseUrl}/setup?${Utils.getToken()}`)
+    .then(response => response.data);
+  },
+  getExpenseEnteriesByUser: () => {
+    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getToken()}`)
+    .then(response => response.data);
+  },
+  getExpensCategoriesByUser: () => {
+    return Axios.get(`${baseUrl}/expenseCategories?${Utils.getToken()}`)
     .then(response => response.data);
   },
 };

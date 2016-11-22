@@ -16,6 +16,7 @@ export default class LandingContainer extends Component {
   }
 
   loadData () {
+    console.log("load data")
     Helpers.API.getExpenseEnteriesByUser()
     .then(response => {
       if (response.success == false) {

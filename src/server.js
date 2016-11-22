@@ -48,7 +48,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 
-app.use('/api/', setup);
 app.use('/api/authenticate', authenticate);
 app.use('/api/signup', signup);
 
@@ -74,6 +73,7 @@ app.use('/api', function(req, res, next) {
   }
 });
 
+app.use('/api/setup', setup);
 app.use('/api/expenseEntries', expenseEntries);
 app.use('/api/expenseCategories', expenseCategories);
 app.use('/api/users', users);

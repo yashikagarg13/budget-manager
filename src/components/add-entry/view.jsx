@@ -1,7 +1,7 @@
 import React from "react";
 
 const AddEntry = (props) => (
-  <div> Add Entry </div>
+  <div></div>
 );
 
 export default AddEntry;

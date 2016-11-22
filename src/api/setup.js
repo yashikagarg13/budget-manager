@@ -1,24 +1,42 @@
+var R = require("ramda");
 var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose');
-var User = require('../models/User');
+var ExpenseCategory = require('../models/ExpenseCategory');
 
-router.get('/setup', function(req, res) {
+const defaultExpenseCategories = [
+  "Vegetables",
+  "Fruits",
+  "Milk",
+  "Grocery",
+  "Clothes",
+  "Travel",
+  "Entertainement",
+  "Newspapers",
+  "Cosmetics",
+  "Dining outs",
+  "Online shopping",
+  "Mobile recharge",
+  "Electricity bill pay",
+  "Phone bill pay",
+  "Internet bill pay",
+  "Car service",
+];
 
-  // create a sample user
-  var nick = new User({
-    email: 'Nick Cerminara',
-    password: 'password',
-    currency: "USD"
-  });
+router.get('/', function(req, res, next) {
+  var email = req.decoded._doc.email;
+  var data = R.map(title => {
+    return {email, title};
+  }, defaultExpenseCategories);
 
-  // save the sample user
-  nick.save(function(err) {
-    if (err) throw err;
-
-    console.log('User saved successfully');
-    res.json({ success: true });
+  ExpenseCategory.collection.insert(data, {}, function (err, posts) {
+    if (err)  return next(err);
+    console.log("Added category: ", posts);
+    res.json({
+      success: true,
+      message: "Setup successfull",
+    });
   });
 });
 
