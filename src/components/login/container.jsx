@@ -1,3 +1,4 @@
+import R from "ramda";
 import React, {Component} from "react";
 import Login from "./view";
 import Helpers from "../../helpers/index";
@@ -14,6 +15,12 @@ export default class LoginContainer extends Component {
     this.onLoginClick = this.onLoginClick.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+  }
+  componentWillMount () {
+    const sessionId = Helpers.LocalStorage.get("sessionId");
+    if (!R.isEmpty(sessionId) && R.type(sessionId) == "String") {
+      this.props.router.push("/landing");
+    }
   }
 
   onChangeEmail(event) {
@@ -35,7 +42,7 @@ export default class LoginContainer extends Component {
       .then((response) => {
         if (response.success) {
           Helpers.LocalStorage.set("sessionId", response.token);
-          this.props.router.push("/");
+          this.props.router.push("/landing");
         } else {
           this.setState({
             loginError: response.message

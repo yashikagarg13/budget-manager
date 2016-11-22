@@ -12,12 +12,7 @@ export default class LandingContainer extends Component {
     };
   }
   componentWillMount () {
-    const sessionId = Helpers.LocalStorage.get("sessionId");
-    if (R.isEmpty(sessionId) || R.type(sessionId) != "String") {
-      this.props.router.push("/login");
-    } else {
-      this.loadData();
-    }
+    this.loadData();
   }
 
   loadData () {

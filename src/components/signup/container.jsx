@@ -1,3 +1,4 @@
+import R from "ramda";
 import React, {Component} from "react";
 
 import SignUp from "./view";
@@ -16,6 +17,12 @@ export default class SignUpContainer extends Component {
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onChangeCurrency = this.onChangeCurrency.bind(this);
+  }
+  componentWillMount () {
+    const sessionId = Helpers.LocalStorage.get("sessionId");
+    if (!R.isEmpty(sessionId) && R.type(sessionId) == "String") {
+      this.props.router.push("/landing");
+    }
   }
 
   onChangeEmail(event) {
@@ -42,7 +49,7 @@ export default class SignUpContainer extends Component {
       .then((response) => {
         if (response.success) {
           Helpers.LocalStorage.set("sessionId", response.token);
-          this.props.router.push("/");
+          this.props.router.push("/landing");
         }
       })
       .catch((error) => {

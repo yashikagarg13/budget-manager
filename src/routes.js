@@ -2,16 +2,20 @@ import React, {Component} from "react";
 import {Router, Route, IndexRoute, browserHistory} from "react-router";
 
 import Layout from "./components/layout";
+import AddEntryContainer from "./components/add-entry/container";
 import LandingContainer from "./components/landing/container";
 import LoginContainer from "./components/login/container";
-import SignUpContainer from "./components/signUp/container";
+import SettingsContainer from "./components/settings/container";
+import SignUpContainer from "./components/signup/container";
 
 const history = browserHistory;
 const getRoutes = () => (
   <Route path="/" component={Layout}>
-    <IndexRoute component={LandingContainer} />
-    <Route component={LoginContainer} path="login" />
+    <IndexRoute component={LoginContainer} />
+    <Route component={LandingContainer} path="landing" />
     <Route component={SignUpContainer} path="signup" />
+    <Route component={AddEntryContainer} path="add-entry" />
+    <Route component={SettingsContainer} path="settings" />
   </Route>
 );
 

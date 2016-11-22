@@ -11,14 +11,14 @@ const config = {
     filename: "bundle.js"
   },
   resolve: {
-    extensions: ['', '.js', 'jsx', '.json']
+    extensions: ['', '.js', '.jsx', '.json']
   },
   module: {
     /*preLoaders: [
       {test: /\.jsx?$/, loader: "eslint-loader", exclude: /node_modules/}
     ],*/
     loaders: [
-      {test: /\.js?$/, loader: "babel-loader", exclude: /node_modules/},
+      {test: /\.jsx?$/, loader: "babel-loader", exclude: /node_modules/},
     ]
   },
   plugins: [
