@@ -12,6 +12,7 @@ export default class SettingsContainer extends React.Component {
     };
   }
   componentWillMount () {
+    Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
     this.loadData();
   }
 

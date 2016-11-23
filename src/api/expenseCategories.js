@@ -9,28 +9,28 @@ router.get('/', function(req, res, next) {
     if (err)
       return next(err);
 
-    res.json(expenseCategories);
+    res.json({success: true, data: expenseCategories});
   });
 });
 
 router.post('/', function(req, res, next) {
   ExpenseCategory.create(req.body, function (err, post) {
     if (err) return next(err);
-    res.json(post);
+    res.json({success: true, data: post});
   });
 });
 
 router.put('/:id', function(req, res, next) {
   ExpenseCategory.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
-    res.json(post);
+    res.json({success: true, data: post});
   });
 });
 
 router.delete('/:id', function(req, res, next) {
   ExpenseCategory.findByIdAndRemove(req.params.id, function (err, post) {
     if (err) return next(err);
-    res.json(post);
+    res.json({success: true, data: post});
   });
 });
 

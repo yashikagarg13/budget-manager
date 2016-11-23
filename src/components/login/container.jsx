@@ -16,6 +16,9 @@ export default class LoginContainer extends Component {
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
   }
+  componentWillMount () {
+    Helpers.Utils.redirectToLandingIfTokenExists(this.props.router);
+  }
 
   onChangeEmail(event) {
     this.setState({
@@ -35,7 +38,7 @@ export default class LoginContainer extends Component {
       return Helpers.API.login(email, password)
       .then((response) => {
         if (response.success) {
-          Helpers.LocalStorage.set("sessionId", response.token);
+          Helpers.LocalStorage.set("token", response.token);
         } else {
           this.setState({
             loginError: response.message

@@ -12,6 +12,7 @@ export default class LandingContainer extends Component {
     };
   }
   componentWillMount () {
+    Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
     this.loadData();
   }
 

@@ -18,6 +18,9 @@ export default class SignUpContainer extends Component {
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onChangeCurrency = this.onChangeCurrency.bind(this);
   }
+  componentWillMount () {
+    Helpers.Utils.redirectToLandingIfTokenExists(this.props.router);
+  }
 
   onChangeEmail(event) {
     this.setState({
@@ -42,7 +45,7 @@ export default class SignUpContainer extends Component {
       Helpers.API.signUp(email, password, currency)
       .then((response) => {
         if (response.success) {
-          Helpers.LocalStorage.set("sessionId", response.token);
+          Helpers.LocalStorage.set("token", response.token);
           this.props.router.push("/landing");
         }
       })
