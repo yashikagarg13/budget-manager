@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const Path = require("path");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 const config = {
@@ -19,6 +20,13 @@ const config = {
     ],*/
     loaders: [
       {test: /\.jsx?$/, loader: "babel-loader", exclude: /node_modules/},
+
+      // CSS: https://github.com/webpack/css-loader
+      {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract('style', 'css')},
+
+      // LESS: https://github.com/webpack/less-loader
+      {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract('style', 'css!less')},
+
     ]
   },
   plugins: [
@@ -33,7 +41,8 @@ const config = {
       sourcemap: false,
       beautify: false,
       dead_code: true
-    })
+    }),
+    new ExtractTextPlugin("style.css"),
   ]
 };
 

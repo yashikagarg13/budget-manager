@@ -20,9 +20,8 @@ export default class LandingContainer extends Component {
     console.log("load data")
     Helpers.API.getExpenseEnteriesByUser()
     .then(response => {
-      if (response.success == false) {
-        this.props.router.push("/login");
-      } else {
+      Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
+      if (response.success) {
         this.setState({
           entries: response.data,
         });

@@ -19,9 +19,8 @@ export default class SettingsContainer extends React.Component {
   loadData () {
     Helpers.API.getExpensCategoriesByUser()
     .then(response => {
-      if (response.success == false) {
-        this.props.router.push("/login");
-      } else {
+      Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
+      if (response.success) {
         this.setState({
           categories: response.data,
         });
@@ -33,7 +32,6 @@ export default class SettingsContainer extends React.Component {
   }
 
   render () {
-    console.log(this.state.categories);
     return (
       <Settings
         categories={this.state.categories} />
