@@ -5,11 +5,17 @@ import {Link} from "react-router";
 import Helpers from "../../helpers/index";
 
 const SignUp = (props) => (
-  <div className="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 margin-top">
+  <div className="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 margin-top-xlg">
     <h4 className="text-center">
       Please create your BM Account
     </h4>
     <div className="well">
+      {props.signUpError
+        ? <div class="alert alert-danger" role="alert">
+            {props.signUpError}
+          </div>
+        : null
+      }
       <form noValidate>
         <div className="form-group">
           <label className="control-label">Email</label>
@@ -54,6 +60,7 @@ SignUp.propTypes = {
   currency: PropTypes.string,
   updateCurrency: PropTypes.func.isRequired,
 
+  signUpError: PropTypes.string,
   signUpHandler: PropTypes.func.isRequired,
 };
 

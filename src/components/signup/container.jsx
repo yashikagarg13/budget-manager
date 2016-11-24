@@ -11,6 +11,7 @@ export default class SignUpContainer extends Component {
       email: "",
       password: "",
       currency: "",
+      signUpError: "",
     };
 
     this.onSignUpClick = this.onSignUpClick.bind(this);
@@ -46,7 +47,20 @@ export default class SignUpContainer extends Component {
       .then((response) => {
         if (response.success) {
           Helpers.LocalStorage.set("token", response.token);
+        } else {
+          this.setState({
+            signUpError: response.message,
+          });
+        }
+      })
+      .then(() => Helpers.API.setupForUser())
+      .then((response) => {
+        if (response.success) {
           this.props.router.push("/landing");
+        } else {
+          this.setState({
+            signUpError: response.message,
+          });
         }
       })
       .catch((error) => {

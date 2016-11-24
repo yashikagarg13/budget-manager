@@ -39,15 +39,6 @@ export default class LoginContainer extends Component {
       .then((response) => {
         if (response.success) {
           Helpers.LocalStorage.set("token", response.token);
-        } else {
-          this.setState({
-            loginError: response.message
-          });
-        }
-      })
-      .then(() => Helpers.API.setupForUser())
-      .then((response) => {
-        if (response.success) {
           this.props.router.push("/landing");
         } else {
           this.setState({

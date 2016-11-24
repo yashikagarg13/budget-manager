@@ -7,9 +7,9 @@ const config = {
   context: __dirname,
   entry: "./src/app.js",
   output: {
-    path: Path.join(__dirname, "public/js"),
-    publicPath: "/js/",
-    filename: "bundle.js"
+    path: Path.join(__dirname, "public/"),
+    publicPath: "/",
+    filename: "js/bundle.js"
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json']

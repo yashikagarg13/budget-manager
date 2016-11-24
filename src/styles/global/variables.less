@@ -1,4 +1,19 @@
-@font-size: 15px;
+@font-size-base: 15px;
 @line-height: 1.6;
 
-@unit-computed: @font-size * @line-height;
+@unit-computed: ceil(@font-size-base * @line-height);
+
+@font-size-xxlg: ceil(@font-size-base * 1.4);
+@font-size-xlg: ceil(@font-size-base * 1.25);
+@font-size-lg: ceil(@font-size-base * 1.1);
+@font-size-md: ceil(@font-size-base * 1);
+@font-size-sm: ceil(@font-size-base * 0.85);
+@font-size-xs: ceil(@font-size-base * 0.7);
+@font-size-xxs: ceil(@font-size-base * 0.6);
+
+@font-size-h1: ceil(@font-size-base * 1.2 * 1.2 * 1.2 * 1.2 * 1.2);
+@font-size-h2: ceil(@font-size-base * 1.2 * 1.2 * 1.2 * 1.2);
+@font-size-h3: ceil(@font-size-base * 1.2 * 1.2 * 1.2);
+@font-size-h4: ceil(@font-size-base * 1.2 * 1.2);
+@font-size-h5: ceil(@font-size-base * 1.2);
+@font-size-h6: ceil(@font-size-base * 1.2);

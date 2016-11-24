@@ -2,13 +2,18 @@ import React, {PropTypes} from "react";
 import {Link} from "react-router";
 
 const Login = (props) => (
-  <div className="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 margin-top">
+  <div className="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 margin-top-xlg">
     <h4 className="text-center">
       Please log in to your BM Account
     </h4>
     <div className="well">
+      {props.loginError
+        ? <div class="alert alert-danger" role="alert">
+            {props.loginError}
+          </div>
+        : null
+      }
       <form>
-        {props.loginError ? <p className="error">{props.loginError}</p> : null}
         <div className="form-group">
           <label className="control-label">Email</label>
           <div className="controls">
