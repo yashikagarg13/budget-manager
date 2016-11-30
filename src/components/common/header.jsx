@@ -1,13 +1,18 @@
 import R from "ramda";
 import React from "react";
-import ReactRouter, {browserHistory, Link} from "react-router"; console.log("ReactRouter.History", ReactRouter);
+import {browserHistory, Link} from "react-router";
+
+function goBack() {
+ browserHistory.goBack();
+}
 
 const Header = (props) => (
   <header className="header bg-primary">
     <div className="row">
       <div className="col-sm-4">
         {R.indexOf("Back", props.actions) > -1
-          ? <button type="button" className="btn btn-default" aria-label="Back">
+          ? <button type="button" className="btn btn-default" aria-label="Back"
+              onClick={goBack}>
               Back
             </button>
           : null }
