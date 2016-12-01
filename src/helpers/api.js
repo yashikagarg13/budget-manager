@@ -21,7 +21,7 @@ export default {
     .then(response => response.data);
   },
   isTokenExpired (response) {
-    const data = response.data;
+    const data = response.data; console.log(data);
     if (data.success == false) {
       LocalStorage.remove("token");
       return data;
@@ -30,15 +30,22 @@ export default {
     }
   },
   setupForUser () {
-    return Axios.get(`${baseUrl}/setup?${Utils.getToken()}`)
+    return Axios.get(`${baseUrl}/setup?${Utils.getTokenQuery()}`)
     .then(response => this.isTokenExpired(response));
   },
   getExpenseEnteriesByUser () {
-    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getToken()}`)
+    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}`)
     .then(response => this.isTokenExpired(response));
   },
   getExpensCategoriesByUser () {
-    return Axios.get(`${baseUrl}/expenseCategories?${Utils.getToken()}`)
+    return Axios.get(`${baseUrl}/expenseCategories?${Utils.getTokenQuery()}`)
+    .then(response => this.isTokenExpired(response));
+  },
+  addCategory (title) {
+    return Axios.post(`${baseUrl}/expenseCategories`, {
+      title: title,
+      token: Utils.getToken(),
+    })
     .then(response => this.isTokenExpired(response));
   },
 };

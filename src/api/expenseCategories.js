@@ -5,7 +5,10 @@ var mongoose = require('mongoose');
 var ExpenseCategory = require('../models/ExpenseCategory');
 
 router.get('/', function(req, res, next) {
-  ExpenseCategory.find(function(err, expenseCategories) {
+  ExpenseCategory
+    .find()
+    .sort('title')
+    .exec(function(err, expenseCategories) {
     if (err)
       return next(err);
 
