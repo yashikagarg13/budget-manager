@@ -48,4 +48,11 @@ export default {
     })
     .then(response => this.isTokenExpired(response));
   },
+  updateCategory(category) {
+    return Axios.put(`${baseUrl}/expenseCategories/${category._id}`, {
+      title: category.title,
+      token: Utils.getToken(),
+    })
+    .then(response => this.isTokenExpired(response));
+  }
 };

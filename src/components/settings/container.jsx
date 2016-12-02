@@ -16,6 +16,9 @@ export default class SettingsContainer extends React.Component {
 
     this.onChangeNewCategoryTitle = this.onChangeNewCategoryTitle.bind(this);
     this.onClickAdd = this.onClickAdd.bind(this);
+    this.onClickEdit = this.onClickEdit.bind(this);
+    this.onClickEditDone = this.onClickEditDone.bind(this);
+    this.onChangeCategoryTitle = this.onChangeCategoryTitle.bind(this);
   }
   componentWillMount () {
     Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
@@ -28,21 +31,69 @@ export default class SettingsContainer extends React.Component {
       Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
       if (response.success) {
         this.setState({
-          categories: response.data,
+          categories: this.addEditModeToCaetgories(response.data),
         });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+  addEditModeToCaetgories (categories) {
+    return R.map(category => {
+      category.editMode = false;
+      return category;
+    }, categories);
+  }
+  onClickEdit (categoryId) {
+    let categories = this.state.categories;
+    const index = R.findIndex(R.propEq("_id", categoryId), categories);
+    categories[index].editMode = true;
+
+    this.setState({
+      categories: categories,
+    });
+  }
+  onChangeCategoryTitle (categoryId, event) {
+    let categories = this.state.categories;
+    const index = R.findIndex(R.propEq("_id", categoryId), categories);
+    categories[index].title = event.target.value;
+
+    this.setState({
+      categories: categories,
+    });
+  }
+  onClickEditDone (category, event) {
+    const categoryTitle =  category.title;
+
+    if (R.isEmpty(categoryTitle) || R.type(categoryTitle) != "String") {
+      let categories = this.state.categories;
+      const index = R.findIndex(R.propEq("_id", category._id), categories);
+      categories[index].editMode = false;
+      this.setState({categories});
+      return;
+    };
+
+    Helpers.API.updateCategory(category)
+    .then(response => {
+      Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
+      if(response.success) {
+        let categories = this.state.categories;
+        const index = R.findIndex(R.propEq("_id", category._id), categories);
+        categories[index] = category;
+        categories[index].editMode = false;
+        this.setState({categories});
       }
     })
     .catch((error) => {
       console.log(error);
     })
   }
-
   onChangeNewCategoryTitle (event) {
     this.setState({
       newCategoryTitle: event.target.value,
     });
   }
-
   onClickAdd () {
     const categoryTitle =  this.state.newCategoryTitle;
 
@@ -68,6 +119,10 @@ export default class SettingsContainer extends React.Component {
         categories={this.state.categories}
         updateNewCategoryTitle={this.onChangeNewCategoryTitle}
         addNewCategory={this.onClickAdd}
+
+        showEditMode={this.onClickEdit}
+        editCategory={this.onClickEditDone}
+        updateCategoryTitle={this.onChangeCategoryTitle}
       />
     );
   }

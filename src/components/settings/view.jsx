@@ -20,10 +20,25 @@ const Settings = (props) => (
         </div>
         {R.map(category =>
           <div className="list-group-item" Key={category._id}>
-            <span>{category.title}</span>
-            <div className="actions pull-right">
-              <i className="material-icons margin-right-sm">mode_edit</i>
-              <i className="material-icons">remove_circle_outline</i>
+            <div className="row">
+              <div className="col-sm-8 margin-top-xs">
+                {category.editMode
+                  ? <input type="text" className="form-control" placeholder="Category title"
+                      value={category.title} onChange={props.updateCategoryTitle.bind(null, category._id)} />
+                  : <span>{category.title}</span>
+                }
+              </div>
+              <div className="actions col-sm-4 text-right">
+                {category.editMode
+                  ? <button className="icon-btn" onClick={props.editCategory.bind(null, category)}>
+                      <i className="material-icons md-18">done</i></button>
+                  : <button className="icon-btn" onClick={props.showEditMode.bind(null, category._id)}>
+                      <i className="material-icons md-18">mode_edit</i></button>
+                }
+                <button className="icon-btn">
+                  <i className="material-icons md-18">remove_circle_outline</i>
+                </button>
+              </div>
             </div>
           </div>,
         props.categories)}
@@ -36,6 +51,10 @@ Settings.propTypes = {
   addNewCategory: PropTypes.func.isRequired,
   categories: PropTypes.array,
   updateNewCategoryTitle: PropTypes.func.isRequired,
+
+  showEditMode: PropTypes.func.isRequired,
+  editCategory: PropTypes.func.isRequired,
+  updateCategoryTitle: PropTypes.func.isRequired,
 };
 
 export default Settings;
