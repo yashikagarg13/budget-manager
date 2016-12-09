@@ -66,14 +66,6 @@ export default class SettingsContainer extends React.Component {
   onClickEditDone (category, event) {
     const categoryTitle =  category.title;
 
-    if (R.isEmpty(categoryTitle) || R.type(categoryTitle) != "String") {
-      let categories = this.state.categories;
-      const index = R.findIndex(R.propEq("_id", category._id), categories);
-      categories[index].editMode = false;
-      this.setState({categories});
-      return;
-    };
-
     Helpers.API.updateCategory(category)
     .then(response => {
       Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
