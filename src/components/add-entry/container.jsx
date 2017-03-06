@@ -1,9 +1,9 @@
-import React from "react";
+import React, {Component, PropTypes} from "react";
 
 import Helpers from "../../helpers/index";
 import AddEntry from "./view";
 
-export default class AddEntryContainer extends React.Component {
+class AddEntryContainer extends Component {
   componentWillMount () {
     Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
   }
@@ -14,3 +14,9 @@ export default class AddEntryContainer extends React.Component {
     );
   }
 }
+
+AddEntryContainer.propTypes = {
+  router: PropTypes.object,
+};
+
+export default AddEntryContainer;

@@ -21,7 +21,7 @@ export default {
     .then(response => response.data);
   },
   isTokenExpired (response) {
-    const data = response.data; console.log(data);
+    const data = response.data;
     if (data.success == false) {
       LocalStorage.remove("token");
       return data;

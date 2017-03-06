@@ -1,5 +1,4 @@
-import R from "ramda";
-import React, {Component} from "react";
+import React, {Component, PropTypes} from "react";
 
 import SignUp from "./view";
 import Helpers from "../../helpers/index";
@@ -65,7 +64,7 @@ export default class SignUpContainer extends Component {
       })
       .catch((error) => {
         console.log(error);
-      })
+      });
 
       clearTimeout(this.timeoutInstance);
     }, 0);
@@ -83,3 +82,7 @@ export default class SignUpContainer extends Component {
     );
   }
 }
+
+SignUpContainer.propTypes = {
+  router: PropTypes.object,
+};

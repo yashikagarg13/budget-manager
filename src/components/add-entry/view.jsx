@@ -1,6 +1,6 @@
 import React from "react";
 
-const AddEntry = (props) => (
+const AddEntry = () => (
   <div></div>
 );
 

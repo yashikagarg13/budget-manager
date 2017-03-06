@@ -11,7 +11,7 @@ const SignUp = (props) => (
     </h4>
     <div className="well">
       {props.signUpError
-        ? <div class="alert alert-danger" role="alert">
+        ? <div className="alert alert-danger" role="alert">
             {props.signUpError}
           </div>
         : null

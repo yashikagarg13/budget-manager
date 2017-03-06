@@ -1,8 +1,5 @@
-import R from "ramda";
 import React, {Component} from "react";
 import {Router, Route, IndexRedirect, browserHistory} from "react-router";
-
-import Helpers from "./helpers/index";
 
 import Layout from "./components/layout";
 import AddEntryContainer from "./components/add-entry/container";

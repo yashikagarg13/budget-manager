@@ -1,9 +1,8 @@
 import React from "react";
-import {Link} from "react-router";
 
 import Header from "../common/header";
 
-const Landing = (props) => (
+const Landing = () => (
   <div>
     <Header actions={["Settings", "Add"]}/>
   </div>

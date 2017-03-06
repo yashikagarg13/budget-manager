@@ -1,9 +1,8 @@
-import R from "ramda";
-import React, {Component} from "react";
+import React, {Component, PropTypes} from "react";
 import Login from "./view";
 import Helpers from "../../helpers/index";
 
-export default class LoginContainer extends Component {
+class LoginContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -45,12 +44,12 @@ export default class LoginContainer extends Component {
             loginError: response.message
           });
         }
+        clearTimeout(this.timeoutInstance);
       })
       .catch((error) => {
         console.log(error);
-      })
-
-      clearTimeout(this.timeoutInstance);
+        clearTimeout(this.timeoutInstance);
+      });
     }, 0);
   }
 
@@ -65,3 +64,9 @@ export default class LoginContainer extends Component {
     );
   }
 }
+
+LoginContainer.propTypes = {
+  router: PropTypes.object,
+};
+
+export default LoginContainer;

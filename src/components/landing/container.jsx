@@ -1,10 +1,9 @@
-import R from "ramda";
-import React, {Component} from "react";
+import React, {Component, PropTypes} from "react";
 
 import Helpers from "../../helpers/index";
 import Landing from "./view";
 
-export default class LandingContainer extends Component {
+class LandingContainer extends Component {
   constructor (props) {
     super(props);
     this.state = {
@@ -28,7 +27,7 @@ export default class LandingContainer extends Component {
     })
     .catch((error) => {
       console.log(error);
-    })
+    });
   }
 
   render () {
@@ -38,3 +37,9 @@ export default class LandingContainer extends Component {
     );
   }
 }
+
+LandingContainer.propTypes = {
+  router: PropTypes.object,
+};
+
+export default LandingContainer;

@@ -1,6 +1,5 @@
 import R from "ramda";
 import React from "react";
-import ReactRouter from "react-router"; console.log(ReactRouter);
 
 import Helpers from "../../helpers/index";
 
@@ -54,7 +53,7 @@ export default class SettingsContainer extends React.Component {
       categories: categories,
     });
   }
-  onChangeCategoryTitle (categoryId, event) {
+  onChangeCategoryTitle (categoryId) {
     let categories = this.state.categories;
     const index = R.findIndex(R.propEq("_id", categoryId), categories);
     categories[index].title = event.target.value;

@@ -1,9 +1,9 @@
 import R from "ramda";
-import React from "react";
+import React, {PropTypes} from "react";
 import {browserHistory, Link} from "react-router";
 
 function goBack() {
- browserHistory.goBack();
+  browserHistory.goBack();
 }
 
 const Header = (props) => (
@@ -39,5 +39,9 @@ const Header = (props) => (
     </div>
   </header>
 );
+
+Header.propTypes = {
+  actions: PropTypes.array,
+};
 
 export default Header;
