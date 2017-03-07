@@ -1,6 +1,7 @@
 import R from "ramda";
 import React, {PropTypes} from "react";
 
+import ConfirmPopup from "../common/confirm-popup";
 import Header from "../common/header";
 
 const Settings = (props) => (
@@ -30,7 +31,7 @@ const Settings = (props) => (
               </div>
               <div className="actions col-sm-4 text-right">
                 {category.editMode
-                  ? <button className="icon-btn" onClick={props.editCategory.bind(null, category)}>
+                  ? <button className="icon-btn" onClick={props.showConfirmModal.bind(null, category)}>
                       <i className="material-icons md-18">done</i></button>
                   : <button className="icon-btn" onClick={props.showEditMode.bind(null, category._id)}>
                       <i className="material-icons md-18">mode_edit</i></button>
@@ -44,6 +45,17 @@ const Settings = (props) => (
         props.categories)}
       </div>
     </div>
+    {props.isConfirmModalVisible
+      ? <ConfirmPopup
+          modalText={props.confirmMsgText}
+          modalData={props.modalData}
+          modalTitle="Alert"
+          onConfirm={props.editCategory}
+          onHide={props.hideConfirmModal}
+          show={props.isConfirmModalVisible}
+        />
+      : null
+    }
   </div>
 );
 
@@ -52,8 +64,13 @@ Settings.propTypes = {
   categories: PropTypes.array,
   updateNewCategoryTitle: PropTypes.func.isRequired,
 
-  showEditMode: PropTypes.func.isRequired,
+  confirmMsgText: PropTypes.string.isRequired,
   editCategory: PropTypes.func.isRequired,
+  hideConfirmModal: PropTypes.func.isRequired,
+  isConfirmModalVisible: PropTypes.bool,
+  modalData: PropTypes.object,
+  showConfirmModal: PropTypes.func.isRequired,
+  showEditMode: PropTypes.func.isRequired,
   updateCategoryTitle: PropTypes.func.isRequired,
 };
 
