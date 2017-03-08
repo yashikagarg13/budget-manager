@@ -33,11 +33,25 @@ export default {
     return Axios.get(`${baseUrl}/setup?${Utils.getTokenQuery()}`)
     .then(response => this.isTokenExpired(response));
   },
+
   getExpenseEnteriesByUser () {
     return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}`)
     .then(response => this.isTokenExpired(response));
   },
-  getExpensCategoriesByUser () {
+  getExpenseEnteriesByCategoryAndUser (categoryId) {
+    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&categoryId=${categoryId}`)
+      .then(response => this.isTokenExpired(response));
+  },
+  updateCategoryInExpenseEntries(oldCategoryId, newCategoryId) {
+    return Axios.put(`${baseUrl}/expenseEntries/updateCategory`, {
+      oldCategoryId,
+      newCategoryId,
+      token: Utils.getToken(),
+    })
+      .then(response => this.isTokenExpired(response));
+  },
+
+  getExpenseCategoriesByUser () {
     return Axios.get(`${baseUrl}/expenseCategories?${Utils.getTokenQuery()}`)
     .then(response => this.isTokenExpired(response));
   },
@@ -45,6 +59,14 @@ export default {
     return Axios.post(`${baseUrl}/expenseCategories`, {
       title: title,
       token: Utils.getToken(),
+    })
+    .then(response => this.isTokenExpired(response));
+  },
+  deleteCategory (categoryId) {
+    return Axios.delete(`${baseUrl}/expenseCategories/${categoryId}`, {
+      data: {
+        token: Utils.getToken(),
+      },
     })
     .then(response => this.isTokenExpired(response));
   },
