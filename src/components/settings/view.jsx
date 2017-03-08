@@ -4,6 +4,8 @@ import React, {PropTypes} from "react";
 import ConfirmPopup from "../common/confirm-popup";
 import Header from "../common/header";
 
+import ChooseCategory from "./choose-category-popup";
+
 const Settings = (props) => (
   <div className="settings-view">
     <Header actions={["Back", "Add"]}/>
@@ -12,7 +14,7 @@ const Settings = (props) => (
         <div className="list-group-item" key="new-category">
           <div className="input-group">
             <input type="text" className="form-control" placeholder="New category"
-              onChange={props.updateNewCategoryTitle}/>
+              onChange={props.updateNewCategoryTitleInput} value={props.newCategoryTitle}/>
             <span className="input-group-btn">
               <button className="btn btn-primary" type="button"
                 onClick={props.addNewCategory}>Add</button>
@@ -25,7 +27,7 @@ const Settings = (props) => (
               <div className="col-sm-8 margin-top-xs">
                 {category.editMode
                   ? <input type="text" className="form-control" placeholder="Category title"
-                      value={category.title} onChange={props.updateCategoryTitle.bind(null, category._id)} />
+                      value={category.title} onChange={props.updateCategoryTitleInput.bind(null, category._id)} />
                   : <span>{category.title}</span>
                 }
               </div>
@@ -36,7 +38,7 @@ const Settings = (props) => (
                   : <button className="icon-btn" onClick={props.showEditMode.bind(null, category._id)}>
                       <i className="material-icons md-18">mode_edit</i></button>
                 }
-                <button className="icon-btn">
+                <button className="icon-btn" onClick={props.checkExpenses.bind(null, category)}>
                   <i className="material-icons md-18">remove_circle_outline</i>
                 </button>
               </div>
@@ -48,12 +50,24 @@ const Settings = (props) => (
     {props.isConfirmModalVisible
       ? <ConfirmPopup
           modalText={props.confirmMsgText}
-          modalData={props.modalData}
+          modalData={props.confirmModalData}
           modalTitle="Alert"
           onConfirm={props.editCategory}
           onHide={props.hideConfirmModal}
           show={props.isConfirmModalVisible}
         />
+      : null
+    }
+
+    {props.isChooseCategoryModalVisible
+      ? <ChooseCategory
+          categories={props.categories}
+          oldCategoryId={props.chooseCategoryModalData}
+          onChoose={props.updateExpensesWithCategory}
+          onHide={props.hideChooseCategoryModal}
+          show={props.isChooseCategoryModalVisible}
+          updateCategoryInput={props.updateNewCategoryInput}
+      />
       : null
     }
   </div>
@@ -62,17 +76,24 @@ const Settings = (props) => (
 Settings.propTypes = {
   addNewCategory: PropTypes.func.isRequired,
   categories: PropTypes.array,
-  updateNewCategoryTitle: PropTypes.func.isRequired,
+  newCategoryTitle: PropTypes.string,
+  updateNewCategoryTitleInput: PropTypes.func.isRequired,
 
   confirmMsgText: PropTypes.string.isRequired,
   editCategory: PropTypes.func.isRequired,
   hideConfirmModal: PropTypes.func.isRequired,
   isConfirmModalVisible: PropTypes.bool,
-  modalData: PropTypes.object,
+  confirmModalData: PropTypes.object,
   showConfirmModal: PropTypes.func.isRequired,
   showEditMode: PropTypes.func.isRequired,
-  updateCategoryTitle: PropTypes.func.isRequired,
+  updateCategoryTitleInput: PropTypes.func.isRequired,
+
+  checkExpenses: PropTypes.func.isRequired,
+  isChooseCategoryModalVisible: PropTypes.bool,
+  chooseCategoryModalData: PropTypes.string.isRequired,
+  hideChooseCategoryModal: PropTypes.func.isRequired,
+  updateNewCategoryInput: PropTypes.func.isRequired,
+  updateExpensesWithCategory: PropTypes.func.isRequired,
 };
 
 export default Settings;
-// https://material.io/icons/
