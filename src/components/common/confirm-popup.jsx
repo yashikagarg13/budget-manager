@@ -3,7 +3,7 @@ import {Modal} from "react-bootstrap";
 
 const ConfirmPopup = (props) => (
   <div className="static-modal">
-    <Modal.Dialog bsSize="small" show="props.show">
+    <Modal.Dialog bsSize="small" show={props.show}>
       <Modal.Header>
         <Modal.Title>
           {props.modalTitle}
