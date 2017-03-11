@@ -3,9 +3,9 @@ import {Link} from "react-router";
 
 const Login = (props) => (
   <div className="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 margin-top-xlg">
-    <h4 className="text-center">
+    <h5 className="text-center">
       Please log in to your BM Account
-    </h4>
+    </h5>
     <div className="well">
       {props.loginError
         ? <div className="alert alert-danger" role="alert">

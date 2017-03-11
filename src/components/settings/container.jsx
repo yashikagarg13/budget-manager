@@ -29,10 +29,11 @@ class SettingsContainer extends React.Component {
     this.onClickEditDone = this.onClickEditDone.bind(this);
     this.onEditCategory = this.onEditCategory.bind(this);
     this.onHideConfirmModal = this.onHideConfirmModal.bind(this);
+
+    this.onLoadData();
   }
   componentWillMount () {
     Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
-    this.onLoadData();
   }
 
   // Event Listeners
