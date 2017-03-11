@@ -28,7 +28,9 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  ExpenseEntry.create(req.body, function (err, post) {
+  const expense = req.body.expense;
+  expense.email = req.decoded._doc.email
+  ExpenseEntry.create(expense, function (err, post) {
     if (err) return next(err);
     res.json({success: true, data: post});
   });
@@ -44,7 +46,7 @@ router.put('/:id', function(req, res, next) {
 router.put('/updateCategory', function(req, res, next) {
   var bulk = ExpenseEntry.collection.initializeOrderedBulkOp();
   bulk
-    .find({category: req.query.oldCaetgoryId})
+    .find({category: req.query.oldCaetgoryId, email: req.decoded._doc.email})
     .update({$set: {category: req.query.newCaetgoryId}})
     .execute(function (err) {
       if (err) return next(err);

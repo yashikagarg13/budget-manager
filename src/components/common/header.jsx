@@ -30,18 +30,18 @@ class Header extends Component {
           </div>
           <div className="col-sm-4 text-right">
             {R.indexOf("Settings", this.props.actions) > -1
-              ? <button type="button" className="btn btn-default margin-right-xs" aria-label="Settings">
-                <Link to="/settings">
-                  <i className="fa fa-cog" aria-hidden="true"></i>
+              ? <Link to="/settings">
+                  <button type="button" className="btn btn-default accent text margin-right-xs" aria-label="Settings">
+                    <i className="fa fa-cog" aria-hidden="true"></i>
+                  </button>
                 </Link>
-              </button>
               : null }
             {R.indexOf("Add", this.props.actions) > -1
-              ? <button type="button" className="btn btn-default margin-right-xs" aria-label="Add">
-                <Link to="/add-entry">
-                  <i className="fa fa-plus" aria-hidden="true"></i>
+              ? <Link to="/add-entry">
+                  <button type="button" className="btn btn-default accent text margin-right-xs" aria-label="Add">
+                    <i className="fa fa-plus" aria-hidden="true"></i>
+                  </button>
                 </Link>
-              </button>
               : null }
 
             <button type="button" className="btn btn-default accent text" aria-label="Logout"

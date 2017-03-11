@@ -37,6 +37,10 @@ export default {
 
   },
 
+  addExpenseEntry(expense) {
+    return Axios.post(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}`, {expense})
+      .then(response => this.isTokenExpired(response));
+  },
   getExpenseEnteriesByUser () {
     return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}`)
     .then(response => this.isTokenExpired(response));
@@ -45,7 +49,7 @@ export default {
     return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&categoryId=${categoryId}`)
       .then(response => this.isTokenExpired(response));
   },
-  updateCategoryInExpenseEntries(oldCategoryId, newCategoryId) {
+  updateExpenseEntriesWithCategory(oldCategoryId, newCategoryId) {
     return Axios.put(`${baseUrl}/expenseEntries/updateCategory`, {
       oldCategoryId,
       newCategoryId,

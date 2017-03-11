@@ -193,7 +193,7 @@ class SettingsContainer extends React.Component {
   }
   onUpdateExpensesWithCategory (oldCategoryId) {
     const newCategoryId = this.state.newCategoryIdForExpenses;
-    Helpers.API.updateCategoryInExpenseEntries(oldCategoryId, newCategoryId)
+    Helpers.API.updateExpenseEntriesWithCategory(oldCategoryId, newCategoryId)
       .then(response => {
         Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
         if(response.success) {
