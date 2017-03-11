@@ -29,7 +29,8 @@ router.post('/', function(req, res) {
         res.json({
           success: true,
           message: 'User successfully saved',
-          token: token
+          token: token,
+          currency: newUser.currency,
         });
       });
     }

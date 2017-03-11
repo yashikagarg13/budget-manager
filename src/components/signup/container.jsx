@@ -46,6 +46,7 @@ export default class SignUpContainer extends Component {
       .then((response) => {
         if (response.success) {
           Helpers.LocalStorage.set("token", response.token);
+          Helpers.LocalStorage.set("currency", response.currency);
         } else {
           this.setState({
             signUpError: response.message,

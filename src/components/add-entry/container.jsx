@@ -16,7 +16,7 @@ class AddEntryContainer extends Component {
         values: {
           amount: 0,
           category: null,
-          currency: null,
+          currency: Helpers.LocalStorage.get("currency"),
           date: moment(),
           description: null,
         },

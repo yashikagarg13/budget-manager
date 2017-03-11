@@ -38,6 +38,7 @@ class LoginContainer extends Component {
       .then((response) => {
         if (response.success) {
           Helpers.LocalStorage.set("token", response.token);
+          Helpers.LocalStorage.set("currency", response.currency);
           this.props.router.push("/landing");
         } else {
           this.setState({
