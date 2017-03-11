@@ -1,0 +1,21 @@
+.button-variant(@color; @background; @border) {
+  background-color: @background;
+  color: @color;
+  border-color: @border;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  &.focus{
+    background-color: darken(@background, 2%) !important;
+    border-color: darken(@border, 2%) !important;
+    color: @color !important;
+    outline: none !important;
+  }
+}
+
+
+.btn-primary {
+  .button-variant(@white; @primary; @primary);
+}

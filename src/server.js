@@ -86,7 +86,7 @@ const template = _.template(baseTemplate);
 const Routes = require('./routes');
 const routes = Routes.getRoutes();
 
-app.use('/public', express.static('public'))
+app.use('/', express.static('public'))
 
 app.use('/', (req, res) => {
   match({routes: routes, location: req.url }, (error, redirectLocation, renderProps) => {

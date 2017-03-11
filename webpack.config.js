@@ -36,9 +36,14 @@ const config = {
       {test: /\.(json(\?.*)?)$/,  loaders: ["json-loader"]},
 
       // Images
-      {test: /\.(jpe?g|png|gif|svg)$/i,
+      {test: /\.(jpe?g|png|gif|svg(\?.*)?)$/i,
         loaders: ["file?hash=sha512&digest=hex&name=[hash].[ext]",
                   "image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false"]},
+
+      {test: /\.(ttf(\?.*)?)$/,   loaders: ["file?name=[name].[ext]"]},
+      {test: /\.(woff(\?.*)?)$/,  loaders: ["file?name=[name].[ext]"]},
+      {test: /\.(woff2(\?.*)?)$/, loaders: ["file?name=[name].[ext]"]},
+      {test: /\.(eot(\?.*)?)$/,   loaders: ["file?name=[name].[ext]"]},
     ]
   },
   plugins: [

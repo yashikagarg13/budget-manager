@@ -17,7 +17,9 @@ const Settings = (props) => (
               onChange={props.updateNewCategoryTitleInput} value={props.newCategoryTitle}/>
             <span className="input-group-btn">
               <button className="btn btn-primary" type="button"
-                onClick={props.addNewCategory}>Add</button>
+                onClick={props.addNewCategory}>
+                <i className="fa fa-plus" aria-hidden="true"></i>
+              </button>
             </span>
           </div>
         </div>
@@ -34,12 +36,12 @@ const Settings = (props) => (
               <div className="actions col-sm-4 text-right">
                 {category.editMode
                   ? <button className="icon-btn" onClick={props.showConfirmModal.bind(null, category)}>
-                      <i className="material-icons md-18">done</i></button>
+                      <i className="fa fa-check" aria-hidden="true"></i></button>
                   : <button className="icon-btn" onClick={props.showEditMode.bind(null, category._id)}>
-                      <i className="material-icons md-18">mode_edit</i></button>
+                      <i className="fa fa-pencil" aria-hidden="true"></i></button>
                 }
                 <button className="icon-btn" onClick={props.checkExpenses.bind(null, category)}>
-                  <i className="material-icons md-18">remove_circle_outline</i>
+                  <i className="fa fa-minus-circle" aria-hidden="true"></i>
                 </button>
               </div>
             </div>

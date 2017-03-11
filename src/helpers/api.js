@@ -33,6 +33,9 @@ export default {
     return Axios.get(`${baseUrl}/setup?${Utils.getTokenQuery()}`)
     .then(response => this.isTokenExpired(response));
   },
+  logout () {
+
+  },
 
   getExpenseEnteriesByUser () {
     return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}`)
