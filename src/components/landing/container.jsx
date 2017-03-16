@@ -26,7 +26,7 @@ class LandingContainer extends Component {
       }
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error); // eslint-disable-line
     });
   }
 

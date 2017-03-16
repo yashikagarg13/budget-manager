@@ -1,8 +1,8 @@
 const webpack = require('webpack');
 const Path = require("path");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const SRC_DIR = Path.join(__dirname, "src");
 const PUBLIC_DIR = Path.join(__dirname, "public");
@@ -52,23 +52,17 @@ const config = {
       verbose: true,
       dry: false
     }),
-    new CopyWebpackPlugin([
-      {from: SRC_DIR + "/index.html", to:  ""},
-      {from: SRC_DIR + "/data/images", to:  "images"},
-    ]),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify("production")
     }),
     new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false },
-      mangle: true,
-      sourcemap: true,
-      beautify: false,
-      dead_code: true
+      compress: { warnings: false, screw_ie8: true},
     }),
     new ExtractTextPlugin("style.css"),
+    new HTMLWebpackPlugin({
+      template: SRC_DIR + "/index.html",
+    })
   ]
 };
 

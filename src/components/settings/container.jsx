@@ -46,7 +46,7 @@ class SettingsContainer extends React.Component {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error);  // eslint-disable-line
         return 0;
       });
   }
@@ -84,7 +84,7 @@ class SettingsContainer extends React.Component {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error);  // eslint-disable-line
       });
   }
   onClickDelete (category) {
@@ -136,7 +136,7 @@ class SettingsContainer extends React.Component {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error);  // eslint-disable-line
         this.setCategoryEditMode(category._id, categories, false);
         this.onHideConfirmModal();
       });
@@ -155,7 +155,7 @@ class SettingsContainer extends React.Component {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error);  // eslint-disable-line
       });
   }
   onHideConfirmModal() {
@@ -176,7 +176,7 @@ class SettingsContainer extends React.Component {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error);  // eslint-disable-line
       });
   }
   onShowChooseCategoryModal (categoryId) {
@@ -201,7 +201,7 @@ class SettingsContainer extends React.Component {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error); // eslint-disable-line
       });
   }
 

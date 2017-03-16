@@ -4,18 +4,27 @@ var R = require('ramda');
 
 var mongoose = require('mongoose');
 var ExpenseEntry = require('../models/ExpenseEntry');
+var Helpers = require("../helpers");
 
 router.get('/', function(req, res, next) {
   var email = req.decoded._doc.email;
-  var queryFromReq = R.dissoc("token", req.query);
-  var queryToDB = R.assoc("email", email, queryFromReq);
+  var filters = req.query.filters ? JSON.parse(req.query.filters) : {};
+  filters.email = email;
 
-  ExpenseEntry.find(queryToDB, function(err, expenseEntries) {
-    if (err)
-      return next(err);
+  var fields = req.query.fields || "";
+  var sort = req.query.sort ? JSON.parse(req.query.sort) : {};
 
-    res.json({success: true, data: expenseEntries});
-  });
+  console.log(fields, filters);
+  ExpenseEntry
+    .find(filters)
+    .populate(fields)
+    .sort(sort)
+    .exec(function(err, expenseEntries) {
+      if (err)
+        return next(err);
+
+      res.json({success: true, data: expenseEntries});
+    });
 });
 
 router.get('/:id', function(req, res, next) {

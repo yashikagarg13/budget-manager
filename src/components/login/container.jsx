@@ -48,7 +48,7 @@ class LoginContainer extends Component {
         clearTimeout(this.timeoutInstance);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error); // eslint-disable-line
         clearTimeout(this.timeoutInstance);
       });
     }, 0);

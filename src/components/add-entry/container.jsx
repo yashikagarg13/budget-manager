@@ -47,7 +47,7 @@ class AddEntryContainer extends Component {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error); // eslint-disable-line
       });
   }
   validation(form) {
@@ -120,7 +120,7 @@ class AddEntryContainer extends Component {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error); // eslint-disable-line
         form.disabled = false;
         this.setState({form});
       });

@@ -42,11 +42,13 @@ export default {
       .then(response => this.isTokenExpired(response));
   },
   getExpenseEnteriesByUser () {
-    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}`)
+    const sortByDate = JSON.stringify({date: -1});
+    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&fields=category&sort=${sortByDate}`)
     .then(response => this.isTokenExpired(response));
   },
   getExpenseEnteriesByCategoryAndUser (categoryId) {
-    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&categoryId=${categoryId}`)
+    let query = JSON.stringify({category: categoryId});
+    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&filters=${query}`)
       .then(response => this.isTokenExpired(response));
   },
   updateExpenseEntriesWithCategory(oldCategoryId, newCategoryId) {

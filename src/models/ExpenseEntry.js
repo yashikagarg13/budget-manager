@@ -4,11 +4,11 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var ExpenseEntrySchema = new mongoose.Schema({
   date: {type: Date, default: Date.now},
-  category: ObjectId,
+  category: {type: ObjectId, ref: "ExpenseCategory"},
   amount: Number,
   description: String,
   currency: String,
-  email: String,
+  email: {type: String, ref: "User"},
 });
 
 module.exports = mongoose.model('ExpenseEntry', ExpenseEntrySchema);

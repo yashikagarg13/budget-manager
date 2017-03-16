@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var ExpenseCategorySchema = new mongoose.Schema({
   title: String,
-  email: String,
+  email: {type: String, ref: "User"},
 });
 
 module.exports = mongoose.model('ExpenseCategory', ExpenseCategorySchema);
