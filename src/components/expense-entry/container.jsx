@@ -4,9 +4,10 @@ import React, {Component, PropTypes} from "react";
 
 import Helpers from "../../helpers/index";
 
-import AddEntry from "./view";
+import ExpenseEntry from "./view";
+import Loading from "../common/loading";
 
-class AddEntryContainer extends Component {
+class ExpenseEntryContainer extends Component {
   constructor(props) {
     super(props);
 
@@ -23,6 +24,7 @@ class AddEntryContainer extends Component {
         errors: {},
         disabled: false,
       },
+      loading: true,
     };
 
     this.onChangeInput = this.onChangeInput.bind(this);
@@ -37,7 +39,9 @@ class AddEntryContainer extends Component {
   }
 
   loadData () {
-    Helpers.API.getExpenseCategoriesByUser()
+    const expenseId = this.props.params.expenseId;
+
+    return Helpers.API.getExpenseCategoriesByUser()
       .then(response => {
         Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
         if (response.success) {
@@ -45,9 +49,32 @@ class AddEntryContainer extends Component {
             categories: response.data,
           });
         }
+        if (expenseId) {
+          return Helpers.API.getExpenseEntry(expenseId);
+        } else {
+          return response;
+        }
+      })
+      .then(response => {
+        Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
+        if (response.success) {
+          let form = this.state.form;
+          form.values = {
+            amount: response.data.amount,
+            category: response.data.category,
+            currency: response.data.currency,
+            date: moment(response.data.date),
+            description: response.data.description,
+          };
+          this.setState({form});
+        }
+
+        this.setState({loading: false});
+        return response;
       })
       .catch((error) => {
         console.log(error); // eslint-disable-line
+        this.setState({loading: false});
       });
   }
   validation(form) {
@@ -108,7 +135,11 @@ class AddEntryContainer extends Component {
     form.disabled = true;
     this.setState({form});
 
-    Helpers.API.addExpenseEntry(form.values)
+    const expenseId = this.props.params.expenseId;
+
+    (expenseId
+      ? Helpers.API.updateExpenseEntry(expenseId, form.values)
+      : Helpers.API.addExpenseEntry(form.values))
       .then(response => {
         Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
         if (response.success) {
@@ -127,8 +158,10 @@ class AddEntryContainer extends Component {
   }
 
   render () {
+    if (this.state.loading) return <Loading />;
+
     return (
-      <AddEntry
+      <ExpenseEntry
         categories={this.state.categories}
 
         form={this.state.form}
@@ -142,8 +175,9 @@ class AddEntryContainer extends Component {
   }
 }
 
-AddEntryContainer.propTypes = {
+ExpenseEntryContainer.propTypes = {
   router: PropTypes.object,
+  params: PropTypes.object,
 };
 
-export default AddEntryContainer;
+export default ExpenseEntryContainer;

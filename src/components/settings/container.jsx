@@ -23,12 +23,15 @@ class SettingsContainer extends React.Component {
 
     this.onChangeCategoryTitleInput = this.onChangeCategoryTitleInput.bind(this);
     this.onChangeNewCategoryTitleInput = this.onChangeNewCategoryTitleInput.bind(this);
+    this.onChangeNewCategoryInput = this.onChangeNewCategoryInput.bind(this);
     this.onClickAdd = this.onClickAdd.bind(this);
     this.onClickDelete = this.onClickDelete.bind(this);
     this.onClickEdit = this.onClickEdit.bind(this);
     this.onClickEditDone = this.onClickEditDone.bind(this);
     this.onEditCategory = this.onEditCategory.bind(this);
     this.onHideConfirmModal = this.onHideConfirmModal.bind(this);
+    this.onHideChooseCategoryModal = this.onHideChooseCategoryModal.bind(this);
+    this.onUpdateExpensesWithCategory = this.onUpdateExpensesWithCategory.bind(this);
 
     this.onLoadData();
   }

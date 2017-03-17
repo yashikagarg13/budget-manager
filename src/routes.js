@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Router, Route, IndexRedirect, browserHistory} from "react-router";
 
 import Layout from "./components/layout";
-import AddEntryContainer from "./components/add-entry/container";
+import ExpenseEntryContainer from "./components/expense-entry/container";
 import LandingContainer from "./components/landing/container";
 import LoginContainer from "./components/login/container";
 import SettingsContainer from "./components/settings/container";
@@ -17,7 +17,8 @@ const getRoutes = () => (
     <Route component={SignUpContainer} path="signup" />
 
     <Route component={LandingContainer} path="landing" />
-    <Route component={AddEntryContainer} path="add-entry" />
+    <Route component={ExpenseEntryContainer} path="add-entry" />
+    <Route component={ExpenseEntryContainer} path="edit-entry/:expenseId" />
     <Route component={SettingsContainer} path="settings" />
   </Route>
 );

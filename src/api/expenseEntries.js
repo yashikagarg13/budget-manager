@@ -38,15 +38,8 @@ router.get('/:id', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
   const expense = req.body.expense;
-  expense.email = req.decoded._doc.email
+  expense.email = req.decoded._doc.email;
   ExpenseEntry.create(expense, function (err, post) {
-    if (err) return next(err);
-    res.json({success: true, data: post});
-  });
-});
-
-router.put('/:id', function(req, res, next) {
-  ExpenseEntry.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.json({success: true, data: post});
   });
@@ -55,12 +48,22 @@ router.put('/:id', function(req, res, next) {
 router.put('/updateCategory', function(req, res, next) {
   var bulk = ExpenseEntry.collection.initializeOrderedBulkOp();
   bulk
-    .find({category: req.query.oldCaetgoryId, email: req.decoded._doc.email})
-    .update({$set: {category: req.query.newCaetgoryId}})
-    .execute(function (err) {
-      if (err) return next(err);
-      res.json({success: true});
-    });
+    .find({category: req.body.oldCategoryId, email: req.decoded._doc.email})
+    .update({$set: {category: req.body.newCategoryId}});
+
+  bulk.execute(function (err) {
+    if (err) return next(err);
+    res.json({success: true});
+  });
+});
+
+router.put('/:id', function(req, res, next) {
+  const expense = req.body.expense;
+  expense.email = req.decoded._doc.email;
+  ExpenseEntry.findByIdAndUpdate(req.params.id, expense, function (err, post) {
+    if (err) return next(err);
+    res.json({success: true, data: post});
+  });
 });
 
 router.delete('/:id', function(req, res, next) {

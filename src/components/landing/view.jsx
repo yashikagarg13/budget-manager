@@ -10,17 +10,32 @@ const Landing = (props) => (
       <div className="list-group padding-top padding-bottom">
         {R.map(expense =>
           <div className="list-group-item" key={`expense${expense._id}`}>
-            <div className="pull-right accent xlg text">
-              <i className={`fa fa-${R.toLower(expense.currency)}`}></i>&nbsp;
-              <span className="xxlg text">{expense.amount}</span>
+            <div className="row">
+              <div className="col-sm-8">
+                <span className="xlg bold text">{expense.category.title}</span><br/>
+                <span className="sm light-imp text">{expense.description}</span>
+              </div>
+              <div className="col-sm-4 text-right">
+                <div className="accent xlg text">
+                  <i className={`fa fa-${R.toLower(expense.currency)}`}></i>&nbsp;
+                  <span className="xxlg text">{expense.amount}</span>
+                </div>
+                <div>
+                  <button className="btn-icon"
+                    onClick={props.updateExpenseEntry.bind(null, expense._id)}>
+                    <i className="fa fa-pencil" aria-hidden="true"></i>
+                  </button>
+                  <button className="btn-icon"
+                    onClick={props.removeExpenseEntry.bind(null, expense._id)}>
+                    <i className="fa fa-minus-circle" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
             </div>
-            <span className="xlg bold text">{expense.category.title}</span><br/>
-            <span className="sm light-imp text">{expense.description}</span>
           </div>,
         R.filter(expense => hasCategory(expense), props.entries))}
       </div>
     </div>
-    <pre><code>{JSON.stringify(props.entries, null, 4)}</code></pre>
   </div>
 );
 
@@ -30,6 +45,9 @@ function hasCategory(expense) {
 
 Landing.propTypes = {
   entries: PropTypes.array.isRequired,
+
+  removeExpenseEntry: PropTypes.func.isRequired,
+  updateExpenseEntry: PropTypes.func.isRequired,
 };
 
 export default Landing;

@@ -6,7 +6,7 @@ import Helpers from "../../helpers/index";
 
 import Header from "../common/header";
 
-const AddEntry = (props) => (
+const ExpenseEntry = (props) => (
   <div className="add-expense-view">
     <Header actions={["Back"]}/>
     <div className="container">
@@ -94,7 +94,7 @@ const AddEntry = (props) => (
   </div>
 );
 
-AddEntry.propTypes = {
+ExpenseEntry.propTypes = {
   categories: PropTypes.array.isRequired,
 
   form: PropTypes.object.isRequired,
@@ -105,4 +105,4 @@ AddEntry.propTypes = {
   updateDate: PropTypes.func.isRequired,
 };
 
-export default AddEntry;
+export default ExpenseEntry;

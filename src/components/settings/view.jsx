@@ -35,12 +35,12 @@ const Settings = (props) => (
               </div>
               <div className="actions col-sm-4 text-right">
                 {category.editMode
-                  ? <button className="icon-btn" onClick={props.showConfirmModal.bind(null, category)}>
+                  ? <button className="btn-icon" onClick={props.showConfirmModal.bind(null, category)}>
                       <i className="fa fa-check" aria-hidden="true"></i></button>
-                  : <button className="icon-btn" onClick={props.showEditMode.bind(null, category._id)}>
+                  : <button className="btn-icon" onClick={props.showEditMode.bind(null, category._id)}>
                       <i className="fa fa-pencil" aria-hidden="true"></i></button>
                 }
-                <button className="icon-btn" onClick={props.checkExpenses.bind(null, category)}>
+                <button className="btn-icon" onClick={props.checkExpenses.bind(null, category)}>
                   <i className="fa fa-minus-circle" aria-hidden="true"></i>
                 </button>
               </div>
