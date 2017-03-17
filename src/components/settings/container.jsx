@@ -29,6 +29,7 @@ class SettingsContainer extends React.Component {
     this.onClickEdit = this.onClickEdit.bind(this);
     this.onClickEditDone = this.onClickEditDone.bind(this);
     this.onEditCategory = this.onEditCategory.bind(this);
+    this.onDeleteExpenses = this.onDeleteExpenses.bind(this);
     this.onHideConfirmModal = this.onHideConfirmModal.bind(this);
     this.onHideChooseCategoryModal = this.onHideChooseCategoryModal.bind(this);
     this.onUpdateExpensesWithCategory = this.onUpdateExpensesWithCategory.bind(this);
@@ -72,7 +73,8 @@ class SettingsContainer extends React.Component {
       newCategoryIdForExpenses: event.target.value,
     });
   }
-  onClickAdd () {
+  onClickAdd (event) {
+    event.preventDefault();
     const categoryTitle =  this.state.newCategoryTitle;
 
     if (R.isEmpty(categoryTitle) || R.type(categoryTitle) != "String") return;
@@ -155,6 +157,18 @@ class SettingsContainer extends React.Component {
           if (this.state.isChooseCategoryModalVisible) {
             this.onHideChooseCategoryModal();
           }
+        }
+      })
+      .catch((error) => {
+        console.log(error);  // eslint-disable-line
+      });
+  }
+  onDeleteExpenses (oldCategoryId) {
+    Helpers.API.deleteAllExpensesByCategory(oldCategoryId)
+      .then(response => {
+        Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
+        if(response.success) {
+          this.onDeleteCategory(oldCategoryId);
         }
       })
       .catch((error) => {
@@ -251,6 +265,7 @@ class SettingsContainer extends React.Component {
         isChooseCategoryModalVisible={this.state.chooseCategoryModalData}
         chooseCategoryModalData={this.state.chooseCategoryModalData}
         hideChooseCategoryModal={this.onHideChooseCategoryModal}
+        removeAllExpenses={this.onDeleteExpenses}
         updateNewCategoryInput={this.onChangeNewCategoryInput}
         updateExpensesWithCategory={this.onUpdateExpensesWithCategory}
       />

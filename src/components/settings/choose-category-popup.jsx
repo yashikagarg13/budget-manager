@@ -7,10 +7,11 @@ const ChooseCategory = (props) => (
   <div className="static-modal">
     <Modal.Dialog show={props.show}>
       <Modal.Header>
-        <h6>Choose a category for affected expense entries</h6>
+        <h6>Action for Affected expense entries</h6>
       </Modal.Header>
 
       <Modal.Body>
+        <span>Either delete OR choose category for expense entries related to this category.</span>
         <div className="form-group">
           <label className="control-label">Category</label>
           <div className="controls">
@@ -18,7 +19,7 @@ const ChooseCategory = (props) => (
               onChange={props.updateCategoryInput}>
               {R.map(category =>
                 <option key={`category-${category._id}`} value={category._id}>{category.title}</option>,
-              props.categories)}
+              R.filter(category => category._id != props.oldCategoryId, props.categories))}
             </select>
           </div>
         </div>
@@ -26,7 +27,9 @@ const ChooseCategory = (props) => (
 
       <Modal.Footer>
         <button type="button" className="btn btn-primary"
-                onClick={props.onChoose.bind(null, props.oldCategoryId)}>OK</button>
+                onClick={props.onChoose.bind(null, props.oldCategoryId)}>Update Category</button>
+        <button type="button" className="btn btn-accent"
+                onClick={props.onDelete.bind(null, props.oldCategoryId)}>Delete Expense Entries</button>
         <button type="button" className="btn btn-default" onClick={props.onHide}>Close</button>
       </Modal.Footer>
     </Modal.Dialog>
@@ -37,6 +40,7 @@ ChooseCategory.propTypes = {
   categories: PropTypes.array.isRequired,
   oldCategoryId: PropTypes.string.isRequired,
   onChoose: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.onDelete,
   onHide: PropTypes.func.isRequired,
   show: PropTypes.bool,
   updateCategoryInput: PropTypes.func.isRequired,

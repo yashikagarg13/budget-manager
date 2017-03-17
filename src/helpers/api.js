@@ -63,6 +63,10 @@ export default {
     return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&filters=${query}`)
       .then(response => this.isTokenExpired(response));
   },
+  deleteAllExpensesByCategory(oldCategoryId) {
+    return Axios.delete(`${baseUrl}/expenseEntries/byCategory?${Utils.getTokenQuery()}&oldCategoryId=${oldCategoryId}`)
+      .then(response => this.isTokenExpired(response));
+  },
   updateExpenseEntriesWithCategory(oldCategoryId, newCategoryId) {
     return Axios.put(`${baseUrl}/expenseEntries/updateCategory?${Utils.getTokenQuery()}`, {
       oldCategoryId,

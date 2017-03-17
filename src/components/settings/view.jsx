@@ -12,16 +12,17 @@ const Settings = (props) => (
     <div className="container">
       <div className="list-group no-border-radius">
         <div className="list-group-item" key="new-category">
-          <div className="input-group">
-            <input type="text" className="form-control" placeholder="New category"
-              onChange={props.updateNewCategoryTitleInput} value={props.newCategoryTitle}/>
-            <span className="input-group-btn">
-              <button className="btn btn-primary" type="button"
-                onClick={props.addNewCategory}>
-                <i className="fa fa-plus" aria-hidden="true"></i>
-              </button>
-            </span>
-          </div>
+          <form id="addItemForm" method="POST" onSubmit={props.addNewCategory}>
+            <div className="input-group">
+              <input type="text" className="form-control" placeholder="New category"
+                onChange={props.updateNewCategoryTitleInput} value={props.newCategoryTitle}/>
+              <span className="input-group-btn">
+                <button className="btn btn-primary" type="submit">
+                  <i className="fa fa-plus" aria-hidden="true"></i>
+                </button>
+              </span>
+            </div>
+          </form>
         </div>
         {R.map(category =>
           <div className="list-group-item" Key={category._id}>
@@ -65,6 +66,7 @@ const Settings = (props) => (
       ? <ChooseCategory
           categories={props.categories}
           oldCategoryId={props.chooseCategoryModalData}
+          onDelete={props.removeAllExpenses}
           onChoose={props.updateExpensesWithCategory}
           onHide={props.hideChooseCategoryModal}
           show={props.isChooseCategoryModalVisible}
@@ -94,6 +96,7 @@ Settings.propTypes = {
   isChooseCategoryModalVisible: PropTypes.bool,
   chooseCategoryModalData: PropTypes.string.isRequired,
   hideChooseCategoryModal: PropTypes.func.isRequired,
+  removeAllExpenses: PropTypes.func.isRequired,
   updateNewCategoryInput: PropTypes.func.isRequired,
   updateExpensesWithCategory: PropTypes.func.isRequired,
 };

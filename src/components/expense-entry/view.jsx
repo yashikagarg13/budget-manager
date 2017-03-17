@@ -31,7 +31,7 @@ const ExpenseEntry = (props) => (
                      onChange={props.updateInput.bind(null, "category", "text")}>
                 {R.map((category) =>
                   <option key={`catgeory-${category._id}`} value={category._id}>{category.title}</option>
-                , R.append({_id: ""}, props.categories))}
+                , R.prepend({_id: ""}, props.categories))}
               </select>
               {props.form.errors.category ? <p className="error">{props.form.errors.category}</p> : null}
             </div>
@@ -54,7 +54,7 @@ const ExpenseEntry = (props) => (
                          onChange={props.updateInput.bind(null, "currency", "text")}>
                     {R.map(item =>
                       <option key={item} value={item}>{item}</option>,
-                    R.append(null, Helpers.Constants.currency))}
+                    R.prepend(null, Helpers.Constants.currency))}
                   </select>
                   {props.form.errors.currency ? <p className="error">{props.form.errors.currency}</p> : null}
                 </div>
@@ -78,10 +78,12 @@ const ExpenseEntry = (props) => (
                     onClick={props.save.bind(null, false)} disabled={props.form.disabled}>
               Save
             </button>
-            <button type="button" className="btn btn-accent margin-right-sm"
-                    onClick={props.save.bind(null, true)} disabled={props.form.disabled}>
-              Add Another
-            </button>
+            {R.isEmpty(props.expenseId)
+              ? <button type="button" className="btn btn-accent margin-right-sm"
+                      onClick={props.save.bind(null, true)} disabled={props.form.disabled}>
+                  Add Another
+                </button>
+              : null }
             <button type="button" className="btn btn-default margin-right-sm"
                     onClick={props.cancel} disabled={props.form.disabled}>
               Cancel
@@ -96,6 +98,7 @@ const ExpenseEntry = (props) => (
 
 ExpenseEntry.propTypes = {
   categories: PropTypes.array.isRequired,
+  expenseId: PropTypes.string,
 
   form: PropTypes.object.isRequired,
 

@@ -10,7 +10,6 @@ import Loading from "../common/loading";
 class ExpenseEntryContainer extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       categories: [],
       form: {
@@ -57,7 +56,7 @@ class ExpenseEntryContainer extends Component {
       })
       .then(response => {
         Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
-        if (response.success) {
+        if (expenseId && response.success) {
           let form = this.state.form;
           form.values = {
             amount: response.data.amount,
@@ -163,6 +162,7 @@ class ExpenseEntryContainer extends Component {
     return (
       <ExpenseEntry
         categories={this.state.categories}
+        expenseId={this.props.params.expenseId}
 
         form={this.state.form}
 

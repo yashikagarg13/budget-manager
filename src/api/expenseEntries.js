@@ -66,6 +66,14 @@ router.put('/:id', function(req, res, next) {
   });
 });
 
+router.delete('/byCategory', function(req, res, next) {
+  ExpenseEntry.remove({category: req.query.oldCategoryId}, function (err) {
+    if (err) return next(err);
+    res.json({success: true});
+  });
+});
+
+
 router.delete('/:id', function(req, res, next) {
   ExpenseEntry.findByIdAndRemove(req.params.id, function (err, post) {
     if (err) return next(err);
