@@ -1,6 +1,6 @@
 export default {
   currency: ["USD", "INR"],
-  perPage: 2,
+  perPage: 50,
   operations: {
     $eq: "==",
     $ne: "!=",

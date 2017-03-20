@@ -1,21 +1,27 @@
-var express = require('express');
-var router = express.Router();
-var R = require('ramda');
+const express = require('express');
+const router = express.Router();
+const R = require('ramda');
 
-var mongoose = require('mongoose');
-var ExpenseEntry = require('../models/ExpenseEntry');
-var Helpers = require("../helpers");
+const mongoose = require('mongoose');
+const ExpenseEntry = require('../models/ExpenseEntry');
+const Helpers = require("../helpers");
 
 router.get('/', function(req, res, next) {
-  var email = req.decoded._doc.email;
-  var filters = req.query.filters ? JSON.parse(req.query.filters) : {};
+  const email = req.decoded._doc.email;
+  const filters = req.query.filters ? JSON.parse(req.query.filters) : {};
   filters.email = email;
-  var fields = req.query.fields || "";
-  var sort = req.query.sort ? JSON.parse(req.query.sort) : {};
-  var perPage = req.query.perPage || Infinity;
-  var page = req.query.page || 0;
+  const fields = req.query.fields || "";
+  const sort = req.query.sort ? JSON.parse(req.query.sort) : {};
+  const perPage = req.query.perPage || Infinity;
+  const page = req.query.page || 0;
 
-  console.log(fields, filters);
+  let total = 0;
+  ExpenseEntry
+    .find(filters)
+    .count(function (err, count) {
+      total = count;
+    })
+
   ExpenseEntry
     .find(filters)
     .limit(perPage)
@@ -26,7 +32,7 @@ router.get('/', function(req, res, next) {
       if (err)
         return next(err);
 
-      res.json({success: true, data: expenseEntries});
+      res.json({success: true, data: expenseEntries, total});
     });
 });
 
@@ -49,7 +55,7 @@ router.post('/', function(req, res, next) {
 });
 
 router.put('/updateCategory', function(req, res, next) {
-  var bulk = ExpenseEntry.collection.initializeOrderedBulkOp();
+  let bulk = ExpenseEntry.collection.initializeOrderedBulkOp();
   bulk
     .find({category: req.body.oldCategoryId, email: req.decoded._doc.email})
     .update({$set: {category: req.body.newCategoryId}});
