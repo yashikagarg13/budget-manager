@@ -163,6 +163,16 @@ class SettingsContainer extends React.Component {
         console.log(error);  // eslint-disable-line
       });
   }
+  /* onClickDeleteExpenses (oldCategoryId) {
+    this.setState({
+      isConfirmModalVisible: true,
+      modalData: {
+        modalText: "Are you sure you want to delete all expenses?",
+        confirmBtnText: "Continue",
+        data: oldCategoryId,
+      }
+    })
+  } */
   onDeleteExpenses (oldCategoryId) {
     Helpers.API.deleteAllExpensesByCategory(oldCategoryId)
       .then(response => {

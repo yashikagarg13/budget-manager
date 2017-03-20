@@ -37,7 +37,7 @@ export default {
 
   },
 
-  addExpenseEntry(expense) {
+  addExpenseEntry (expense) {
     return Axios.post(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}`, {expense})
       .then(response => this.isTokenExpired(response));
   },
@@ -53,9 +53,12 @@ export default {
     return Axios.delete(`${baseUrl}/expenseEntries/${expenseId}?${Utils.getTokenQuery()}`)
       .then(response => this.isTokenExpired(response));
   },
-  getExpenseEnteriesByUser () {
+
+  getExpenseEnteriesByUser (perPage, page) {
     const sortByDate = JSON.stringify({date: -1});
-    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&fields=category&sort=${sortByDate}`)
+    let query = `fields=category&sort=${sortByDate}&perPage=${perPage}&page=${page}`;
+
+    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&${query}`)
     .then(response => this.isTokenExpired(response));
   },
   getExpenseEnteriesByCategoryAndUser (categoryId) {

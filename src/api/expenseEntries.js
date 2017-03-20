@@ -10,13 +10,16 @@ router.get('/', function(req, res, next) {
   var email = req.decoded._doc.email;
   var filters = req.query.filters ? JSON.parse(req.query.filters) : {};
   filters.email = email;
-
   var fields = req.query.fields || "";
   var sort = req.query.sort ? JSON.parse(req.query.sort) : {};
+  var perPage = req.query.perPage || Infinity;
+  var page = req.query.page || 0;
 
   console.log(fields, filters);
   ExpenseEntry
     .find(filters)
+    .limit(perPage)
+    .skip(page * perPage)
     .populate(fields)
     .sort(sort)
     .exec(function(err, expenseEntries) {

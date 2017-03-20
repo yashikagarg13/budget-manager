@@ -16,11 +16,11 @@ class LandingContainer extends Component {
   }
   componentWillMount () {
     Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
-    this.loadData();
+    this.loadData(0);
   }
 
-  loadData () {
-    Helpers.API.getExpenseEnteriesByUser()
+  loadData (page) {
+    Helpers.API.getExpenseEnteriesByUser(Helpers.Constants.perPage, page)
     .then(response => {
       Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
       if (response.success) {
