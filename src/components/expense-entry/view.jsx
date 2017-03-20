@@ -41,14 +41,14 @@ const ExpenseEntry = (props) => (
             <label className="control-label" htmlFor="amount">Amount <span className="required">*</span></label>
             <div className="controls">
               <div className="row">
-                <div className="col-sm-8">
+                <div className="col-sm-8 margin-bottom">
                   <input type="number" id="amount" name="amount" className="input-sm form-control"
                          value={props.form.values.amount} defaultValue={props.form.values.amount}
                          onChange={props.updateInput.bind(null, "amount", "number")} min="0"
                   />
                   {props.form.errors.amount ? <p className="error">{props.form.errors.amount}</p> : null}
                 </div>
-                <div className="col-sm-4 nopadding-left">
+                <div className="col-sm-4 margin-bottom">
                   <select id="currency" name="currency" className="input-sm form-control"
                          value={props.form.values.currency} defaultValue={props.form.values.currency}
                          onChange={props.updateInput.bind(null, "currency", "text")}>
