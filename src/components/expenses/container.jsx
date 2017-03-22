@@ -106,7 +106,7 @@ class ExpensesContainer extends Component {
 }
 
 ExpensesContainer.propTypes = {
-  location: PropTypes.object,
+  router: PropTypes.object,
 };
 
 export default withRouter(ExpensesContainer);
