@@ -1,10 +1,10 @@
 import R from "ramda";
 import React, {Component} from "react";
 
-import YearlyPieChart from "../reports/yearly";
-import QuarterlyPieChart from "../reports/quarterly";
-import MonthlyPieChart from "../reports/monthly";
-import Tabulator from "./Tabulator";
+import YearlyPieChart from "./yearly";
+import QuarterlyPieChart from "./quarterly";
+import MonthlyPieChart from "./monthly";
+import Tabulator from "../common/Tabulator";
 
 class ChartsTabulator extends Component {
   constructor (props) {

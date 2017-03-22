@@ -2,7 +2,7 @@ import R from "ramda";
 import React, {PropTypes} from "react";
 
 import Header from "../common/header";
-import ListReportTabulator from "../common/list-report-tabulator";
+import ListReportTabulator from "./list-report-tabulator";
 
 const Landing = (props) => (
   <div className="landing-view">

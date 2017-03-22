@@ -11,7 +11,9 @@ const Tabulator = (props) => (
     </div>
     <div className="tab-content-group">
       {R.map(tab =>
-        React.createElement(tab.component, tab.componentProps),
+        <div key={`content-${tab.id}`}>
+          {React.createElement(tab.component, tab.componentProps)}
+        </div>,
       R.filter(tab => tab.active, props.tabs))}
     </div>
   </div>

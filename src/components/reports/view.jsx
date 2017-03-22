@@ -1,7 +1,7 @@
 import R from "ramda";
 import React, {PropTypes} from "react";
 
-import ChartsTabulator from "../common/charts-tabulator";
+import ChartsTabulator from "./charts-tabulator";
 
 const Reports = (props) => (
   <div className="reports-view text-center">

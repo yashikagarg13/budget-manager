@@ -3,7 +3,7 @@ import React, {Component} from "react";
 
 import ExpensesContainer from "../expenses/container";
 import ReportsContainer from "../reports/container";
-import Tabulator from "./Tabulator";
+import Tabulator from "../common/Tabulator";
 
 class ListReportTabulator extends Component {
   constructor (props) {
