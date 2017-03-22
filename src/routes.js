@@ -19,6 +19,7 @@ const getRoutes = () => (
     <Route component={LandingContainer} path="landing" />
     <Route component={ExpenseEntryContainer} path="add-entry" />
     <Route component={ExpenseEntryContainer} path="edit-entry/:expenseId" />
+    <Route component={ReportsContainer} path="reports" />
     <Route component={SettingsContainer} path="settings" />
   </Route>
 );
