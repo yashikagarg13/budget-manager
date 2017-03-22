@@ -1,0 +1,32 @@
+.tabulator {
+  .tab-link-group {
+    display: flex;
+    background-color: @white;
+    width: 100%;
+    border-bottom: 1px solid @gray-light;
+
+    .tab-link {
+      flex: 1;
+      padding: @unit-computed / 4;
+      font-size: @font-size-lg;
+      font-weight: bold;
+      text-align: center;
+      color: @accent;
+
+      &:not(:last-child) {
+        border-right: 1px solid @gray-light;
+      }
+
+      &.active {
+        background-color: @accent;
+        color: @white;
+      }
+    }
+  }
+
+  .tab-content-group {
+    .tab-content {
+
+    }
+  }
+}

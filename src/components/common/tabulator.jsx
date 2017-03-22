@@ -2,10 +2,10 @@ import R from "ramda";
 import React, {PropTypes} from "react";
 
 const Tabulator = (props) => (
-  <div className={`tabulator ${props.theme}`}>
+  <div className={`tabulator ${props.theme || ""}`}>
     <div className="tab-link-group">
       {R.map(tab =>
-        <div key={tab.id} className="tab-link"
+        <div key={tab.id} className={`tab-link ${tab.active ? "active" : ""}`}
           onClick={props.onClickTabLink.bind(null, tab.id)}>{tab.title}</div>,
       props.tabs)}
     </div>
