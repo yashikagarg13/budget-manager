@@ -5,6 +5,7 @@ import Layout from "./components/layout";
 import ExpenseEntryContainer from "./components/expense-entry/container";
 import LandingContainer from "./components/landing/container";
 import LoginContainer from "./components/login/container";
+import ReportsContainer from "./components/reports/container";
 import SettingsContainer from "./components/settings/container";
 import SignUpContainer from "./components/signup/container";
 
