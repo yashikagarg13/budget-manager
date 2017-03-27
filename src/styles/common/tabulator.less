@@ -1,31 +1,33 @@
 .tabulator {
   &.tab-group {
     display: inline-block;
+    width: 100%;
 
     .tab-link-group {
-      display: flex;
       background-color: @black;
       border: 1px solid @black;
       border-radius: @border-radius;
-      margin: @unit-computed / 2 0;
+      display: flex;
+      margin: @unit-computed auto;
+      width: 300px;
 
       .tab-link {
+        color: @white;
         flex: 1;
-        padding: @unit-computed / 4;
         font-size: @font-size-lg;
         font-weight: bold;
-        text-align: center;
-        color: @white;
         min-width: 100px;
+        padding: @unit-computed / 4;
+        text-align: center;
 
         &:first-child {
-          border-top-left-radius: @border-radius;
           border-bottom-left-radius: @border-radius;
+          border-top-left-radius: @border-radius;
         }
 
         &:last-child {
-          border-top-right-radius: @border-radius;
           border-bottom-right-radius: @border-radius;
+          border-top-right-radius: @border-radius;
         }
 
         &:not(:last-child) {
@@ -41,18 +43,18 @@
   }
 
   .tab-link-group {
-    display: flex;
     background-color: @white;
-    width: 100%;
     border-bottom: 1px solid @gray-light;
+    display: flex;
+    width: 100%;
 
     .tab-link {
+      color: @accent;
       flex: 1;
-      padding: @unit-computed / 4;
       font-size: @font-size-lg;
       font-weight: bold;
+      padding: @unit-computed / 4;
       text-align: center;
-      color: @accent;
 
       &:not(:last-child) {
         border-right: 1px solid @gray-light;
