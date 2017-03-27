@@ -66,6 +66,11 @@ export default {
     return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&filters=${query}`)
       .then(response => this.isTokenExpired(response));
   },
+  getExpenseEnteriesByDate (filters) {
+    let query = JSON.stringify(filters);
+    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&filters=${query}`)
+      .then(response => this.isTokenExpired(response));
+  },
   deleteAllExpensesByCategory(oldCategoryId) {
     return Axios.delete(`${baseUrl}/expenseEntries/byCategory?${Utils.getTokenQuery()}&oldCategoryId=${oldCategoryId}`)
       .then(response => this.isTokenExpired(response));

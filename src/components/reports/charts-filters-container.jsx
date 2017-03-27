@@ -35,8 +35,55 @@ class ChartsFiltersContainer extends Component {
     this.setState({form});
   }
 
-  onFilter() {
+  getFilterForAPI() {
+    const {yearType, year, month, quarter} = this.state.form.values;
+    const {activeTab} = this.props;
+    let filters = {
+      date: {
+        $gte: "",
+        $lt: "",
+      },
+    };
 
+    let $gte, $lt;
+    if (activeTab === "yearly") {
+      let yearQuery = yearType === "cal"
+        ? `${year}-01`
+        : `${year-1}-04`;
+
+      $gte = moment(yearQuery);
+      $lt = moment(yearQuery).add(moment.duration(1, 'year'));
+    } else if (activeTab === "quarterly") {
+      const quarterToMonth = ((quarter - 1) * 3);
+      let quarterQuery = yearType === "cal"
+        ? `${year}-${quarterToMonth + 1}`
+        : `${year}-${quarterToMonth + 4}`;
+
+      $gte = moment(quarterQuery);
+      $lt = moment(quarterQuery).add(moment.duration(3, 'months'));
+    } else if (activeTab === "monthly") {
+      $gte = moment(`${year}-${Number(month) + 1}`);
+      $lt = moment(`${year}-${Number(month) + 1}`).add(moment.duration(1, 'months'));
+    }
+
+    filters.date.$gte = $gte.format("YYYY-MM-DD");
+    filters.date.$lt = $lt.format("YYYY-MM-DD");
+
+    return filters;
+  }
+
+  onFilter () {
+    let filters = this.getFilterForAPI();
+    Helpers.API.getExpenseEnteriesByDate(filters)
+      .then(response => {
+        Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
+        if (response.success) {
+          console.log(response.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error); // eslint-disable-line
+      });
   }
 
   onReset() {

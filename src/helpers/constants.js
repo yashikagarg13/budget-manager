@@ -23,10 +23,10 @@ export default {
   },
   maxYears: 20,
   quarters: {
-    q1: "Quarter 1",
-    q2: "Quarter 2",
-    q3: "Quarter 3",
-    q4: "Quarter 4",
+    1: "Quarter 1",
+    2: "Quarter 2",
+    3: "Quarter 3",
+    4: "Quarter 4",
   },
   months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 };

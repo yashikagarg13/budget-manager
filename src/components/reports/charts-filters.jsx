@@ -13,15 +13,18 @@ const ChartsFilters = (props) => {
   return (
     <form>
       <div className="row text-left">
-        <div className="form-group col-sm-6">
-          <label className="control-label" htmlFor="yearType">Year type:</label>
-          <div className="controls">
-            <select id="yearType" name="yearType" value={yearType} defaultValue={yearType}
-              onChange={onChangeFilter.bind(null, "yearType")} className="form-control input-sm">
-              {R.map(key => <option value={key}>{yearTypes[key]}</option>, R.keys(yearTypes))}
-            </select>
-          </div>
-        </div>
+        {activeTab == "yearly" || activeTab == "quarterly"
+          ? <div className="form-group col-sm-6">
+              <label className="control-label" htmlFor="yearType">Year type:</label>
+              <div className="controls">
+                <select id="yearType" name="yearType" value={yearType} defaultValue={yearType}
+                  onChange={onChangeFilter.bind(null, "yearType")} className="form-control input-sm">
+                  {R.map(key => <option value={key}>{yearTypes[key]}</option>, R.keys(yearTypes))}
+                </select>
+              </div>
+            </div>
+          : null
+        }
 
         <div className="form-group col-sm-6">
           <label className="control-label" htmlFor="year">Year:</label>
@@ -52,7 +55,7 @@ const ChartsFilters = (props) => {
               <div className="controls">
                 <select id="month" name="month" value={month} defaultValue={month}
                   onChange={onChangeFilter.bind(null, "month")} className="form-control input-sm">
-                  {R.map(month => <option value={month}>{month}</option>, months)}
+                  {R.map(monthIndex => <option value={monthIndex}>{months[monthIndex]}</option>, R.keys(months))}
                 </select>
               </div>
             </div>
@@ -60,12 +63,12 @@ const ChartsFilters = (props) => {
         }
       </div>
       <div className="controls">
-        <button className="btn btn-primary margin-right-xs" onClick={onFilter}>Filter</button>
-        <button className="btn btn-default" onClick={onReset}>Cancel</button>
+        <button type="button" className="btn btn-primary margin-right-xs" onClick={onFilter}>Filter</button>
+        <button type="button" className="btn btn-default" onClick={onReset}>Cancel</button>
       </div>
     </form>
   );
-}
+};
 
 ChartsFilters.propTypes = {
   activeTab: PropTypes.string,
