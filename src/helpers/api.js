@@ -54,21 +54,21 @@ export default {
       .then(response => this.isTokenExpired(response));
   },
 
-  getExpenseEnteriesByUser (perPage, page) {
+  getExpenseEntries (perPage, page) {
     const sortByDate = JSON.stringify({date: -1});
     let query = `fields=category&sort=${sortByDate}&perPage=${perPage}&page=${page}`;
 
     return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&${query}`)
     .then(response => this.isTokenExpired(response));
   },
-  getExpenseEnteriesByCategoryAndUser (categoryId) {
+  getExpenseEntriesByCategory (categoryId) {
     let query = JSON.stringify({category: categoryId});
     return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&filters=${query}`)
       .then(response => this.isTokenExpired(response));
   },
-  getExpenseEnteriesByDate (filters) {
+  getExpenseEntriesByDate (filters) {
     let query = JSON.stringify(filters);
-    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&filters=${query}`)
+    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&filters=${query}&fields=category`)
       .then(response => this.isTokenExpired(response));
   },
   deleteAllExpensesByCategory(oldCategoryId) {

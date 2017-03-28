@@ -42,7 +42,7 @@ class SettingsContainer extends React.Component {
 
   // Event Listeners
   hasExpenseEnteriesByCategory(categoryId) {
-    return Helpers.API.getExpenseEnteriesByCategoryAndUser(categoryId)
+    return Helpers.API.getExpenseEntriesByCategory(categoryId)
       .then(response => {
         Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
         if (response.success) {

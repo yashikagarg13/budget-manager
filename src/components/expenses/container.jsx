@@ -41,7 +41,7 @@ class ExpensesContainer extends Component {
     }
   }
   loadData (page) {
-    Helpers.API.getExpenseEnteriesByUser(Helpers.Constants.perPage, page)
+    Helpers.API.getExpenseEntries(Helpers.Constants.perPage, page)
     .then(response => {
       Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
       if (response.success) {

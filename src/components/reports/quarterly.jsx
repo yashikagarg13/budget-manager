@@ -1,10 +1,10 @@
 import React from "react";
-import ChartsFiltersContainer from "./charts-filters-container";
+import ChartsContainer from "./charts-container";
 
 const QuarterlyPieChart = (props) => (
   <div className="chart-view">
     <div className="container filter-container">
-      <ChartsFiltersContainer activeTab="quarterly" />
+      <ChartsContainer activeTab="quarterly" />
     </div>
   </div>
 );

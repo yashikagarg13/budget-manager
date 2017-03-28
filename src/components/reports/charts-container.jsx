@@ -4,9 +4,9 @@ import React, {Component, PropTypes} from "react";
 
 import Helpers from "../../helpers";
 
-import ChartsFilters from "./charts-filters";
+import Charts from "./charts";
 
-class ChartsFiltersContainer extends Component {
+class ChartsContainer extends Component {
   constructor (props) {
     super(props);
 
@@ -20,7 +20,8 @@ class ChartsFiltersContainer extends Component {
         },
         errors: {},
         disabled: false,
-      }
+      },
+      chart: {},
     };
 
     this.onChangeFilter = this.onChangeFilter.bind(this);
@@ -74,11 +75,13 @@ class ChartsFiltersContainer extends Component {
 
   onFilter () {
     let filters = this.getFilterForAPI();
-    Helpers.API.getExpenseEnteriesByDate(filters)
+    Helpers.API.getExpenseEntriesByDate(filters)
       .then(response => {
         Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
         if (response.success) {
-          console.log(response.data);
+          let chart = this.state.chart;
+          chart[this.props.activeTab] = Helpers.Utils.transformToPieChartData(response.data);
+          this.setState({chart});
         }
       })
       .catch((error) => {
@@ -100,7 +103,8 @@ class ChartsFiltersContainer extends Component {
 
   render () {
     return (
-      <ChartsFilters
+      <Charts
+        chart={this.state.chart}
         form={this.state.form}
         activeTab={this.props.activeTab}
         onChangeFilter={this.onChangeFilter}
@@ -111,8 +115,8 @@ class ChartsFiltersContainer extends Component {
   }
 }
 
-ChartsFiltersContainer.propTypes = {
+ChartsContainer.propTypes = {
   activeTab: PropTypes.string.isRequired,
 };
 
-export default ChartsFiltersContainer;
+export default ChartsContainer;
