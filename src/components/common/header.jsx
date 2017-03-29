@@ -2,15 +2,17 @@ import R from "ramda";
 import React, {Component, PropTypes} from "react";
 import {browserHistory, Link} from "react-router";
 
-// import Helpers from "../../helpers";
+import Helpers from "../../helpers";
 
 class Header extends Component {
-
   goBack() {
     browserHistory.goBack();
   }
-  logout() {
 
+  logout() {
+    Helpers.LocalStorage.remove("token");
+    Helpers.LocalStorage.remove("currency");
+    browserHistory.push("/");
   }
 
   render () {
