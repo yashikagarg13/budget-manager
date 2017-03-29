@@ -1,9 +1,7 @@
 import R from "ramda";
 import React, {Component} from "react";
 
-import YearlyPieChart from "./yearly";
-import QuarterlyPieChart from "./quarterly";
-import MonthlyPieChart from "./monthly";
+import ChartsContainer from "./charts-container";
 import Tabulator from "../common/Tabulator";
 
 class ChartsTabulator extends Component {
@@ -14,20 +12,20 @@ class ChartsTabulator extends Component {
       tabs: [{
         id: "yearly",
         title: "Yearly",
-        component: YearlyPieChart,
-        componentProps: {},
+        component: ChartsContainer,
+        componentProps: {activeTab: "yearly"},
         active: true,
       },{
         id: "quarterly",
         title: "Quarterly",
-        component: QuarterlyPieChart,
-        componentProps: {},
+        component: ChartsContainer,
+        componentProps: {activeTab: "quarterly"},
         active: false,
       }, {
         id: "monthly",
         title: "Monthly",
-        component: MonthlyPieChart,
-        componentProps: {},
+        component: ChartsContainer,
+        componentProps: {activeTab: "monthly"},
         active: false,
       }]
     };

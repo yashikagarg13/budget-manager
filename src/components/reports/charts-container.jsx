@@ -1,6 +1,6 @@
 import moment from "moment";
-import R from "ramda";
 import React, {Component, PropTypes} from "react";
+import {withRouter} from "react-router";
 
 import Helpers from "../../helpers";
 
@@ -21,19 +21,35 @@ class ChartsContainer extends Component {
         errors: {},
         disabled: false,
       },
-      chart: {},
+      chartData: {},
+      loading: true,
     };
 
     this.onChangeFilter = this.onChangeFilter.bind(this);
-    this.onFilter = this.onFilter.bind(this);
     this.onReset = this.onReset.bind(this);
+
+    this.filterData();
   }
 
   onChangeFilter(key) {
     let form = this.state.form;
     form.values[key] = event.target.value;
-    console.log(form.values[key]);
     this.setState({form});
+
+    this.filterData();
+  }
+
+  onReset() {
+    let form = this.state.form;
+    form.values = {
+      yearType: "cal",
+      year: moment().year(),
+      quarter: moment().quarter(),
+      month: moment().month(),
+    };
+
+    this.setState({form});
+    this.filterData();
   }
 
   getFilterForAPI() {
@@ -53,7 +69,7 @@ class ChartsContainer extends Component {
         : `${year-1}-04`;
 
       $gte = moment(yearQuery);
-      $lt = moment(yearQuery).add(moment.duration(1, 'year'));
+      $lt = moment(yearQuery).add(moment.duration(1, "year"));
     } else if (activeTab === "quarterly") {
       const quarterToMonth = ((quarter - 1) * 3);
       let quarterQuery = yearType === "cal"
@@ -61,10 +77,10 @@ class ChartsContainer extends Component {
         : `${year}-${quarterToMonth + 4}`;
 
       $gte = moment(quarterQuery);
-      $lt = moment(quarterQuery).add(moment.duration(3, 'months'));
+      $lt = moment(quarterQuery).add(moment.duration(3, "months"));
     } else if (activeTab === "monthly") {
       $gte = moment(`${year}-${Number(month) + 1}`);
-      $lt = moment(`${year}-${Number(month) + 1}`).add(moment.duration(1, 'months'));
+      $lt = moment(`${year}-${Number(month) + 1}`).add(moment.duration(1, "months"));
     }
 
     filters.date.$gte = $gte.format("YYYY-MM-DD");
@@ -73,42 +89,32 @@ class ChartsContainer extends Component {
     return filters;
   }
 
-  onFilter () {
+  filterData () {
+    this.setState({loading: true});
     let filters = this.getFilterForAPI();
     Helpers.API.getExpenseEntriesByDate(filters)
       .then(response => {
         Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
         if (response.success) {
-          let chart = this.state.chart;
-          chart[this.props.activeTab] = Helpers.Utils.transformToPieChartData(response.data);
-          this.setState({chart});
+          let chartData = this.state.chartData;
+          chartData[this.props.activeTab] = Helpers.Utils.transformToPieChartData(response.data, response.total);
+          this.setState({chartData, loading: false});
         }
       })
       .catch((error) => {
         console.log(error); // eslint-disable-line
+        this.setState({loading: true});
       });
-  }
-
-  onReset() {
-    let form = this.state.form;
-    form.values = {
-      yearType: "cal",
-      year: moment().year(),
-      quarter: moment().quarter(),
-      month: moment().month(),
-    };
-
-    this.setState({form});
   }
 
   render () {
     return (
       <Charts
-        chart={this.state.chart}
-        form={this.state.form}
         activeTab={this.props.activeTab}
+        chartData={this.state.chartData}
+        form={this.state.form}
+        isLoading={this.state.loading}
         onChangeFilter={this.onChangeFilter}
-        onFilter={this.onFilter}
         onReset={this.onReset}
       />
     );
@@ -117,6 +123,7 @@ class ChartsContainer extends Component {
 
 ChartsContainer.propTypes = {
   activeTab: PropTypes.string.isRequired,
+  router: PropTypes.object.isRequired,
 };
 
-export default ChartsContainer;
+export default withRouter(ChartsContainer);

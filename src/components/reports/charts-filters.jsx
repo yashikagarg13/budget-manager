@@ -6,12 +6,17 @@ import Helpers from "../../helpers";
 
 const ChartsFilters = (props) => {
   const {yearType, year, quarter, month} = props.form.values;
-  const {activeTab, onChangeFilter, onFilter, onReset} = props;
+  const {activeTab, onChangeFilter, onReset} = props;
   const {yearTypes, maxYears, quarters, months} = Helpers.Constants;
   const currentYear = moment().year();
 
   return (
     <form>
+      <div className="icon-container">
+        <button type="button" className="btn btn-icon" onClick={onReset} title="Refresh">
+          <i className="fa fa-refresh" ariaHidden="true"></i>
+        </button>
+      </div>
       <div className="row text-left">
         {activeTab == "yearly" || activeTab == "quarterly"
           ? <div className="form-group col-sm-6">
@@ -62,10 +67,6 @@ const ChartsFilters = (props) => {
           : null
         }
       </div>
-      <div className="controls">
-        <button type="button" className="btn btn-primary margin-right-xs" onClick={onFilter}>Filter</button>
-        <button type="button" className="btn btn-default" onClick={onReset}>Cancel</button>
-      </div>
     </form>
   );
 };
@@ -74,7 +75,6 @@ ChartsFilters.propTypes = {
   activeTab: PropTypes.string,
   form: PropTypes.object.isRequired,
   onChangeFilter: PropTypes.func.isRequired,
-  onFilter: PropTypes.func.isRequired,
   onReset: PropTypes.func.isRequired,
 };
 

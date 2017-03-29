@@ -1,8 +1,27 @@
 .chart-view {
+  padding-bottom: ceil(@unit-computed * 2);
   .filter-container {
     background-color: @white;
     border: 1px solid @gray-light;
     border-radius: @border-radius;
     padding: @unit-computed;
+    position: relative;
+
+    .icon-container {
+      position: absolute;
+      top: ceil(@unit-computed / 2);
+      right: @unit-computed;
+    }
+  }
+
+  .pie-chart-container {
+    text-align: center;
+    position: relative;
+
+    .pie-chart-labels {
+      position: absolute;
+      top: @unit-computed;
+      right:0;
+    }
   }
 }

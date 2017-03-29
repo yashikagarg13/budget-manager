@@ -21,18 +21,20 @@ export default {
       router.push("/login");
     }
   },
-  transformToPieChartData (data) {
+  transformToPieChartData (data, total) {
     let labels = data
-                  .map(d => d.category.title)
-                  .reduce((acc, d) => {
-                      return acc.indexOf(d) == -1 ? acc.concat([d]) : acc;
-                    }, []);
+      .map(d => d.category.title)
+      .reduce((acc, d) => {
+        return acc.indexOf(d) == -1 ? acc.concat([d]) : acc;
+      }, []);
     let values = labels.map(label => data.filter(d => d.category.title === label).length);
 
-    return labels.map((label, i) => ({
+
+    return labels
+    .map((label, i) => ({
       label,
-      value: values[i],
-      color: "hsl(" + Math.random() * 360 + ",100%,50%)",
-    }));
+      value: ((values[i]/total) * 100).toFixed(1),
+    }))
+    .sort((a, b) => b.value - a.value);
   }
 };
