@@ -1,6 +1,5 @@
 import Axios from "axios";
 import Utils from "./utils";
-import LocalStorage from "./local-storage";
 
 const baseUrl = "http://127.0.0.1:8080/api";
 
@@ -20,93 +19,105 @@ export default {
     })
     .then(response => response.data);
   },
-  isTokenExpired (response) {
-    const data = response.data;
-    if (data.success == false) {
-      LocalStorage.remove("token");
-      return data;
-    } else {
-      return data;
-    }
-  },
   setupForUser () {
-    return Axios.get(`${baseUrl}/setup?${Utils.getTokenQuery()}`)
-    .then(response => this.isTokenExpired(response));
-  },
-  logout () {
-
+    return Axios.get(`${baseUrl}/setup`, {
+      headers: Utils.Utils.getHeaders(),
+    })
+    .then(response => Utils.isTokenExpired(response));
   },
 
   addExpenseEntry (expense) {
-    return Axios.post(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}`, {expense})
-      .then(response => this.isTokenExpired(response));
+    return Axios.post(
+      `${baseUrl}/expenseEntries`,
+      {expense},
+      {headers: Utils.Utils.getHeaders()})
+      .then(response => Utils.isTokenExpired(response));
   },
   getExpenseEntry (expenseId) {
-    return Axios.get(`${baseUrl}/expenseEntries/${expenseId}?${Utils.getTokenQuery()}`)
-      .then(response => this.isTokenExpired(response));
+    return Axios.get(`${baseUrl}/expenseEntries/${expenseId}`, {
+      headers: Utils.Utils.getHeaders(),
+    })
+      .then(response => Utils.isTokenExpired(response));
   },
   updateExpenseEntry (expenseId, expense) {
-    return Axios.put(`${baseUrl}/expenseEntries/${expenseId}?${Utils.getTokenQuery()}`, {expense})
-      .then(response => this.isTokenExpired(response));
+    return Axios.put(
+      `${baseUrl}/expenseEntries/${expenseId}`,
+      {expense},
+      {headers: Utils.Utils.getHeaders()})
+      .then(response => Utils.isTokenExpired(response));
   },
   removeExpenseEntry (expenseId) {
-    return Axios.delete(`${baseUrl}/expenseEntries/${expenseId}?${Utils.getTokenQuery()}`)
-      .then(response => this.isTokenExpired(response));
+    return Axios.delete(`${baseUrl}/expenseEntries/${expenseId}`, {
+      headers: Utils.getHeaders(),
+    })
+      .then(response => Utils.isTokenExpired(response));
   },
 
   getExpenseEntries (perPage, page) {
     const sortByDate = JSON.stringify({date: -1});
     let query = `fields=category&sort=${sortByDate}&perPage=${perPage}&page=${page}`;
 
-    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&${query}`)
-    .then(response => this.isTokenExpired(response));
+    return Axios.get(`${baseUrl}/expenseEntries?${query}`, {
+      headers: Utils.getHeaders(),
+    })
+    .then(response => Utils.isTokenExpired(response));
   },
   getExpenseEntriesByCategory (categoryId) {
     let query = JSON.stringify({category: categoryId});
-    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&filters=${query}`)
-      .then(response => this.isTokenExpired(response));
+    return Axios.get(`${baseUrl}/expenseEntries?filters=${query}`, {
+      headers: Utils.getHeaders(),
+    })
+      .then(response => Utils.isTokenExpired(response));
   },
   getExpenseEntriesByDate (filters) {
     let query = JSON.stringify(filters);
-    return Axios.get(`${baseUrl}/expenseEntries?${Utils.getTokenQuery()}&filters=${query}&fields=category`)
-      .then(response => this.isTokenExpired(response));
+    return Axios.get(`${baseUrl}/expenseEntries?filters=${query}&fields=category`, {
+      headers: Utils.getHeaders(),
+    })
+      .then(response => Utils.isTokenExpired(response));
   },
   deleteAllExpensesByCategory(oldCategoryId) {
-    return Axios.delete(`${baseUrl}/expenseEntries/byCategory?${Utils.getTokenQuery()}&oldCategoryId=${oldCategoryId}`)
-      .then(response => this.isTokenExpired(response));
+    return Axios.delete(`${baseUrl}/expenseEntries/byCategory?oldCategoryId=${oldCategoryId}`, {
+      headers: Utils.getHeaders(),
+    })
+      .then(response => Utils.isTokenExpired(response));
   },
   updateExpenseEntriesWithCategory(oldCategoryId, newCategoryId) {
-    return Axios.put(`${baseUrl}/expenseEntries/updateCategory?${Utils.getTokenQuery()}`, {
+    return Axios.put(`${baseUrl}/expenseEntries/updateCategory`, {
       oldCategoryId,
       newCategoryId,
+    }, {
+      headers: Utils.getHeaders(),
     })
-      .then(response => this.isTokenExpired(response));
+      .then(response => Utils.isTokenExpired(response));
   },
 
   getExpenseCategoriesByUser () {
-    return Axios.get(`${baseUrl}/expenseCategories?${Utils.getTokenQuery()}`)
-    .then(response => this.isTokenExpired(response));
+    return Axios.get(`${baseUrl}/expenseCategories`, {
+      headers: Utils.getHeaders(),
+    })
+    .then(response => Utils.isTokenExpired(response));
   },
   addCategory (title) {
     return Axios.post(`${baseUrl}/expenseCategories`, {
       title: title,
-      token: Utils.getToken(),
+    }, {
+      headers: Utils.getHeaders(),
     })
-    .then(response => this.isTokenExpired(response));
+    .then(response => Utils.isTokenExpired(response));
   },
   deleteCategory (categoryId) {
     return Axios.delete(`${baseUrl}/expenseCategories/${categoryId}`, {
-      data: {
-        token: Utils.getToken(),
-      },
+      headers: Utils.getHeaders(),
     })
-    .then(response => this.isTokenExpired(response));
+    .then(response => Utils.isTokenExpired(response));
   },
   updateCategory(category) {
     return Axios.put(`${baseUrl}/expenseCategories/${category._id}`, {
       title: category.title,
-      token: Utils.getToken(),
+    }, {
+      headers: Utils.getHeaders(),
     })
-    .then(response => this.isTokenExpired(response));
+    .then(response => Utils.isTokenExpired(response));
   }
 };

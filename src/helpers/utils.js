@@ -5,9 +5,14 @@ export default {
   getToken () {
     return LocalStorage.get("token");
   },
-  getTokenQuery () {
-    const token = this.getToken();
-    return `token=${token}`;
+  isTokenExpired (response) {
+    const data = response.data;
+    if (data.success == false) {
+      LocalStorage.remove("token");
+      return data;
+    } else {
+      return data;
+    }
   },
   redirectToLandingIfTokenExists (router) {
     const token = LocalStorage.get("token");
@@ -20,6 +25,11 @@ export default {
     if (R.isEmpty(token) || R.type(token) != "String") {
       router.push("/login");
     }
+  },
+  getHeaders() {
+    return {
+      "Authorization": this.getToken(),
+    };
   },
   transformToPieChartData (data, total) {
     let labels = data

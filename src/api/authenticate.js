@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var bCrypt = require("bcrypt-nodejs");
 var jwt = require("jsonwebtoken");
 
-var config = require("../config");
+var dbConfig = require("../config/db");
 var User = require('../models/User');
 
 router.post('/', function(req, res) {
@@ -16,23 +15,25 @@ router.post('/', function(req, res) {
       res.json({ success: false, message: 'Authentication failed. User not found.' });
     } else if (user) {
       // check if password matches
-      if (!bCrypt.compareSync(req.body.password, user.password)) {
-        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
-      } else {
-        // if user is found and password is right
-        // create a token
-        var token = jwt.sign(user, config.secret, {
-          expiresIn: "1h" // expires in 24 hours
-        });
+      user.comparePassword(req.body.password, function (err, isMatch) {
+        if (err) {
+          res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+        } else if (isMatch) {
+          // if user is found and password is right
+          // create a token
+          var token = jwt.sign(user, dbConfig.secret, {
+            expiresIn: "1h" // expires in 24 hours
+          });
 
-        // return the information including token as JSON
-        res.json({
-          success: true,
-          message: 'Enjoy your token!',
-          token: token,
-          currency: user.currency,
-        });
-      }
+          // return the information including token as JSON
+          res.json({
+            success: true,
+            message: 'Enjoy your token!',
+            token: token,
+            currency: user.currency,
+          });
+        }
+      });
     }
   });
 });
