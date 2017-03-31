@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
 
 const dbConfig = require("../config/db");
 const User = require("../models/User");
@@ -27,7 +26,7 @@ router.post("/", function(req, res) {
       } else {
         const newUser = new User({
           email: req.body.email,
-          password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10), null),
+          password: utils.generatePassword(req.body.password),
           currency: req.body.currency,
         });
 

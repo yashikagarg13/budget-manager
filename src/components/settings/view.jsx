@@ -6,7 +6,7 @@ import {Collapse} from "react-bootstrap";
 import Helpers from "../../helpers";
 
 import Header from "../common/header";
-import ChangePasswordConatiner from "../change-password/container";
+import ChangePasswordContainer from "../change-password/container";
 
 const Settings = (props) => (
   <div className="settings-view">
@@ -21,7 +21,7 @@ const Settings = (props) => (
           </div>
         </div>
         <Collapse in={props.isOpen.changePassword}>
-          <div><ChangePasswordConatiner /></div>
+          <div><ChangePasswordContainer /></div>
         </Collapse>
 
         <div className="list-group-item" onClick={props.onToggleCollapse.bind(null, "changeDefaultCurrency")}>
@@ -31,11 +31,11 @@ const Settings = (props) => (
           </div>
         </div>
         <Collapse in={props.isOpen.changeDefaultCurrency}>
-          <div className="well nomargin-bottom">
+          <div className="fieldset noborder-radius noborder-bottom">
             <div className="form-group nomargin-bottom">
               <div className="controls">
                 <select name="defaultCurrency" id="defaultCurrency" className="input-md form-control"
-                        onChange={props.onUpdateCurrency} value={props.defaultCurrency}>
+                        onChange={props.onUpdateCurrency} value={props.defaultCurrency || ""}>
                   {R.map(item =>
                       <option key={item} value={item}>{item}</option>,
                     R.append(null, Helpers.Constants.currency))}
@@ -58,7 +58,7 @@ const Settings = (props) => (
 );
 
 Settings.propTypes = {
-  defaultCurrency: PropTypes.string.isRequired,
+  defaultCurrency: PropTypes.string,
   isOpen: PropTypes.object.isRequired,
   onToggleCollapse: PropTypes.func.isRequired,
   onUpdateCurrency: PropTypes.func.isRequired,

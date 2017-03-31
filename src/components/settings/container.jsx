@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, PropTypes} from "react";
 
 import Helpers from "../../helpers";
 
@@ -19,6 +19,9 @@ class SettingsContainer extends Component {
     this.onToggleCollapse = this.onToggleCollapse.bind(this);
     this.onUpdateCurrency = this.onUpdateCurrency.bind(this);
   }
+  componentWillMount () {
+    Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
+  }
 
   onToggleCollapse(tabId) {
     let isOpen = this.state.isOpen;
@@ -30,7 +33,17 @@ class SettingsContainer extends Component {
     let defaultCurrency = event.target.value;
     this.setState({defaultCurrency});
 
-    // API call
+    Helpers.API.updateCurrency(defaultCurrency)
+      .then(response => {
+        Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
+        if (response.success) {
+          console.log("Currency updated"); //eslint-disable-line
+          Helpers.LocalStorage.set("currency", defaultCurrency);
+        }
+      })
+      .catch((error) => {
+        console.log(error); // eslint-disable-line
+      });
   }
 
   render () {
@@ -44,5 +57,10 @@ class SettingsContainer extends Component {
     );
   }
 }
+
+SettingsContainer.propTypes = {
+  router: PropTypes.object,
+};
+
 
 export default SettingsContainer;

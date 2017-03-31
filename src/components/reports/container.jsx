@@ -1,5 +1,7 @@
 import R from "ramda";
-import React, {Component} from "react";
+import React, {Component, PropTypes} from "react";
+
+import Helpers from "../../helpers";
 
 import Reports from "./view";
 import ChartsContainer from "./charts-container";
@@ -32,6 +34,9 @@ class ReportsContainer extends Component {
 
     this.onClickTabLink = this.onClickTabLink.bind(this);
   }
+  componentWillMount () {
+    Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
+  }
 
   onClickTabLink (tabId) {
     let tabs = this.state.tabs;
@@ -51,5 +56,10 @@ class ReportsContainer extends Component {
     );
   }
 }
+
+ReportsContainer.propTypes = {
+  router: PropTypes.object,
+};
+
 
 export default ReportsContainer;

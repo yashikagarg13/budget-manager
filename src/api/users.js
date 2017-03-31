@@ -1,10 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-var User = require('../models/User');
+const User = require("../models/User");
+const utils = require("../helpers/utils").default;
 
 /* GET users listing. */
-router.get('/', function(req, res) {
+router.get("/", function(req, res) {
   User.find(function(err, users) {
     if (err)
       return next(err);
@@ -13,10 +14,32 @@ router.get('/', function(req, res) {
   });
 });
 
-router.delete('/:id', function(req, res) {
+router.delete("/:id", function(req, res) {
   User.findByIdAndRemove(req.params.id, function (err, post) {
     if (err) return next(err);
     res.json(post);
+  });
+});
+
+router.put("/updateCurrency", function (req, res) {
+  const email = req.decoded.email;
+  User.findOneAndUpdate({email}, {currency: req.body.currency}, function (err, user) {
+    if (err) {
+      throw err;
+    }
+    res.json({success: true, data: user});
+  });
+});
+
+router.put("/updatePassword", function (req, res) {
+  const email = req.decoded.email;
+  const password = utils.generatePassword(req.body.password);
+
+  User.findOneAndUpdate({email}, {password}, function (err, user) {
+    if (err) {
+      throw err;
+    }
+    res.json({success: true});
   });
 });
 

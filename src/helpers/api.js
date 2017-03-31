@@ -29,6 +29,18 @@ export default {
     })
     .then(response => Utils.isTokenExpired(response));
   },
+  updateCurrency (currency) {
+    return Axios.put(`${baseUrl}/users/updateCurrency`, {currency}, {
+      headers: Utils.getHeaders(),
+    })
+      .then(response => Utils.isTokenExpired(response));
+  },
+  updatePassword (password) {
+    return Axios.put(`${baseUrl}/users/updatePassword`, {password}, {
+      headers: Utils.getHeaders(),
+    })
+      .then(response => Utils.isTokenExpired(response));
+  },
 
   addExpenseEntry (expense) {
     return Axios.post(

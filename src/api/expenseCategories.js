@@ -29,7 +29,6 @@ router.post('/', function(req, res, next) {
 
 router.put('/:id', function(req, res, next) {
   let payload = {
-    email: req.decoded.email,
     title: req.body.title,
   };
   ExpenseCategory.findByIdAndUpdate(req.params.id, payload, function (err, post) {

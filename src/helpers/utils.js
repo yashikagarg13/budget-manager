@@ -1,5 +1,6 @@
 import R from "ramda";
 import jwt from "jwt-simple";
+const bcrypt = require("bcrypt-nodejs");
 
 import LocalStorage from "./local-storage";
 import dbConfig from "../config/db";
@@ -36,6 +37,9 @@ export default {
     return {
       "Authorization": this.getToken(),
     };
+  },
+  generatePassword(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
   },
   transformToPieChartData (data, total) {
     let labels = data
