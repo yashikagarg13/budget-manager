@@ -37,11 +37,10 @@ const Login = (props) => (
               <i className="fa fa-facebook margin-right-sm"></i>
               Log In with Facebook
             </a>
-            <button type="button" className="btn btn-google btn-md btn-block"
-              onClick={props.loginWithFBHandler}>
+            <a href="api/authenticate/google" className="btn btn-google btn-md btn-block">
               <i className="fa fa-google-plus margin-right-xs"></i>
               Sign in with Google
-            </button>
+            </a>
           </div>
         </div>
       </form>

@@ -48,7 +48,22 @@ router.get("/facebook/callback", function (req, res) {
     // create a token
     const token = utils.createToken(user);
 
-    res.redirect("/facebook/success/" + token);
+    res.redirect("/social/success/" + token);
+  })(req, res);
+})
+
+router.get("/google", passport.authenticate("google", {scope: ['profile', 'email']}));
+router.get("/google/callback", function (req, res) {
+  passport.authenticate("google", {
+    failureRedirect: "/login",
+  }, function (err, user) {
+    if (err)
+      throw err;
+
+    // create a token
+    const token = utils.createToken(user);
+
+    res.redirect("/social/success/" + token);
   })(req, res);
 })
 
