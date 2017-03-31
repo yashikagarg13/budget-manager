@@ -11,6 +11,10 @@ export default {
     })
     .then(response => response.data);
   },
+  loginWithFB () {
+    return Axios.get(`${baseUrl}/authenticate/facebook`)
+    .then(response => response.data);
+  },
   signUp (email, passwordHash, currency) {
     return Axios.post(`${baseUrl}/signup`, {
       email: email,
@@ -21,7 +25,7 @@ export default {
   },
   setupForUser () {
     return Axios.get(`${baseUrl}/setup`, {
-      headers: Utils.Utils.getHeaders(),
+      headers: Utils.getHeaders(),
     })
     .then(response => Utils.isTokenExpired(response));
   },
@@ -30,12 +34,12 @@ export default {
     return Axios.post(
       `${baseUrl}/expenseEntries`,
       {expense},
-      {headers: Utils.Utils.getHeaders()})
+      {headers: Utils.getHeaders()})
       .then(response => Utils.isTokenExpired(response));
   },
   getExpenseEntry (expenseId) {
     return Axios.get(`${baseUrl}/expenseEntries/${expenseId}`, {
-      headers: Utils.Utils.getHeaders(),
+      headers: Utils.getHeaders(),
     })
       .then(response => Utils.isTokenExpired(response));
   },
@@ -43,7 +47,7 @@ export default {
     return Axios.put(
       `${baseUrl}/expenseEntries/${expenseId}`,
       {expense},
-      {headers: Utils.Utils.getHeaders()})
+      {headers: Utils.getHeaders()})
       .then(response => Utils.isTokenExpired(response));
   },
   removeExpenseEntry (expenseId) {

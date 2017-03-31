@@ -1,9 +1,9 @@
-var R = require("ramda");
-var express = require('express');
-var router = express.Router();
+const R = require("ramda");
+const express = require('express');
+const router = express.Router();
 
-var mongoose = require('mongoose');
-var ExpenseCategory = require('../models/ExpenseCategory');
+const mongoose = require('mongoose');
+const ExpenseCategory = require('../models/ExpenseCategory');
 
 const defaultExpenseCategories = [
   "Vegetables",
@@ -25,18 +25,26 @@ const defaultExpenseCategories = [
 ];
 
 router.get('/', function(req, res, next) {
-  var email = req.decoded._doc.email;
-  var data = R.map(title => {
-    return {email, title};
-  }, defaultExpenseCategories);
+  const email = req.decoded.email;
+  ExpenseCategory.find({email: email}, function (err, categories) {
+    if(err) {
+      throw err;
+    }
 
-  ExpenseCategory.collection.insert(data, {}, function (err, posts) {
-    if (err)  return next(err);
-    console.log("Added category: ", posts);
-    res.json({
-      success: true,
-      message: "Setup successfull",
-    });
+    if(categories.length == 0) {
+      const data = R.map(title => {
+        return {email, title};
+      }, defaultExpenseCategories);
+
+      ExpenseCategory.collection.insert(data, {}, function (err, posts) {
+        if (err)  return next(err);
+        console.log("Added category: ", posts);
+        res.json({
+          success: true,
+          message: "Setup successfull",
+        });
+      });
+    }
   });
 });
 

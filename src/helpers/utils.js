@@ -1,7 +1,13 @@
 import R from "ramda";
+import jwt from "jwt-simple";
+
 import LocalStorage from "./local-storage";
+import dbConfig from "../config/db";
 
 export default {
+  createToken(user) {
+    return jwt.encode(user, dbConfig.secret);
+  },
   getToken () {
     return LocalStorage.get("token");
   },
@@ -33,11 +39,11 @@ export default {
   },
   transformToPieChartData (data, total) {
     let labels = data
-      .map(d => d.category.title)
+      .map(d => d.category ? d.category.title : "")
       .reduce((acc, d) => {
         return acc.indexOf(d) == -1 ? acc.concat([d]) : acc;
       }, []);
-    let values = labels.map(label => data.filter(d => d.category.title === label).length);
+    let values = labels.map(label => data.filter(d => d.category && d.category.title === label).length);
 
 
     return labels

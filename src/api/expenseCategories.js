@@ -6,7 +6,7 @@ var ExpenseCategory = require('../models/ExpenseCategory');
 
 router.get('/', function(req, res, next) {
   ExpenseCategory
-    .find()
+    .find({email: req.decoded.email})
     .sort('title')
     .exec(function(err, expenseCategories) {
     if (err)
@@ -17,14 +17,22 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  ExpenseCategory.create(req.body, function (err, post) {
+  let payload = {
+    email: req.decoded.email,
+    title: req.body.title,
+  };
+  ExpenseCategory.create(payload, function (err, post) {
     if (err) return next(err);
     res.json({success: true, data: post});
   });
 });
 
 router.put('/:id', function(req, res, next) {
-  ExpenseCategory.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+  let payload = {
+    email: req.decoded.email,
+    title: req.body.title,
+  };
+  ExpenseCategory.findByIdAndUpdate(req.params.id, payload, function (err, post) {
     if (err) return next(err);
     res.json({success: true, data: post});
   });

@@ -12,6 +12,7 @@ class LoginContainer extends Component {
     };
 
     this.onLoginClick = this.onLoginClick.bind(this);
+    this.onLoginWithFBClick = this.onLoginWithFBClick.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
   }
@@ -54,6 +55,29 @@ class LoginContainer extends Component {
     }, 0);
   }
 
+  onLoginWithFBClick(event) {
+    this.timeoutInstance = setTimeout(() => {
+      return Helpers.API.loginWithFB()
+      .then((response) => {
+        if (response.success) {
+          Helpers.LocalStorage.set("token", response.token);
+          Helpers.LocalStorage.set("currency", response.currency);
+          this.props.router.push("/landing");
+        } else {
+          this.setState({
+            loginError: response.message
+          });
+        }
+        clearTimeout(this.timeoutInstance);
+      })
+      .catch((error) => {
+        console.log(error); // eslint-disable-line
+        clearTimeout(this.timeoutInstance);
+      });
+    }, 0);
+  }
+
+
   render() {
     return (
       <Login
@@ -61,7 +85,8 @@ class LoginContainer extends Component {
         updateEmailHandler={this.onChangeEmail}
         updatePasswordHandler={this.onChangePassword}
         loginError={this.state.loginError}
-        loginHandler={this.onLoginClick} />
+        loginHandler={this.onLoginClick}
+        loginWithFBHandler={this.onLoginWithFBClick}/>
     );
   }
 }

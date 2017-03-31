@@ -1,14 +1,14 @@
-var express = require('express');
-var router = express.Router();
-var bcrypt = require("bcrypt");
-var jwt = require("jsonwebtoken");
+const express = require("express");
+const router = express.Router();
+const bcrypt = require("bcrypt");
 
-var dbConfig = require("../config/db");
-var User = require('../models/User');
+const dbConfig = require("../config/db");
+const User = require("../models/User");
+const utils = require("../helpers/utils").default;
 
-router.post('/', function(req, res) {
+router.post("/", function(req, res) {
   if (!req.body.email || !req.body.password) {
-    res.json({success: false, message: 'Please enter email and password!'});
+    res.json({success: false, message: "Please enter email and password!"});
   } else {
     User.findOne({
       email: req.body.email
@@ -16,22 +16,29 @@ router.post('/', function(req, res) {
       if (err) throw err;
 
       if (user) {
-        res.json({ success: false, message: 'User already exists' });
+        const token = utils.createToken(user);
+        res.json({
+          success: true,
+          message: "User already exists",
+          token: token,
+          currency: user.currency,
+        });
+
       } else {
-        var newUser = new User({
+        const newUser = new User({
           email: req.body.email,
           password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10), null),
           currency: req.body.currency,
         });
 
         newUser.save(function(err) {
-          if (err) throw err;
-          var token = jwt.sign(newUser, dbConfig.secret, {
-            expiresIn: "1h" // expires in 24 hours
-          });
+          if (err)
+            throw err;
+
+          const token = utils.createToken(newUser);
           res.json({
             success: true,
-            message: 'User successfully saved',
+            message: "User successfully saved",
             token: token,
             currency: newUser.currency,
           });

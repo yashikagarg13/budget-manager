@@ -18,13 +18,14 @@ const fs = require("fs");
 
 const app = express();
 app.use(cors());
+
+require('./config/passport')(passport);
 app.use(passport.initialize());
 
 /***************************************************************************************************************
     API
 ***************************************************************************************************************/
 const dbConfig = require("./config/db");
-const utils = require("./helpers/utils").default;
 const User = require('./models/User');
 const setup = require("./api/setup");
 const authenticate = require("./api/authenticate");
@@ -55,11 +56,10 @@ app.use("/api/authenticate", authenticate);
 app.use("/api/signup", signup);
 
 app.use("/api", function(req, res, next) {
-  console.log('req.headers', req.headers);
   const token = req.headers["authorization"];
 
   if (token) {
-    var decoded = jwt.decode(token, dbConfig.secret);
+    var decoded = jwt.decode(token, dbConfig.secret, true); console.log('decoded', decoded);
     User.findOne({email: decoded.email}, function(err, user) {
       if (err) {
         return res.json({ success: false, message: "Failed to authenticate token." });

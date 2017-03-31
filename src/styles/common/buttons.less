@@ -1,6 +1,6 @@
 .button-variant(@color; @background; @border) {
   background-color: @background;
-  color: @color;
+  color: @color !important;
   border-color: @border;
 
   &:hover,
@@ -23,6 +23,30 @@
   .button-variant(@white; @accent; @accent);
 }
 
+.btn-facebook {
+  .button-variant(@white; @facebook; darken(@facebook, 10%));
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  &.focus{
+    color: @white !important;
+    text-decoration: none;
+  }
+}
+.btn-google {
+  .button-variant(@white; @google; darken(@google, 10%));
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  &.focus{
+    color: @white !important;
+    text-decoration: none;
+  }
+}
+
+
 .btn-icon {
   background: none;
   border: 0;
@@ -30,4 +54,9 @@
   box-shadow:none;
   color: @accent;
   margin-top: -(@unit-computed / 12);
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
 }

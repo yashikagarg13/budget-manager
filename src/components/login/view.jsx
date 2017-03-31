@@ -13,7 +13,7 @@ const Login = (props) => (
           </div>
         : null
       }
-      <form>
+      <form onSubmit={props.loginHandler}>
         <div className="form-group">
           <label className="control-label">Email</label>
           <div className="controls">
@@ -28,12 +28,25 @@ const Login = (props) => (
               onChange={props.updatePasswordHandler}/>
           </div>
         </div>
-        <button type="submit" className="btn btn-primary btn-md center-block"
-          onClick={props.loginHandler}>Log In</button>
-        <br />
-        <p className="text-center">Do not have an account? <Link to="/signup">Sign up!</Link></p>
+        <button type="submit" className="btn btn-primary btn-md btn-block">Log In</button>
+
+        <hr />
+        <div className="row">
+          <div className="col-sm-8 col-sm-offset-2">
+            <a href="api/authenticate/facebook" className="btn btn-facebook btn-md btn-block margin-bottom-xs">
+              <i className="fa fa-facebook margin-right-sm"></i>
+              Log In with Facebook
+            </a>
+            <button type="button" className="btn btn-google btn-md btn-block"
+              onClick={props.loginWithFBHandler}>
+              <i className="fa fa-google-plus margin-right-xs"></i>
+              Sign in with Google
+            </button>
+          </div>
+        </div>
       </form>
     </div>
+    <p className="text-center margin-top">Do not have an account? <Link to="/signup">Sign up!</Link></p>
   </div>
 );
 
@@ -45,6 +58,7 @@ Login.propTypes = {
 
   loginError: PropTypes.string,
   loginHandler: PropTypes.func.isRequired,
+  loginWithFBHandler: PropTypes.func.isRequired,
 };
 
 export default Login;

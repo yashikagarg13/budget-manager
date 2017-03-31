@@ -116,7 +116,7 @@ class PieChart extends Component {
         return ((arcCircumference/2) - 20);
       })
       .attr("dy", function(d) {
-        return (d.endAngle > (90 * Math.PI/180) ? 30 : -11);
+        return 30;
       })
       .append("textPath")
       .attr("xlink:href",function(d,i) {

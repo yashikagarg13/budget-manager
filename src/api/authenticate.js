@@ -1,34 +1,33 @@
-var express = require('express');
-var router = express.Router();
-var jwt = require("jsonwebtoken");
+const express = require("express");
+const router = express.Router();
+const passport = require("passport");
 
-var dbConfig = require("../config/db");
-var User = require('../models/User');
+const dbConfig = require("../config/db");
+const User = require("../models/User");
+const utils = require("../helpers/utils").default;
 
-router.post('/', function(req, res) {
+router.post("/", function(req, res) {
   User.findOne({
     email: req.body.email
   }, function(err, user) {
     if (err) throw err;
 
     if (!user) {
-      res.json({ success: false, message: 'Authentication failed. User not found.' });
+      res.json({ success: false, message: "Authentication failed. User not found." });
     } else if (user) {
       // check if password matches
       user.comparePassword(req.body.password, function (err, isMatch) {
-        if (err) {
-          res.json({ success: false, message: 'Authentication failed. Wrong password.' });
-        } else if (isMatch) {
+        if (err || !isMatch) {
+          res.json({ success: false, message: "Authentication failed. Wrong password." });
+        } else {
           // if user is found and password is right
           // create a token
-          var token = jwt.sign(user, dbConfig.secret, {
-            expiresIn: "1h" // expires in 24 hours
-          });
+          const token = utils.createToken(user);
 
           // return the information including token as JSON
           res.json({
             success: true,
-            message: 'Enjoy your token!',
+            message: "Enjoy your token!",
             token: token,
             currency: user.currency,
           });
@@ -37,5 +36,20 @@ router.post('/', function(req, res) {
     }
   });
 });
+
+router.get("/facebook", passport.authenticate("facebook"));
+router.get("/facebook/callback", function (req, res) {
+  passport.authenticate("facebook", {
+    failureRedirect: "/login",
+  }, function (err, user) {
+    if (err)
+      throw err;
+
+    // create a token
+    const token = utils.createToken(user);
+
+    res.redirect("/facebook/success/" + token);
+  })(req, res);
+})
 
 module.exports = router;

@@ -7,7 +7,7 @@ const ExpenseEntry = require('../models/ExpenseEntry');
 const Helpers = require("../helpers");
 
 router.get('/', function(req, res, next) {
-  const email = req.decoded._doc.email;
+  const email = req.decoded.email;
   const filters = req.query.filters ? JSON.parse(req.query.filters) : {};
   filters.email = email;
   const fields = req.query.fields || "";
@@ -47,7 +47,7 @@ router.get('/:id', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
   const expense = req.body.expense;
-  expense.email = req.decoded._doc.email;
+  expense.email = req.decoded.email;
   ExpenseEntry.create(expense, function (err, post) {
     if (err) return next(err);
     res.json({success: true, data: post});
@@ -57,7 +57,7 @@ router.post('/', function(req, res, next) {
 router.put('/updateCategory', function(req, res, next) {
   let bulk = ExpenseEntry.collection.initializeOrderedBulkOp();
   bulk
-    .find({category: req.body.oldCategoryId, email: req.decoded._doc.email})
+    .find({category: req.body.oldCategoryId, email: req.decoded.email})
     .update({$set: {category: req.body.newCategoryId}});
 
   bulk.execute(function (err) {
@@ -68,7 +68,7 @@ router.put('/updateCategory', function(req, res, next) {
 
 router.put('/:id', function(req, res, next) {
   const expense = req.body.expense;
-  expense.email = req.decoded._doc.email;
+  expense.email = req.decoded.email;
   ExpenseEntry.findByIdAndUpdate(req.params.id, expense, function (err, post) {
     if (err) return next(err);
     res.json({success: true, data: post});
