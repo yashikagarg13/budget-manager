@@ -57,7 +57,6 @@ Login.propTypes = {
 
   loginError: PropTypes.string,
   loginHandler: PropTypes.func.isRequired,
-  loginWithFBHandler: PropTypes.func.isRequired,
 };
 
 export default Login;

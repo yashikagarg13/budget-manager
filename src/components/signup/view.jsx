@@ -44,10 +44,23 @@ const SignUp = (props) => (
         </div>
         <button type="submit" className="btn btn-primary btn-md center-block"
           onClick={props.signUpHandler}>Sign Up</button>
-        <br />
-        <p className="text-center">Already have an account? <Link to="/login">Log In!</Link></p>
+
+        <hr />
+        <div className="row">
+          <div className="col-sm-8 col-sm-offset-2">
+            <a href="api/authenticate/facebook" className="btn btn-facebook btn-md btn-block margin-bottom-xs">
+              <i className="fa fa-facebook margin-right-sm"></i>
+              Sign Up with Facebook
+            </a>
+            <a href="api/authenticate/google" className="btn btn-google btn-md btn-block">
+              <i className="fa fa-google-plus margin-right-xs"></i>
+              Sign Up with Google
+            </a>
+          </div>
+        </div>
       </form>
     </div>
+    <p className="text-center">Already have an account? <Link to="/login">Log In!</Link></p>
   </div>
 );
 

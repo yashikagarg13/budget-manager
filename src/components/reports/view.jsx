@@ -1,16 +1,17 @@
-import R from "ramda";
 import React, {PropTypes} from "react";
-
-import ChartsTabulator from "./charts-tabulator";
+import Tabulator from "../common/Tabulator";
 
 const Reports = (props) => (
-  <div className="reports-view text-center">
-    <ChartsTabulator />
-  </div>
+  <Tabulator
+    tabs={props.tabs}
+    onClickTabLink={props.onClickTabLink}
+    theme="tab-group"
+  />
 );
 
-
 Reports.propTypes = {
+  tabs: PropTypes.array.isRequired,
+  onClickTabLink: PropTypes.func.isRequired,
 };
 
 export default Reports;

@@ -38,11 +38,15 @@ router.get('/', function(req, res, next) {
 
       ExpenseCategory.collection.insert(data, {}, function (err, posts) {
         if (err)  return next(err);
-        console.log("Added category: ", posts);
         res.json({
           success: true,
-          message: "Setup successfull",
+          message: "Setup successful",
         });
+      });
+    } else {
+      res.json({
+        success: true,
+        message: "Setup already completed!",
       });
     }
   });

@@ -10,8 +10,19 @@ class SocialLoginSuccess extends Component {
     const token = this.props.params.token;
     if (R.type(token) === "String" && !R.isEmpty(token)) {
       Helpers.LocalStorage.set("token", token);
+
+      return Helpers.API.setupForUser()
+      .then((response) => { console.log('response', response);
+        if (response.success) {
+          Helpers.Utils.redirectToLandingIfTokenExists(this.props.router);
+        }
+      })
+      .catch((error) => {
+        console.log(error); // eslint-disable-line
+      });
+    } else {
+      Helpers.Utils.redirectToLandingIfTokenExists(this.props.router);
     }
-    Helpers.Utils.redirectToLandingIfTokenExists(this.props.router);
   }
 
   render() {

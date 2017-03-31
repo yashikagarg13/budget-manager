@@ -1,18 +1,22 @@
-import R from "ramda";
 import React, {PropTypes} from "react";
 
 import Header from "../common/header";
-import ListReportTabulator from "./list-report-tabulator";
+import Tabulator from "../common/Tabulator";
 
 const Landing = (props) => (
   <div className="landing-view">
     <Header actions={["Settings", "Add"]}/>
-    <ListReportTabulator />
+    <Tabulator
+      tabs={props.tabs}
+      onClickTabLink={props.onClickTabLink}
+    />
   </div>
 );
 
 
 Landing.propTypes = {
+  tabs: PropTypes.array.isRequired,
+  onClickTabLink: PropTypes.array.isRequired,
 };
 
 export default Landing;

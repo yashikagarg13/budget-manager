@@ -115,7 +115,7 @@ class PieChart extends Component {
         let arcCircumference =  (angle/360) * (2 * Math.PI * radius);
         return ((arcCircumference/2) - 20);
       })
-      .attr("dy", function(d) {
+      .attr("dy", function() {
         return 30;
       })
       .append("textPath")
