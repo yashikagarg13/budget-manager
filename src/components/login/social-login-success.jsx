@@ -12,7 +12,7 @@ class SocialLoginSuccess extends Component {
       Helpers.LocalStorage.set("token", token);
 
       return Helpers.API.setupForUser()
-      .then((response) => { console.log('response', response);
+      .then((response) => {
         if (response.success) {
           Helpers.Utils.redirectToLandingIfTokenExists(this.props.router);
         }

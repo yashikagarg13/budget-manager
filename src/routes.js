@@ -5,6 +5,7 @@ import Layout from "./components/layout";
 import ExpenseEntryContainer from "./components/expense-entry/container";
 import LandingContainer from "./components/landing/container";
 import LoginContainer from "./components/login/container";
+import ManageCategories from "./components/manage-categories/container";
 import ReportsContainer from "./components/reports/container";
 import SettingsContainer from "./components/settings/container";
 import SignUpContainer from "./components/signup/container";
@@ -24,6 +25,7 @@ const getRoutes = () => (
     <Route component={ExpenseEntryContainer} path="edit-entry/:expenseId" />
     <Route component={ReportsContainer} path="reports" />
     <Route component={SettingsContainer} path="settings" />
+    <Route component={ManageCategories} path="manage-categories" />
   </Route>
 );
 

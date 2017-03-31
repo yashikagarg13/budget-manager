@@ -1,104 +1,67 @@
 import R from "ramda";
 import React, {PropTypes} from "react";
+import {Link} from "react-router";
+import {Collapse} from "react-bootstrap";
 
-import ConfirmPopup from "../common/confirm-popup";
+import Helpers from "../../helpers";
+
 import Header from "../common/header";
-
-import ChooseCategory from "./choose-category-popup";
+import ChangePasswordConatiner from "../change-password/container";
 
 const Settings = (props) => (
   <div className="settings-view">
     <Header actions={["Back", "Add"]}/>
     <div className="container">
-      <div className="list-group no-border-radius">
-        <div className="list-group-item" key="new-category">
-          <form id="addItemForm" method="POST" onSubmit={props.addNewCategory}>
-            <div className="input-group">
-              <input type="text" className="form-control" placeholder="New category"
-                onChange={props.updateNewCategoryTitleInput} value={props.newCategoryTitle}/>
-              <span className="input-group-btn">
-                <button className="btn btn-primary" type="submit">
-                  <i className="fa fa-plus" aria-hidden="true"></i>
-                </button>
-              </span>
-            </div>
-          </form>
+      <div className="list-group padding-top-lg">
+
+        <div className="list-group-item" onClick={props.onToggleCollapse.bind(null, "changePassword")}>
+          Change password
+          <div className="pull-right">
+            <i className={`fa ${props.isOpen.changePassword ? "fa-chevron-down" : "fa-chevron-right"}`}></i>
+          </div>
         </div>
-        {R.map(category =>
-          <div className="list-group-item" Key={category._id}>
-            <div className="row">
-              <div className="col-sm-8 margin-top-xs">
-                {category.editMode
-                  ? <input type="text" className="form-control" placeholder="Category title"
-                      value={category.title} onChange={props.updateCategoryTitleInput.bind(null, category._id)} />
-                  : <span>{category.title}</span>
-                }
-              </div>
-              <div className="actions col-sm-4 text-right">
-                {category.editMode
-                  ? <button className="btn-icon" onClick={props.showConfirmModal.bind(null, category)}>
-                      <i className="fa fa-check" aria-hidden="true"></i></button>
-                  : <button className="btn-icon" onClick={props.showEditMode.bind(null, category._id)}>
-                      <i className="fa fa-pencil" aria-hidden="true"></i></button>
-                }
-                <button className="btn-icon" onClick={props.checkExpenses.bind(null, category)}>
-                  <i className="fa fa-minus-circle" aria-hidden="true"></i>
-                </button>
+        <Collapse in={props.isOpen.changePassword}>
+          <div><ChangePasswordConatiner /></div>
+        </Collapse>
+
+        <div className="list-group-item" onClick={props.onToggleCollapse.bind(null, "changeDefaultCurrency")}>
+          Change default currency
+          <div className="pull-right">
+            <i className={`fa ${props.isOpen.changeDefaultCurrency ? "fa-chevron-down" : "fa-chevron-right"}`}></i>
+          </div>
+        </div>
+        <Collapse in={props.isOpen.changeDefaultCurrency}>
+          <div className="well nomargin-bottom">
+            <div className="form-group nomargin-bottom">
+              <div className="controls">
+                <select name="defaultCurrency" id="defaultCurrency" className="input-md form-control"
+                        onChange={props.onUpdateCurrency} value={props.defaultCurrency}>
+                  {R.map(item =>
+                      <option key={item} value={item}>{item}</option>,
+                    R.append(null, Helpers.Constants.currency))}
+                </select>
               </div>
             </div>
-          </div>,
-        props.categories)}
+          </div>
+        </Collapse>
+
+        <Link to="/manage-categories" className="list-group-item primary text">
+          Manage Categories
+          <div className="pull-right">
+            <i className="fa fa-chevron-right"></i>
+          </div>
+        </Link>
+
       </div>
     </div>
-    {props.isConfirmModalVisible
-      ? <ConfirmPopup
-          modalText={props.confirmMsgText}
-          modalData={props.confirmModalData}
-          modalTitle="Alert"
-          onConfirm={props.editCategory}
-          onHide={props.hideConfirmModal}
-          show={props.isConfirmModalVisible}
-        />
-      : null
-    }
-
-    {props.isChooseCategoryModalVisible
-      ? <ChooseCategory
-          categories={props.categories}
-          oldCategoryId={props.chooseCategoryModalData}
-          onDelete={props.removeAllExpenses}
-          onChoose={props.updateExpensesWithCategory}
-          onHide={props.hideChooseCategoryModal}
-          show={props.isChooseCategoryModalVisible}
-          updateCategoryInput={props.updateNewCategoryInput}
-      />
-      : null
-    }
   </div>
 );
 
 Settings.propTypes = {
-  addNewCategory: PropTypes.func.isRequired,
-  categories: PropTypes.array,
-  newCategoryTitle: PropTypes.string,
-  updateNewCategoryTitleInput: PropTypes.func.isRequired,
-
-  confirmMsgText: PropTypes.string.isRequired,
-  editCategory: PropTypes.func.isRequired,
-  hideConfirmModal: PropTypes.func.isRequired,
-  isConfirmModalVisible: PropTypes.bool,
-  confirmModalData: PropTypes.object,
-  showConfirmModal: PropTypes.func.isRequired,
-  showEditMode: PropTypes.func.isRequired,
-  updateCategoryTitleInput: PropTypes.func.isRequired,
-
-  checkExpenses: PropTypes.func.isRequired,
-  isChooseCategoryModalVisible: PropTypes.bool,
-  chooseCategoryModalData: PropTypes.string.isRequired,
-  hideChooseCategoryModal: PropTypes.func.isRequired,
-  removeAllExpenses: PropTypes.func.isRequired,
-  updateNewCategoryInput: PropTypes.func.isRequired,
-  updateExpensesWithCategory: PropTypes.func.isRequired,
+  defaultCurrency: PropTypes.string.isRequired,
+  isOpen: PropTypes.object.isRequired,
+  onToggleCollapse: PropTypes.func.isRequired,
+  onUpdateCurrency: PropTypes.func.isRequired,
 };
 
 export default Settings;
