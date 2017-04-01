@@ -1,13 +1,13 @@
 import R from "ramda";
-import jwt from "jwt-simple";
+import jwt from "jsonwebtoken";
 const bcrypt = require("bcrypt-nodejs");
 
 import LocalStorage from "./local-storage";
 import dbConfig from "../config/db";
 
 export default {
-  createToken(user) {
-    return jwt.encode(user, dbConfig.secret);
+  createToken(user, config={expiresIn: "7d"}) {
+    return jwt.sign(user, dbConfig.secret, config);
   },
   getToken () {
     return LocalStorage.get("token");

@@ -19,12 +19,26 @@ module.exports = function(passport) {
 
   // facebook-login
   passport.use(new FacebookStrategy(authConfig.facebookAuth, function (token, refreshToken, profile, done) {
-    User.findOne({"facebook.id": profile.id}, function(err, user) {
+    User.findOne({$or: [{"facebook.id": profile.id}, {email:profile.emails[0].value}]}, function(err, user) {
       if (err) {
         return done(err, false);
       }
       if (user) {
-        return done(null, user);
+        if (!user.facebook.id) {
+          user.facebook.id    = profile.id;
+          user.facebook.token = token;
+          user.facebook.name  = profile.displayName;
+          user.facebook.email = profile.emails[0].value;
+
+          user.save(function(err) {
+            if (err)
+              throw err;
+
+            return done(null, user);
+          });
+        } else {
+          return done(null, user);
+        }
       } else {
         let newUser = new User();
         newUser.facebook.id    = profile.id;
@@ -46,12 +60,26 @@ module.exports = function(passport) {
 
   // google-login
   passport.use(new GoogleStrategy(authConfig.googleAuth, function (token, refreshToken, profile, done) {
-    User.findOne({"google.id": profile.id}, function(err, user) {
+    User.findOne({$or: [{"google.id": profile.id}, {email:profile.emails[0].value}]}, function(err, user) {
       if (err) {
         return done(err, false);
       }
       if (user) {
-        return done(null, user);
+        if (!user.google.id) {
+          user.google.id    = profile.id;
+          user.google.token = token;
+          user.google.name  = profile.displayName;
+          user.google.email = profile.emails[0].value;
+
+          user.save(function(err) {
+            if (err)
+              throw err;
+
+            return done(null, user);
+          });
+        } else {
+          return done(null, user);
+        }
       } else {
         let newUser = new User();
         newUser.google.id    = profile.id;

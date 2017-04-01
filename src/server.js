@@ -6,7 +6,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const passport = require("passport");
-const jwt = require("jwt-simple");
+const jwt = require("jsonwebtoken");
 
 const React = require("react");
 const ReactDOMServer = require("react-dom/server");
@@ -60,7 +60,7 @@ app.use("/api", function(req, res, next) {
 
   if (token) {
     console.log("token", token);
-    const decoded = jwt.decode(token, dbConfig.secret, true);
+    const decoded = jwt.verify(token, dbConfig.secret);
     User.findOne({email: decoded.email}, function(err, user) {
       if (err) {
         return res.json({ success: false, message: "Failed to authenticate token." });

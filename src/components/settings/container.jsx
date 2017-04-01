@@ -1,3 +1,4 @@
+import R from "ramda";
 import React, {Component, PropTypes} from "react";
 
 import Helpers from "../../helpers";
@@ -20,6 +21,10 @@ class SettingsContainer extends Component {
     this.onUpdateCurrency = this.onUpdateCurrency.bind(this);
   }
   componentWillMount () {
+    const token = this.props.params.token;
+    if (R.type(token) === "String" && !R.isEmpty(token)) {
+      Helpers.LocalStorage.set("token", token);
+    }
     Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
   }
 
@@ -53,6 +58,7 @@ class SettingsContainer extends Component {
         isOpen={this.state.isOpen}
         onToggleCollapse={this.onToggleCollapse}
         onUpdateCurrency={this.onUpdateCurrency}
+        token={this.props.params.token}
       />
     );
   }
@@ -60,6 +66,7 @@ class SettingsContainer extends Component {
 
 SettingsContainer.propTypes = {
   router: PropTypes.object,
+  params: PropTypes.object,
 };
 
 

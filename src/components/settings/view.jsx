@@ -10,7 +10,7 @@ import ChangePasswordContainer from "../change-password/container";
 
 const Settings = (props) => (
   <div className="settings-view">
-    <Header actions={["Back", "Add"]}/>
+    <Header actions={props.token ? ["Home"] : ["Back", "Add"]}/>
     <div className="container">
       <div className="list-group padding-top-lg">
 

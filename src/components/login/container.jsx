@@ -9,27 +9,55 @@ class LoginContainer extends Component {
       email: "",
       password: "",
       loginError: "",
+      showForgotPwdModal: false,
+      apiInProgress: false,
     };
 
-    this.onLoginClick = this.onLoginClick.bind(this);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
+    this.onClickForgotPwd = this.onClickForgotPwd.bind(this);
+    this.onHideModal = this.onHideModal.bind(this);
+    this.onRequestLink = this.onRequestLink.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onUpdate = this.onUpdate.bind(this);
   }
   componentWillMount () {
     Helpers.Utils.redirectToLandingIfTokenExists(this.props.router);
   }
 
-  onChangeEmail(event) {
+  onClickForgotPwd() {
     this.setState({
-      email: event.target.value,
+      showForgotPwdModal: true,
     });
   }
-  onChangePassword(event) {
+  onHideModal() {
     this.setState({
-      password: event.target.value,
+      showForgotPwdModal: false,
     });
   }
-  onLoginClick(event) {
+  onRequestLink(email) {
+    this.setState({
+      apiInProgress: true,
+    });
+    return Helpers.API.requestResetPasswordLink(email)
+      .then((response) => {
+        if (!response.success) {
+          this.setState({
+            loginError: response.message
+          });
+        }
+        this.setState({
+          showForgotPwdModal: false,
+        });
+        this.onHideModal();
+      })
+      .catch((error) => {
+        console.log(error); // eslint-disable-line
+        this.setState({
+          showForgotPwdModal: false,
+        });
+        this.onHideModal();
+      });
+  }
+  onSubmit(event) {
     event.preventDefault();
 
     this.timeoutInstance = setTimeout(() => {
@@ -53,15 +81,25 @@ class LoginContainer extends Component {
       });
     }, 0);
   }
+  onUpdate(key, event) {
+    let state = this.state;
+    state[key] = event.target.value;
+    this.setState(state);
+  }
 
   render() {
     return (
       <Login
+        apiInProgress={this.state.apiInProgress}
         email={this.state.email}
-        updateEmailHandler={this.onChangeEmail}
-        updatePasswordHandler={this.onChangePassword}
         loginError={this.state.loginError}
-        loginHandler={this.onLoginClick}/>
+        showForgotPwdModal={this.state.showForgotPwdModal}
+        onClickForgotPwd={this.onClickForgotPwd}
+        onHideModal={this.onHideModal}
+        onRequestLink={this.onRequestLink}
+        onSubmit={this.onSubmit}
+        onUpdate={this.onUpdate}
+      />
     );
   }
 }

@@ -26,6 +26,13 @@ class Header extends Component {
                 <i className="fa fa-chevron-left" aria-hidden="true"></i>
               </button>
               : null }
+            {R.indexOf("Home", this.props.actions) > -1
+              ? <Link to="/">
+                  <button type="button" className="btn btn-default accent text margin-right-xs" aria-label="Home">
+                    <i className="fa fa-home" aria-hidden="true"></i>
+                  </button>
+                </Link>
+              : null }
           </div>
           <div className="header-title col-sm-4 text-center margin-top-xs">
             <Link to="/">Budget Manager</Link>

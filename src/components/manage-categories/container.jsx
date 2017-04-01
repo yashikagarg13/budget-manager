@@ -192,7 +192,7 @@ class ManageCategoriesContainer extends React.Component {
     });
   }
   onLoadData () {
-    Helpers.API.getExpenseCategoriesByUser()
+    Helpers.API.getExpenseCategories()
       .then(response => {
         Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
         if (response.success) {

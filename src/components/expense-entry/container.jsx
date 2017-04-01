@@ -40,7 +40,7 @@ class ExpenseEntryContainer extends Component {
   loadData () {
     const expenseId = this.props.params.expenseId;
 
-    return Helpers.API.getExpenseCategoriesByUser()
+    return Helpers.API.getExpenseCategories()
       .then(response => {
         Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
         if (response.success) {

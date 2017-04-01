@@ -15,6 +15,10 @@ export default {
     return Axios.get(`${baseUrl}/authenticate/facebook`)
     .then(response => response.data);
   },
+  requestResetPasswordLink (email) {
+    return Axios.post(`${baseUrl}/authenticate/requestResetPasswordLink`, {email})
+      .then(response => response.data);
+  },
   signUp (email, passwordHash, currency) {
     return Axios.post(`${baseUrl}/signup`, {
       email: email,
@@ -23,6 +27,7 @@ export default {
     })
     .then(response => response.data);
   },
+
   setupForUser () {
     return Axios.get(`${baseUrl}/setup`, {
       headers: Utils.getHeaders(),
@@ -108,7 +113,7 @@ export default {
       .then(response => Utils.isTokenExpired(response));
   },
 
-  getExpenseCategoriesByUser () {
+  getExpenseCategories () {
     return Axios.get(`${baseUrl}/expenseCategories`, {
       headers: Utils.getHeaders(),
     })

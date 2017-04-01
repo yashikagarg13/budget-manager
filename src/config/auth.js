@@ -10,5 +10,12 @@ module.exports = {
     clientID: "928341289393-m2uakjnrv94oem0lddt93913vtteg42d.apps.googleusercontent.com",
     clientSecret: "6rwlMo8AaYBk0xYySjMilHm-",
     callbackURL: "http://localhost:8080/api/authenticate/google/callback",
-  }
+  },
+  sendEmail: {
+    auth: {
+      user: "kygclub4u@gmail.com",
+      pass: "Jaishriram@2100",
+      senderName: "KYGClub",
+    }
+  },
 }

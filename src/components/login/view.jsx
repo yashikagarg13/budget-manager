@@ -1,6 +1,8 @@
 import React, {PropTypes} from "react";
 import {Link} from "react-router";
 
+import ForgotPasswordPopup from "./forgot-password-popup";
+
 const Login = (props) => (
   <div className="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 margin-top-xlg">
     <h5 className="text-center">
@@ -13,23 +15,26 @@ const Login = (props) => (
           </div>
         : null
       }
-      <form onSubmit={props.loginHandler}>
+      <form onSubmit={props.onSubmit}>
         <div className="form-group">
           <label className="control-label">Email</label>
           <div className="controls">
-            <input type="email" className="input-mf form-control" id="email" name="email"
-              value={props.email} onChange={props.updateEmailHandler}/>
+            <input type="email" className="input-md form-control" id="email" name="email"
+              value={props.email} onChange={props.onUpdate.bind(null, "email")}/>
           </div>
         </div>
         <div className="form-group">
           <label className="control-label">Password</label>
           <div className="controls">
-            <input type="password" className="input-mf form-control" id="password" name="password"
-              onChange={props.updatePasswordHandler}/>
+            <input type="password" className="input-md form-control" id="password" name="password"
+              onChange={props.onUpdate.bind(null, "password")}/>
           </div>
         </div>
-        <button type="submit" className="btn btn-primary btn-md btn-block">Log In</button>
-
+        <div className="controls clearfix">
+          <button type="submit" className="btn btn-primary btn-md btn-block">Log In</button>
+          <button type="button" className="btn btn-link pull-right nopadding margin-top-xs"
+                  onClick={props.onClickForgotPwd}>Forgot Password?</button>
+        </div>
         <hr />
         <div className="row">
           <div className="col-sm-8 col-sm-offset-2">
@@ -46,17 +51,28 @@ const Login = (props) => (
       </form>
     </div>
     <p className="text-center margin-top">Do not have an account? <Link to="/signup">Sign up!</Link></p>
+    {props.showForgotPwdModal
+      ? <ForgotPasswordPopup
+          apiInProgress={props.apiInProgress}
+          show={props.showForgotPwdModal}
+          onHide={props.onHideModal}
+          onClick={props.onRequestLink}
+        />
+      : null
+    }
   </div>
 );
 
 Login.propTypes = {
-  email: PropTypes.string,
-  updateEmailHandler: PropTypes.func.isRequired,
-
-  updatePasswordHandler: PropTypes.func.isRequired,
-
+  apiInProgress: PropTypes.bool,
+  email: PropTypes.string.isRequired,
   loginError: PropTypes.string,
-  loginHandler: PropTypes.func.isRequired,
+  showForgotPwdModal: PropTypes.bool,
+  onClickForgotPwd: PropTypes.func.isRequired,
+  onHideModal: PropTypes.func.isRequired,
+  onRequestLink: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default Login;

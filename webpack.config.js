@@ -38,7 +38,7 @@ const config = {
       // Images
       {test: /\.(jpe?g|png|gif|svg(\?.*)?)$/i,
         loaders: ["file?hash=sha512&digest=hex&name=[hash].[ext]",
-                  "image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false"]},
+                  "image-webpack?bypassOnDebug"]},
 
       {test: /\.(ttf(\?.*)?)$/,   loaders: ["file?name=[name].[ext]"]},
       {test: /\.(woff(\?.*)?)$/,  loaders: ["file?name=[name].[ext]"]},
@@ -63,7 +63,12 @@ const config = {
     new HTMLWebpackPlugin({
       template: SRC_DIR + "/index.html",
     })
-  ]
+  ],
+  node: {
+    net: 'empty',
+    tls: 'empty',
+    dns: 'empty'
+  }
 };
 
 module.exports = config;

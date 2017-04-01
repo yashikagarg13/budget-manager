@@ -10,7 +10,13 @@ router.post("/", function(req, res) {
     res.json({success: false, message: "Please enter email and password!"});
   } else {
     User.findOne({
-      email: req.body.email
+      $or: [{
+        email: req.body.email
+      },{
+        "facebook.email": req.body.email,
+      }, {
+        "google.email": req.body.email,
+      }]
     }, function(err, user) {
       if (err) throw err;
 
