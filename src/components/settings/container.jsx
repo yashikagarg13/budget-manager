@@ -11,7 +11,7 @@ class SettingsContainer extends Component {
 
     this.state = {
       isOpen: {
-        changePassword: false,
+        changePassword: true,
         changeDefaultCurrency: false,
       },
       defaultCurrency: Helpers.LocalStorage.get("currency"),

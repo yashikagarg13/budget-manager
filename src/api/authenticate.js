@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const nodemailer = require("nodemailer");
+var bcrypt = require("bcrypt-nodejs");
 
 const authConfig = require("../config/auth");
 const dbConfig = require("../config/db");
@@ -18,23 +19,21 @@ router.post("/", function(req, res) {
       res.json({ success: false, message: "Authentication failed. User not found." });
     } else if (user) {
       // check if password matches
-      user.comparePassword(req.body.password, function (err, isMatch) {
-        if (err || !isMatch) {
-          res.json({ success: false, message: "Authentication failed. Wrong password." });
-        } else {
-          // if user is found and password is right
-          // create a token
-          const token = utils.createToken(user);
+      if (!bcrypt.compareSync(req.body.password, user.password)) {
+        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+      } else {
+        // if user is found and password is right
+        // create a token
+        const token = utils.createToken(user);
 
-          // return the information including token as JSON
-          res.json({
-            success: true,
-            message: "Enjoy your token!",
-            token: token,
-            currency: user.currency,
-          });
-        }
-      });
+        // return the information including token as JSON
+        res.json({
+          success: true,
+          message: "Enjoy your token!",
+          token: token,
+          currency: user.currency,
+        });
+      }
     }
   });
 });

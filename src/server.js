@@ -59,14 +59,13 @@ app.use("/api", function(req, res, next) {
   const token = req.headers["authorization"];
 
   if (token) {
-    console.log("token", token);
     const decoded = jwt.verify(token, dbConfig.secret);
-    User.findOne({email: decoded.email}, function(err, user) {
+    User.findOne({email: decoded._doc ? decoded._doc.email : decoded.email}, function(err, user) {
       if (err) {
         return res.json({ success: false, message: "Failed to authenticate token." });
       } else {
         // if everything is good, save to request for use in other api
-        req.decoded = decoded;
+        req.decoded = decoded._doc ? decoded._doc : decoded;
         next();
       }
     });

@@ -29,6 +29,12 @@ class ChangePasswordContainer extends Component {
     form.errors = {};
     const {newPassword, confirmPassword} = form.values;
 
+    if(R.type(newPassword) != "String" || R.isEmpty(newPassword)) {
+      form.errors.newPassword = Helpers.Notifictaions.fieldIsRequired;
+    }
+    if(R.type(confirmPassword) != "String" || R.isEmpty(confirmPassword)) {
+      form.errors.confirmPassword = Helpers.Notifictaions.fieldIsRequired;
+    }
     if (R.type(newPassword) == "String" && !R.isEmpty(newPassword) &&
         R.type(confirmPassword) == "String" && !R.isEmpty(confirmPassword) &&
         newPassword !== confirmPassword) {

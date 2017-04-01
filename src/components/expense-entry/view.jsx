@@ -78,7 +78,7 @@ const ExpenseEntry = (props) => (
                     onClick={props.save.bind(null, false)} disabled={props.form.disabled}>
               Save
             </button>
-            {R.isEmpty(props.expenseId) || R.type(props.expenseId) != "Number"
+            {R.isEmpty(props.expenseId) || R.type(props.expenseId) != "String"
               ? <button type="button" className="btn btn-accent margin-right-sm"
                       onClick={props.save.bind(null, true)} disabled={props.form.disabled}>
                   Add Another

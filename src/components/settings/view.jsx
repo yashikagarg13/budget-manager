@@ -62,6 +62,7 @@ Settings.propTypes = {
   isOpen: PropTypes.object.isRequired,
   onToggleCollapse: PropTypes.func.isRequired,
   onUpdateCurrency: PropTypes.func.isRequired,
+  token: PropTypes.string,
 };
 
 export default Settings;

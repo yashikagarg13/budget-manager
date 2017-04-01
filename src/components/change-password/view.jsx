@@ -9,15 +9,19 @@ const ChangePassword = ({form, onChange, onSubmit}) => {
     <div className="fieldset noborder-radius noborder-bottom">
       <form onSubmit={onSubmit}>
         <div className="form-group">
-          <label className="control-label" htmlFor="newPassword">Password</label>
+          <label className="control-label" htmlFor="newPassword">Password <span className="required">*</span></label>
           <div className="controls">
             <input type="password" name="newPassword" id="newPassword"
                    className="input-md form-control"
                    onChange={onChange.bind(null, "newPassword")} value={newPassword} />
+            {form.errors.newPassword
+              ? <p className="error">{form.errors.newPassword}</p>
+              : null
+            }
           </div>
         </div>
         <div className="form-group">
-          <label className="control-label" htmlFor="confirmPassword">Confirm Password</label>
+          <label className="control-label" htmlFor="confirmPassword">Confirm Password <span className="required">*</span></label>
           <div className="controls">
             <input type="password" name="confirmPassword" id="confirmPassword"
                    className="input-md form-control"

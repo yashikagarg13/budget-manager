@@ -23,7 +23,7 @@ router.delete("/:id", function(req, res) {
 
 router.put("/updateCurrency", function (req, res) {
   const email = req.decoded.email;
-  User.findOneAndUpdate({email}, {currency: req.body.currency}, function (err, user) {
+  User.findOneAndUpdate({email: email}, {currency: req.body.currency}, function (err, user) {
     if (err) {
       throw err;
     }
@@ -34,8 +34,7 @@ router.put("/updateCurrency", function (req, res) {
 router.put("/updatePassword", function (req, res) {
   const email = req.decoded.email;
   const password = utils.generatePassword(req.body.password);
-
-  User.findOneAndUpdate({email}, {password}, function (err, user) {
+  User.findOneAndUpdate({email: email}, {password: password}, function (err, user) {
     if (err) {
       throw err;
     }

@@ -24,7 +24,7 @@ const getRoutes = () => (
     <Route component={ExpenseEntryContainer} path="add-entry" />
     <Route component={ExpenseEntryContainer} path="edit-entry/:expenseId" />
     <Route component={ReportsContainer} path="reports" />
-    <Route component={SettingsContainer} path="settings/:token" />
+    <Route component={SettingsContainer} path="settings(/:token)" />
     <Route component={ManageCategories} path="manage-categories" />
   </Route>
 );
