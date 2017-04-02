@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const nodemailer = require("nodemailer");
-var bcrypt = require("bcrypt-nodejs");
+const bcrypt = require("bcrypt-nodejs");
 
 const authConfig = require("../config/auth");
 const dbConfig = require("../config/db");
@@ -91,28 +91,30 @@ router.post("/requestResetPasswordLink", function (req, res) {
       const link = `http://${dbConfig.domain}:${dbConfig.port}/settings/${token}`;
 
       const message = "<div>" +
-        "<p><b>Dear " + email.split("@")[0] +", </b></p><br/><br/>" +
+        "<p><b>Dear " + email.split("@")[0] +", </b></p><br/>" +
         "<p>This email was sent automatically by KYGClub in response to your request to reset your password. " +
         "This is done for your protection; only you, the recipient of this email can take the next step " +
-        "in the password recovery process.</p><br/><br/>" +
-        "<p>To reset your password and access your account, click on the following link (expires in 24 hours):</p><br/>" +
+        "in the password recovery process.</p><br/>" +
+        "<p>To reset your password and access your account, click on the following link (expires in 24 hours):</p>" +
         "<a href='" + link + "'>Reset Link</a><br/><br/><br/>" +
         "Thank You,<br/>" +
-        authConfig.sendEmail.auth.senderName
+        authConfig.sendEmail.senderName
       "</div>";
 
       const mailOptions = {
-        from: authConfig.sendEmail.auth.senderName,
+        from: `"${authConfig.sendEmail.senderName}" <${authConfig.sendEmail.auth.user}>`,
         to: email,
         subject: 'KYGClub Budget Manager: Reset Password',
         html: message,
       };
+      console.log(mailOptions);
 
       transporter.sendMail(mailOptions, function(err, response){
         if(err)
           throw err;
 
-        res.json({success: true, message: "Email sent!"});
+        res.json({success: true, message: "Email sent!", response});
+        transporter.close();
       });
     }
   });

@@ -13,9 +13,14 @@ module.exports = {
   },
   sendEmail: {
     auth: {
+      type: "OAuth2",
       user: "kygclub4u@gmail.com",
-      pass: "Jaishriram@2100",
-      senderName: "KYGClub",
-    }
+      clientId: "928341289393-m2uakjnrv94oem0lddt93913vtteg42d.apps.googleusercontent.com",
+      clientSecret: "6rwlMo8AaYBk0xYySjMilHm-",
+      refreshToken: "1/QJ5sZCEzMEUwqU7M69Vbe00MbHofgyXPAveIZrwSPz8",
+      accessToken: "ya29.GlshBJ7vFZQUaSsk9wSVx92UVQv2oAaXuEF9j0qdiE7oyTw_fy6WuxOXImelFXjc2pHV-_ElbrroYlz9TF48iQgaOtKBHdZGaJ8icYrYkIIg9swwvuE8fns4_Esz",
+      expires: 1484314697598,
+    },
+    senderName: "KYGClub",
   },
 }

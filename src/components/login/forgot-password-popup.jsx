@@ -5,7 +5,8 @@ import Loading from "../common/loading";
 
 const ForgotPasswordPopup = (props) => {
   let input;
-  return (
+
+    return (
     <Modal show={props.show} backdrop={true} animation={true}>
       <Modal.Header>
         <h4>
@@ -14,6 +15,7 @@ const ForgotPasswordPopup = (props) => {
       </Modal.Header>
 
       <Modal.Body>
+        {props.apiInProgress ? <Loading /> : null}
         <div className="form-group">
           <label className="control-label" htmlFor="email">Email</label>
           <div className="controls">
@@ -31,7 +33,7 @@ const ForgotPasswordPopup = (props) => {
 
                   props.onClick(input.value);
                 }}>
-          {props.apiInProgress ? <Loading /> : "Get reset password link"}
+          Get reset password link
         </button>
         <button type="button" className="btn btn-default" onClick={props.onHide}>Close</button>
       </Modal.Footer>
