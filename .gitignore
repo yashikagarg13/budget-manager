@@ -6,3 +6,5 @@ public/js
 public/images
 public/style.css
 public/index.html
+
+src/config/auth.js
