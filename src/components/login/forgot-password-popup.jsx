@@ -6,7 +6,7 @@ import Loading from "../common/loading";
 const ForgotPasswordPopup = (props) => {
   let input;
 
-    return (
+  return (
     <Modal show={props.show} backdrop={true} animation={true}>
       <Modal.Header>
         <h4>
