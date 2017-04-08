@@ -2,9 +2,6 @@
 .idea/jsLibraryMappings.xml
 
 node_modules
-public/js
-public/images
-public/style.css
-public/index.html
+public/
 
 src/config/auth.js

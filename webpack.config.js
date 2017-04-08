@@ -10,11 +10,15 @@ const NODE_MODULES = Path.join(__dirname, "node_modules");
 
 const config = (env) => ({
   context: __dirname,
-  entry: "./src/app.js",
+  entry: {
+    app: "./src/app.js",
+    vendor: ["react", "react-dom", "react-router", "ramda", "react-bootstrap", "moment", "react-datepicker",
+              "react-waypoint", "d3", "axios", "localStorage", "jsonwebtoken", "bcrypt-nodejs"],
+  },
   output: {
     path: Path.join(__dirname, "public/"),
     publicPath: "/",
-    filename: "js/bundle.js"
+    filename: "js/[name].[hash].js",
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json']
@@ -67,6 +71,11 @@ const config = (env) => ({
     ]
   },
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: Infinity,
+      filename: 'js/[name].[hash].js',
+    }),
     new CleanWebpackPlugin(['public'], {
       root: Path.join(__dirname, "/"),
       verbose: true,
