@@ -8,7 +8,7 @@ const SRC_DIR = Path.join(__dirname, "src");
 const PUBLIC_DIR = Path.join(__dirname, "public");
 const NODE_MODULES = Path.join(__dirname, "node_modules");
 
-const config = {
+const config = (env) => ({
   context: __dirname,
   entry: "./src/app.js",
   output: {
@@ -17,33 +17,53 @@ const config = {
     filename: "js/bundle.js"
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json']
+    extensions: ['.js', '.jsx', '.json']
   },
   module: {
-    preLoaders: [
-      {test: /\.jsx?$/, loader: "eslint-loader", exclude: /node_modules/}
-    ],
-    loaders: [
-      {test: /\.jsx?$/, loader: "babel-loader", exclude: /node_modules/},
+    rules: [
+      {test: /\.jsx?$/, use: [{loader: "eslint-loader"}], exclude: /node_modules/, enforce: "pre"},
+
+      {test: /\.jsx?$/, use: [{loader: "babel-loader"}], exclude: /node_modules/},
 
       // CSS: https://github.com/webpack/css-loader
-      {test: /\.(css(\?.*)?)$/, loader: ExtractTextPlugin.extract('style', 'css')},
+      {
+        test: /\.(css(\?.*)?)$/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: "css-loader",
+        }),
+      },
 
       // LESS: https://github.com/webpack/less-loader
-      {test: /\.(less(\?.*)?)$/, loader: ExtractTextPlugin.extract('style', 'css!less')},
-
-      // JSON
-      {test: /\.(json(\?.*)?)$/,  loaders: ["json-loader"]},
+      {
+        test: /\.(less(\?.*)?)$/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: ["css-loader", "less-loader"],
+        }),
+      },
 
       // Images
       {test: /\.(jpe?g|png|gif|svg(\?.*)?)$/i,
-        loaders: ["file?hash=sha512&digest=hex&name=[hash].[ext]",
-                  "image-webpack?bypassOnDebug"]},
+        use: [{
+          loader: "file-loader",
+          options: {
+            hash: "sha512",
+            digest: "hex",
+            name: "[hash].[ext]",
+          }
+        }, {
+          loader: "image-webpack-loader",
+          options: {
+            bypassOnDebug: true,
+          }
+        }]
+      },
 
-      {test: /\.(ttf(\?.*)?)$/,   loaders: ["file?name=[name].[ext]"]},
-      {test: /\.(woff(\?.*)?)$/,  loaders: ["file?name=[name].[ext]"]},
-      {test: /\.(woff2(\?.*)?)$/, loaders: ["file?name=[name].[ext]"]},
-      {test: /\.(eot(\?.*)?)$/,   loaders: ["file?name=[name].[ext]"]},
+      {test: /\.(ttf(\?.*)?)$/,   use: [{loader: "file-loader", options: {"name": "[name].[ext]"}}]},
+      {test: /\.(woff(\?.*)?)$/,  use: [{loader: "file-loader", options: {"name": "[name].[ext]"}}]},
+      {test: /\.(woff2(\?.*)?)$/, use: [{loader: "file-loader", options: {"name": "[name].[ext]"}}]},
+      {test: /\.(eot(\?.*)?)$/,   use: [{loader: "file-loader", options: {"name": "[name].[ext]"}}]},
     ]
   },
   plugins: [
@@ -55,11 +75,15 @@ const config = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify("production")
     }),
-    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false, screw_ie8: true},
+      sourceMap: true,
     }),
-    new ExtractTextPlugin("style.css"),
+    new ExtractTextPlugin({
+      filename: "style.css",
+      disable: false,
+      allChunks: true,
+    }),
     new HTMLWebpackPlugin({
       template: SRC_DIR + "/index.html",
     })
@@ -69,6 +93,6 @@ const config = {
     tls: 'empty',
     dns: 'empty'
   }
-};
+});
 
 module.exports = config;
