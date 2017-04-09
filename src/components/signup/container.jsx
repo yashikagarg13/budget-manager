@@ -3,7 +3,7 @@ import React, {Component, PropTypes} from "react";
 import SignUp from "./view";
 import Helpers from "../../helpers/index";
 
-export default class SignUpContainer extends Component {
+class SignUpContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -87,3 +87,5 @@ export default class SignUpContainer extends Component {
 SignUpContainer.propTypes = {
   router: PropTypes.object,
 };
+
+export default SignUpContainer;

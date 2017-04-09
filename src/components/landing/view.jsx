@@ -16,7 +16,7 @@ const Landing = (props) => (
 
 Landing.propTypes = {
   tabs: PropTypes.array.isRequired,
-  onClickTabLink: PropTypes.array.isRequired,
+  onClickTabLink: PropTypes.func.isRequired,
 };
 
 export default Landing;

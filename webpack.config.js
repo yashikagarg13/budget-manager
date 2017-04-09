@@ -74,7 +74,7 @@ const config = (env) => ({
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: Infinity,
-      filename: 'js/[name].[hash].js',
+      filename: 'js/[name].js',
     }),
     new CleanWebpackPlugin(['public'], {
       root: Path.join(__dirname, "/"),
