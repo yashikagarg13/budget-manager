@@ -25,7 +25,7 @@ const ManageCategories = (props) => (
           </form>
         </div>
         {R.map(category =>
-          <div className="list-group-item" Key={category._id}>
+          <div className="list-group-item" key={category._id}>
             <div className="row">
               <div className="col-sm-8 margin-top-xs">
                 {category.editMode
@@ -94,7 +94,7 @@ ManageCategories.propTypes = {
 
   checkExpenses: PropTypes.func.isRequired,
   isChooseCategoryModalVisible: PropTypes.bool,
-  chooseCategoryModalData: PropTypes.string.isRequired,
+  chooseCategoryModalData: PropTypes.string,
   hideChooseCategoryModal: PropTypes.func.isRequired,
   removeAllExpenses: PropTypes.func.isRequired,
   updateNewCategoryInput: PropTypes.func.isRequired,

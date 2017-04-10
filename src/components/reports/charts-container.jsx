@@ -27,7 +27,8 @@ class ChartsContainer extends Component {
 
     this.onChangeFilter = this.onChangeFilter.bind(this);
     this.onReset = this.onReset.bind(this);
-
+  }
+  componentWillMount() {
     this.filterData();
   }
 
