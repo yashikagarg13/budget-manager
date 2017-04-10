@@ -1,6 +1,6 @@
 import R from "ramda";
 import React, {PropTypes} from "react";
-import {Link} from "react-router";
+import Link from "react-router/lib/Link";
 import {Collapse} from "react-bootstrap";
 
 import Helpers from "../../helpers";

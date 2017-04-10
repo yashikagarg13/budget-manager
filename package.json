@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=production node --exec babel-node --presets=react,es2015 -- src/server.js",
-    "dev": "cross-env NODE_ENV=development nodemon --exec babel-node --presets=react,es2015 -- src/server.js",
-    "watch": "cross-env NODE_ENV=development webpack --watch",
-    "build": "cross-env NODE_ENV=production webpack"
+    "start": "cross-env node --env.prod --exec babel-node --presets=react,es2015 -- src/server.js",
+    "dev": "cross-env nodemon --exec babel-node --env.dev --presets=react,es2015 -- src/server.js",
+    "watch": "cross-env webpack --watch --env.dev",
+    "build": "cross-env webpack --env.prod"
   },
   "dependencies": {
     "axios": "^0.15.3",

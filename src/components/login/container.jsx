@@ -26,6 +26,7 @@ class LoginContainer extends Component {
   onClickForgotPwd() {
     this.setState({
       showForgotPwdModal: true,
+      apiInProgress: false,
     });
   }
   onHideModal() {

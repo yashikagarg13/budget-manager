@@ -1,6 +1,6 @@
 import moment from "moment";
 import React, {Component, PropTypes} from "react";
-import {withRouter} from "react-router";
+import withRouter from "react-router/lib/withRouter";
 
 import Helpers from "../../helpers";
 

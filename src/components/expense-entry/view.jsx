@@ -43,14 +43,14 @@ const ExpenseEntry = (props) => (
               <div className="row">
                 <div className="col-sm-8">
                   <input type="number" id="amount" name="amount" className="input-sm form-control"
-                         value={props.form.values.amount} defaultValue={props.form.values.amount}
+                         value={props.form.values.amount}
                          onChange={props.updateInput.bind(null, "amount", "number")} min="0"
                   />
                   {props.form.errors.amount ? <p className="error">{props.form.errors.amount}</p> : null}
                 </div>
                 <div className="col-sm-4">
                   <select id="currency" name="currency" className="input-sm form-control"
-                         value={props.form.values.currency} defaultValue={props.form.values.currency}
+                         value={props.form.values.currency}
                          onChange={props.updateInput.bind(null, "currency", "text")}>
                     {R.map(item =>
                       <option key={item} value={item}>{item}</option>,
@@ -66,7 +66,7 @@ const ExpenseEntry = (props) => (
             <label className="control-label" htmlFor="description">Description</label>
             <div className="controls">
               <textarea id="description" name="description" className="input-sm form-control"
-                     value={props.form.values.description} defaultValue={props.form.values.description}
+                     value={props.form.values.description}
                      onChange={props.updateInput.bind(null, "description", "text")}
               />
               {props.form.errors.description ? <p className="error">{props.form.errors.description}</p> : null}

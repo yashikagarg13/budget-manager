@@ -2,6 +2,6 @@
 .idea/jsLibraryMappings.xml
 
 node_modules
-public/
+public
 
 src/config/auth.js

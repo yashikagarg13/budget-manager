@@ -88,7 +88,7 @@ router.post("/requestResetPasswordLink", function (req, res) {
       });
 
       const token = utils.createToken(user, {expiresIn: "1d"});
-      const link = `http://${dbConfig.domain}:${dbConfig.port}/settings/${token}`;
+      const link = `http://${dbConfig.domain}:${dbConfig.port}/settings/${token}?currency=${user.currency}`;
 
       const message = "<div>" +
         "<p><b>Dear " + email.split("@")[0] +", </b></p><br/>" +

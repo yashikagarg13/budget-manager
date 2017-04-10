@@ -1,6 +1,7 @@
 import R from "ramda";
 import React, {Component, PropTypes} from "react";
-import {browserHistory, Link} from "react-router";
+import browserHistory from "react-router/lib/browserHistory";
+import Link from "react-router/lib/Link";
 
 import Helpers from "../../helpers";
 
@@ -12,7 +13,7 @@ class Header extends Component {
   logout() {
     Helpers.LocalStorage.remove("token");
     Helpers.LocalStorage.remove("currency");
-    browserHistory.push("/");
+    browserHistory.push("/login");
   }
 
   render () {
@@ -27,7 +28,7 @@ class Header extends Component {
               </button>
               : null }
             {R.indexOf("Home", this.props.actions) > -1
-              ? <Link to="/">
+              ? <Link to="/landing">
                   <button type="button" className="btn btn-default accent text margin-right-xs" aria-label="Home">
                     <i className="fa fa-home" aria-hidden="true"></i>
                   </button>

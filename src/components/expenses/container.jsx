@@ -20,7 +20,7 @@ class ExpensesContainer extends Component {
     this.onClickExpenseRemove = this.onClickExpenseRemove.bind(this);
     this.onEnterWaypoint = this.onEnterWaypoint.bind(this);
   }
-  componentWillMount () {
+  componentDidMount () {
     Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
     this.loadData(this.state.page);
   }

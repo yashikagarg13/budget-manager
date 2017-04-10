@@ -1,6 +1,6 @@
 import R from "ramda";
 import React, {Component, PropTypes} from "react";
-import {withRouter} from "react-router";
+import withRouter from "react-router/lib/withRouter";
 
 import Helpers from "../../helpers";
 
@@ -65,7 +65,6 @@ class ChangePasswordContainer extends Component {
       .then(response => {
         Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
         if (response.success) {
-          console.log("Password updated"); //eslint-disable-line
           form.disabled = false;
           this.setState({form});
         }

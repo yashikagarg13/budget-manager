@@ -22,10 +22,14 @@ class SettingsContainer extends Component {
   }
   componentWillMount () {
     const token = this.props.params.token;
+    const currency = this.props.location.query.currency;
     if (R.type(token) === "String" && !R.isEmpty(token)) {
       Helpers.LocalStorage.set("token", token);
+      Helpers.LocalStorage.set("currency", currency);
+      this.setState({defaultCurrency: currency});
+    } else {
+      Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
     }
-    Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
   }
 
   onToggleCollapse(tabId) {
@@ -67,6 +71,7 @@ class SettingsContainer extends Component {
 SettingsContainer.propTypes = {
   router: PropTypes.object,
   params: PropTypes.object,
+  location: PropTypes.object,
 };
 
 

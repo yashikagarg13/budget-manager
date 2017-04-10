@@ -18,7 +18,6 @@ const loadModule = (cb) => module => cb(null, module.default);
 const getRoutes = () => ({
   path: "/",
   component: Layout,
-  indexRedirect: "login",
   childRoutes: [
     {
       path: "login",
