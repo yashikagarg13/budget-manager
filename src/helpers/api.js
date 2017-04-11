@@ -1,9 +1,41 @@
 import Axios from "axios";
 import Utils from "./utils";
+import LocalStorage from "./local-storage";
 
 const baseUrl = "http://127.0.0.1:8080/api";
 
 export default {
+  successHandler(response, router, cb, validateToken = true) {
+    if (validateToken) {
+      Utils.redirectToLoginIfTokenExpired(router);
+    }
+    if (!response.success && response.message) {
+      LocalStorage.set("alert", {
+        type: "error",
+        message: response.message,
+      });
+      return null;
+    } else {
+      if (response.message) {
+        LocalStorage.set("alert", {
+          type: "success",
+          message: response.message,
+        });
+      }
+      return cb(response);
+    }
+  },
+  errorHandler (error, router, cb, validateToken = true) {
+    if (validateToken) {
+      Utils.redirectToLoginIfTokenExpired(router);
+    }
+    LocalStorage.set("alert", {
+      type: "error",
+      message: error.message,
+    });
+    return cb(error);
+  },
+
   login (email, passwordHash) {
     return Axios.post(`${baseUrl}/authenticate`, {
       email: email,

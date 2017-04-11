@@ -1,0 +1,41 @@
+.alert-container {
+  position: absolute;
+  left: 35%;
+  width: 30%;
+  top: 62px;
+
+  -webkit-animation: slide-down 1s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: slide-down 1s; /* Firefox < 16 */
+  -ms-animation: slide-down 1s; /* Internet Explorer */
+  -o-animation: slide-down 1s; /* Opera < 12.1 */
+  animation: slide-down 1s;
+}
+
+@keyframes slide-down {
+    from { top: 0; }
+    to   { top: 62px; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes slide-down {
+    from { top: 0; }
+    to   { top: 62px; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes slide-down {
+    from { top: 0; }
+    to   { top: 62px; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes slide-down {
+    from { top: 0; }
+    to   { top: 62px; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes slide-down {
+    from { top: 0; }
+    to   { top: 62px; }
+}

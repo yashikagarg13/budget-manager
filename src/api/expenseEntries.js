@@ -32,7 +32,7 @@ router.get('/', function(req, res, next) {
       if (err)
         return next(err);
 
-      res.json({success: true, data: expenseEntries, total});
+      res.json({success: true, message: "Fetched expenses successfully", data: expenseEntries, total});
     });
 });
 

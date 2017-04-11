@@ -19,6 +19,8 @@ class ExpensesContainer extends Component {
     this.onClickExpenseEdit = this.onClickExpenseEdit.bind(this);
     this.onClickExpenseRemove = this.onClickExpenseRemove.bind(this);
     this.onEnterWaypoint = this.onEnterWaypoint.bind(this);
+    this.loadDataSuccessCb = this.loadDataSuccessCb.bind(this);
+    this.loadDataFailureCb = this.loadDataFailureCb.bind(this);
   }
   componentDidMount () {
     Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
@@ -42,22 +44,19 @@ class ExpensesContainer extends Component {
   }
   loadData (page) {
     Helpers.API.getExpenseEntries(Helpers.Constants.perPage, page)
-    .then(response => {
-      Helpers.Utils.redirectToLoginIfTokenExpired(this.props.router);
-      if (response.success) {
-        this.total = response.total;
-        this.setState({
-          entries: R.concat(this.state.entries, response.data),
-          loading: false,
-        });
-      }
-    })
-    .catch((error) => {
-      console.log(error); // eslint-disable-line
-      this.setState({loading: false});
+    .then(response => Helpers.API.successHandler(response, this.props.router, this.loadDataSuccessCb))
+    .catch(error => Helpers.API.errorHandler(error, this.props.router, this.loadDataFailureCb));
+  }
+  loadDataSuccessCb (response) {
+    this.total = response.total;
+    this.setState({
+      entries: R.concat(this.state.entries, response.data),
+      loading: false,
     });
   }
-
+  loadDataFailureCb () {
+    this.setState({loading: false});
+  }
 
   onEnterWaypoint() {
     if (this.state.loading) return;

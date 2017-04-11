@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from "react";
 import Login from "./view";
-import Helpers from "../../helpers/index";
+import Helpers from "../../helpers";
 
 class LoginContainer extends Component {
   constructor(props) {
@@ -16,6 +16,7 @@ class LoginContainer extends Component {
     this.onClickForgotPwd = this.onClickForgotPwd.bind(this);
     this.onHideModal = this.onHideModal.bind(this);
     this.onRequestLink = this.onRequestLink.bind(this);
+    this.onRequestLinkCb = this.onRequestLinkCb.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
   }
@@ -39,24 +40,15 @@ class LoginContainer extends Component {
       apiInProgress: true,
     });
     return Helpers.API.requestResetPasswordLink(email)
-      .then((response) => {
-        if (!response.success) {
-          this.setState({
-            loginError: response.message
-          });
-        }
-        this.setState({
-          showForgotPwdModal: false,
-        });
-        this.onHideModal();
-      })
-      .catch((error) => {
-        console.log(error); // eslint-disable-line
-        this.setState({
-          showForgotPwdModal: false,
-        });
-        this.onHideModal();
-      });
+      .then(response => Helpers.API.successHandler(response, this.props.router, this.onRequestLinkCb, false))
+      .catch(error => Helpers.API.errorHandler(error, this.props.router, this.onRequestLinkCb, false));
+  }
+  onRequestLinkCb() {
+    this.setState({
+      showForgotPwdModal: false,
+      apiInProgress: false,
+    });
+    this.onHideModal();
   }
   onSubmit(event) {
     event.preventDefault();
