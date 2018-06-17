@@ -1,7 +1,7 @@
 import R from "ramda";
 import React, {Component} from "react";
 
-import ExpensesContainer from "../expenses/container";
+import ExpensesContainer from "../../components-new/expenses/container";
 import ReportsContainer from "../reports/container";
 import Landing from "./view";
 

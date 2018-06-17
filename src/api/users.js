@@ -42,4 +42,8 @@ router.put("/updatePassword", function (req, res) {
   });
 });
 
+router.put("/takeFile", function (req, res) {
+  console.log('request', req);
+});
+
 module.exports = router;

@@ -1,7 +1,9 @@
 import R from "ramda";
 import React, {Component, PropTypes} from "react";
 import withRouter from "react-router/lib/withRouter";
+import {connect} from "react-redux";
 
+import * as Actions from "../../actions/expenses";
 import Helpers from "../../helpers/index";
 
 import Expenses from "./view";
@@ -43,9 +45,10 @@ class ExpensesContainer extends Component {
     }
   }
   loadData (page) {
-    Helpers.API.getExpenseEntries(Helpers.Constants.perPage, page)
-    .then(response => Helpers.API.successHandler(response, this.props.router, this.loadDataSuccessCb))
-    .catch(error => Helpers.API.errorHandler(error, this.props.router, this.loadDataFailureCb));
+    console.log('this.props', this.props);
+    this.props.fetchExpenseEntries(Helpers.Constants.perPage, page)
+    // .then(response => Helpers.API.successHandler(response, this.props.router, this.loadDataSuccessCb))
+    // .catch(error => Helpers.API.errorHandler(error, this.props.router, this.loadDataFailureCb));
   }
   loadDataSuccessCb (response) {
     this.total = response.total;
@@ -108,4 +111,21 @@ ExpensesContainer.propTypes = {
   router: PropTypes.object,
 };
 
-export default withRouter(ExpensesContainer);
+const mapStateToProps = (state) => {
+  return {
+    expenses: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchExpenseEntries: (offset, limit, filters, sortBy, fields) => {
+      dispatch(Actions.fetchExpenseEntries(offset, limit, filters, sortBy, fields));
+    },
+  };
+};
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExpensesContainer));

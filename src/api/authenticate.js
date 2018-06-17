@@ -20,7 +20,7 @@ router.post("/", function(req, res) {
     } else if (user) {
       // check if password matches
       if (!bcrypt.compareSync(req.body.password, user.password)) {
-        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+        res.json({ success: false, message: "Authentication failed. Wrong password." });
       } else {
         // if user is found and password is right
         // create a token
@@ -51,9 +51,9 @@ router.get("/facebook/callback", function (req, res) {
 
     res.redirect("/social/success/" + token);
   })(req, res);
-})
+});
 
-router.get("/google", passport.authenticate("google", {scope: ['profile', 'email']}));
+router.get("/google", passport.authenticate("google", {scope: ["profile", "email"]}));
 router.get("/google/callback", function (req, res) {
   passport.authenticate("google", {
     failureRedirect: "/login",
@@ -98,13 +98,13 @@ router.post("/requestResetPasswordLink", function (req, res) {
         "<p>To reset your password and access your account, click on the following link (expires in 24 hours):</p>" +
         "<a href='" + link + "'>Reset Link</a><br/><br/><br/>" +
         "Thank You,<br/>" +
-        authConfig.sendEmail.senderName
+        authConfig.sendEmail.senderName +
       "</div>";
 
       const mailOptions = {
         from: `"${authConfig.sendEmail.senderName}" <${authConfig.sendEmail.auth.user}>`,
         to: email,
-        subject: 'KYGClub Budget Manager: Reset Password',
+        subject: "KYGClub Budget Manager: Reset Password",
         html: message,
       };
       console.log(mailOptions);

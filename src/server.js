@@ -13,20 +13,22 @@ const ReactDOMServer = require("react-dom/server");
 const ReactRouter = require("react-router");
 const match = ReactRouter.match;
 const RouterContext = ReactRouter.RouterContext;
+const {Provider} = require("react-redux");
+const configureStore = require("./configureStore").default;
 const _ = require("lodash");
 const fs = require("fs");
 
 const app = express();
 app.use(cors());
 
-require('./config/passport')(passport);
+require("./config/passport")(passport);
 app.use(passport.initialize());
 
 /***************************************************************************************************************
     API
 ***************************************************************************************************************/
 const dbConfig = require("./config/db");
-const User = require('./models/User');
+const User = require("./models/User");
 const setup = require("./api/setup");
 const authenticate = require("./api/authenticate");
 const expenseEntries = require("./api/expenseEntries");
@@ -40,8 +42,8 @@ const signup = require("./api/signup");
 const port = process.env.PORT || 8080;
 mongoose.Promise = global.Promise;
 mongoose.connect(dbConfig.dbURL)
-  .then(() => console.log("connection succesful"))
-  .catch((err) => console.error(err));
+  .then(() => console.log("connection succesful")) // eslint-disable-line
+  .catch((err) => console.error(err));             // eslint-disable-line
 
 ///////////////////////////////////////////////
 // SETUP API ROUTES
@@ -60,15 +62,17 @@ app.use("/api", function(req, res, next) {
 
   if (token) {
     const decoded = jwt.verify(token, dbConfig.secret);
-    User.findOne({email: decoded._doc ? decoded._doc.email : decoded.email}, function(err, user) {
-      if (err) {
-        return res.json({ success: false, message: "Failed to authenticate token." });
-      } else {
-        // if everything is good, save to request for use in other api
-        req.decoded = decoded._doc ? decoded._doc : decoded;
-        next();
+    User.findOne({email: decoded._doc ? decoded._doc.email : decoded.email},
+      function(err) {
+        if (err) {
+          return res.json({ success: false, message: "Failed to authenticate token." });
+        } else {
+          // if everything is good, save to request for use in other api
+          req.decoded = decoded._doc ? decoded._doc : decoded;
+          next();
+        }
       }
-    });
+    );
 
   } else {
     return res.status(403).send({
@@ -91,30 +95,36 @@ const template = _.template(baseTemplate);
 const Routes = require("./routes");
 const routes = Routes.getRoutes();
 
-app.use("/", express.static("public"))
+app.use("/", express.static("public"));
 
 app.use("/", (req, res) => {
+  const store = configureStore();
+  // const preloadedState = store.getState();
+
   match({routes: routes, location: req.url }, (error, redirectLocation, renderProps) => {
     if (error) {
-      res.status(500).send(error.message)
+      res.status(500).send(error.message);
     } else if (redirectLocation) {
-      res.redirect(302, redirectLocation.pathname + redirectLocation.search)
+      res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     } else if (renderProps) {
       const body = ReactDOMServer.renderToString(
-        React.createElement(RouterContext, renderProps)
-      )
-      res.status(200).send(template({body}))
+        <Provider store={store}>
+          <RouterContext {...renderProps} />
+        </Provider>
+      );
+
+      res.status(200).send(template({body}));
     } else {
-      res.status(404).send("Not found")
+      res.status(404).send("Not found");
     }
-  })
-})
+  });
+});
 
 app.get("/", function(req, res) {
-    res.send("Hello! The API is at http://localhost:" + port + "/api");
+  res.send("Hello! The API is at http://localhost:" + port + "/api");
 });
 
 app.listen(port);
-console.log("Magic happens at http://localhost:" + port);
+console.log("Magic happens at http://localhost:" + port);  // eslint-disable-line
 
 module.exports = app;

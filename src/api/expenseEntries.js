@@ -54,15 +54,15 @@ router.post('/', function(req, res, next) {
   });
 });
 
-router.put('/updateCategory', function(req, res, next) {
+router.put('/bulk', function(req, res, next) {
   let bulk = ExpenseEntry.collection.initializeOrderedBulkOp();
   bulk
-    .find({category: req.body.oldCategoryId, email: req.decoded.email})
-    .update({$set: {category: req.body.newCategoryId}});
+    .find(JSON.parse(req.body.where)) // {category: req.body.oldCategoryId}
+    .update({$set: JSON.parse(req.body.newData)}); // {category: req.body.newCategoryId}
 
-  bulk.execute(function (err) {
+  bulk.execute(function (err, data) {
     if (err) return next(err);
-    res.json({success: true});
+    res.json({success: true, data});
   });
 });
 
@@ -75,8 +75,8 @@ router.put('/:id', function(req, res, next) {
   });
 });
 
-router.delete('/byCategory', function(req, res, next) {
-  ExpenseEntry.remove({category: req.query.oldCategoryId}, function (err) {
+router.delete('/bulk', function(req, res, next) { // {category: req.query.oldCategoryId}
+  ExpenseEntry.remove(JSON.parse(req.query.where), function (err) {
     if (err) return next(err);
     res.json({success: true});
   });
